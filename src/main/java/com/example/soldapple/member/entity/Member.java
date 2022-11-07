@@ -21,14 +21,14 @@ public class Member {
     @NotBlank
     private String email;
     @NotBlank
-    private String password;
+    private String nickname;
     @NotBlank
-    private String phoneNumber;
+    private String password;
 
-    public Member(MemberReqDto accountReqDto) {
-        this.email = accountReqDto.getEmail();
-        this.password = accountReqDto.getPassword();
-        this.phoneNumber = accountReqDto.getPhoneNumber();
+    public Member(MemberReqDto memberReqDto) {
+        this.email = memberReqDto.getEmail();
+        this.nickname = memberReqDto.getNickname();
+        this.password = memberReqDto.getPassword();
     }
 
 }

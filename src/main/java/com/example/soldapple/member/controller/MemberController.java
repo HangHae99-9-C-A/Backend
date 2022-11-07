@@ -1,5 +1,6 @@
 package com.example.soldapple.member.controller;
 
+import com.example.soldapple.jwt.dto.TokenDto;
 import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.member.dto.LoginReqDto;
 import com.example.soldapple.member.service.MemberService;
@@ -24,13 +25,12 @@ public class MemberController {
 
     @PostMapping("/signup")
     public String signup(@RequestBody @Valid MemberReqDto memberReqDto) {
-//        return memberService.signup(memberReqDto);
-        return "hi";
+        return memberService.signup(memberReqDto);
     }
 
     @PostMapping("/login")
-    public GlobalResDto login(@RequestBody @Valid LoginReqDto loginReqDto, HttpServletResponse response) {
-        return memberService.login(loginReqDto, response);
+    public TokenDto login(@RequestBody @Valid LoginReqDto loginReqDto) {
+        return memberService.login(loginReqDto);
     }
 
     @GetMapping("/issue/token")

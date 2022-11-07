@@ -28,7 +28,7 @@ public class MemberService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public GlobalResDto signup(MemberReqDto memberReqDto) {
+    public String signup(MemberReqDto memberReqDto) {
         // email 중복 검사
         if(memberRepository.findByEmail(memberReqDto.getEmail()).isPresent()){
             throw new RuntimeException("Overlap Check");
@@ -38,11 +38,11 @@ public class MemberService {
         Member member = new Member(memberReqDto);
 
         memberRepository.save(member);
-        return new GlobalResDto("Success signup", HttpStatus.OK.value());
+        return "Success";
     }
 
     @Transactional
-    public GlobalResDto login(LoginReqDto loginReqDto, HttpServletResponse response) {
+    public TokenDto login(LoginReqDto loginReqDto) {
 
         Member member = memberRepository.findByEmail(loginReqDto.getEmail()).orElseThrow(
                 () -> new RuntimeException("Not found Account")
@@ -63,10 +63,7 @@ public class MemberService {
             refreshTokenRepository.save(newToken);
         }
 
-        setHeader(response, tokenDto);
-
-        return new GlobalResDto("Success Login", HttpStatus.OK.value());
-
+        return tokenDto;
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
