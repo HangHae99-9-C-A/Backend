@@ -74,5 +74,6 @@
 ## 🎈 ERD
 <details><summary>ERD 보기
 </summary>
+
 ![title](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Feb8d8b74-cf8f-4f52-a11a-9cb711af2300%2FUntitled.png?table=block&id=443f89b3-b0a3-4c6e-ada5-5fc3a91cd67f&spaceId=3b4a5adc-a388-4621-bc6a-66450e04f74a&width=2000&userId=2a71b2ef-970e-478b-b976-ba7ea29e0371&cache=v2)   
 </details>
