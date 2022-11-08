@@ -9,6 +9,7 @@ import com.example.soldapple.member.service.MemberService;
 import com.example.soldapple.global.dto.GlobalResDto;
 import com.example.soldapple.jwt.util.JwtUtil;
 import com.example.soldapple.security.user.UserDetailsImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,11 +39,15 @@ public class MemberController {
         return memberService.login(loginReqDto);
     }
 
-    @PostMapping("login/mailConfirm")
+    @PostMapping("/login/mailConfirm")
     public String mailConfirm(@RequestBody EmailReqDto emailDto) throws MessagingException, UnsupportedEncodingException {
+        return emailService.sendEmail(emailDto.getEmail());
+    }
 
-        String authCode = emailService.sendEmail(emailDto.getEmail());
-        return authCode;
+    @GetMapping("/kakao")
+    public String kakaoLogin(@RequestParam(name = "code") String code) throws JsonProcessingException {
+        memberService.kakaoLogin(code);
+        return "hi";
     }
 
     @GetMapping("/issue/token")
