@@ -1,11 +1,23 @@
 package com.example.soldapple.member.dto;
 
-import lombok.AllArgsConstructor;
+import com.example.soldapple.jwt.dto.TokenDto;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Getter
 public class KakaoUserInfoDto {
-    private Long id;
-    private String nickname;
     private String email;
+    private String nickname;
     private String avatarUrl;
+    private String accessToken;
+    private String refreshToken;
+
+    public KakaoUserInfoDto(String email, String nickname, String avatarUrl, TokenDto tokenDto){
+        this.email = email;
+        this.nickname = nickname;
+        this.avatarUrl = avatarUrl;
+        this.accessToken = tokenDto.getAccessToken();
+        this.refreshToken = tokenDto.getRefreshToken();
+    }
 }

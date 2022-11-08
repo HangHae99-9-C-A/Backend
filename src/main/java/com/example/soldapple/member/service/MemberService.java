@@ -7,7 +7,6 @@ import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.member.entity.RefreshToken;
 import com.example.soldapple.member.repository.MemberRepository;
 import com.example.soldapple.member.repository.RefreshTokenRepository;
-import com.example.soldapple.global.dto.GlobalResDto;
 import com.example.soldapple.jwt.dto.TokenDto;
 import com.example.soldapple.jwt.util.JwtUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,7 +21,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Service
@@ -61,7 +59,7 @@ public class MemberService {
 
         TokenDto tokenDto = jwtUtil.createAllToken(loginReqDto.getEmail());
 
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(loginReqDto.getEmail());
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail(loginReqDto.getEmail());
 
         if(refreshToken.isPresent()) {
             refreshTokenRepository.save(refreshToken.get().updateToken(tokenDto.getRefreshToken()));
@@ -73,10 +71,11 @@ public class MemberService {
         return tokenDto;
     }
 
-    public void kakaoLogin(String code) throws JsonProcessingException {
+    public KakaoUserInfoDto kakaoLogin(String code) throws JsonProcessingException {
         String accessToken = getAccessToken(code);
 
         KakaoUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
+        return kakaoUserInfo;
     }
 
     private String getAccessToken(String code) throws JsonProcessingException {
@@ -127,15 +126,30 @@ public class MemberService {
         String responseBody = response.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(responseBody);
-        Long id = jsonNode.get("id").asLong();
+        String email = jsonNode.get("id").asText();
         String nickname = jsonNode.get("properties")
                 .get("nickname").asText();
-        String email = jsonNode.get("kakao_account")
-                .get("email").asText();
-        String avatarImg = jsonNode.get("kakao_account")
+        String avatarUrl = jsonNode.get("kakao_account")
                         .get("profile").get("profile_image_url").asText();
 
-        System.out.println("카카오 사용자 정보: " + id + ", " + nickname + ", " + email + ", " + avatarImg);
-        return new KakaoUserInfoDto(id, nickname, email, avatarImg);
+        System.out.println("카카오 사용자 정보: " + email + ", " + nickname + ", " + avatarUrl);
+
+        if(!memberRepository.findByEmail(email).isPresent()){
+            Member member = new Member(email, nickname, "Kakao", avatarUrl);
+            memberRepository.save(member);
+        }
+
+        TokenDto tokenDto = jwtUtil.createAllToken(email);
+
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail(email);
+
+        if(refreshToken.isPresent()) {
+            refreshTokenRepository.save(refreshToken.get().updateToken(tokenDto.getRefreshToken()));
+        }else {
+            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), email);
+            refreshTokenRepository.save(newToken);
+        }
+
+        return new KakaoUserInfoDto(email, nickname, avatarUrl, tokenDto);
     }
 }

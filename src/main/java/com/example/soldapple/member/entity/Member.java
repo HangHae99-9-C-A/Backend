@@ -22,13 +22,26 @@ public class Member {
     private String email;
     @NotBlank
     private String nickname;
-    @NotBlank
+
     private String password;
+    @NotBlank
+    private String domain;
+
+    private String avatarUrl;
 
     public Member(MemberReqDto memberReqDto) {
         this.email = memberReqDto.getEmail();
         this.nickname = memberReqDto.getNickname();
         this.password = memberReqDto.getPassword();
+        this.domain = "Sold Apple";
+        this.avatarUrl = null;
     }
 
+    public Member(String email, String nickname, String domain, String avatarUrl){
+        this.email = email;
+        this.nickname = nickname;
+        this.password = null;
+        this.domain = domain;
+        this.avatarUrl = avatarUrl;
+    }
 }
