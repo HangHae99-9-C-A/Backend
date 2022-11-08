@@ -65,7 +65,7 @@
 
 <br>
 
-## 📜 Troubleshooting
+## 🚀 Troubleshooting
 -
 
 
