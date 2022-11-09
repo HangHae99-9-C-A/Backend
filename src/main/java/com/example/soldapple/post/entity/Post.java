@@ -1,14 +1,11 @@
 package com.example.soldapple.post.entity;
 
-import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.post.dto.PostReqDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Entity
@@ -26,6 +23,15 @@ public class Post {
     private int userPrice;
     private String content;
 
+    // one to many
+    // many to one
+    // 여기가 post
+    // one post to mant comment
+    // 반대는 many comment to one post
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> commentList;
+
     public Post(PostReqDto postReqDto) {
         this.title = postReqDto.getTitle();
         this.category = postReqDto.getCategory();
@@ -33,5 +39,6 @@ public class Post {
         this.expectPrice = postReqDto.getExpectPrice();
         this.userPrice = postReqDto.getUserPrice();
         this.content = postReqDto.getContent();
+
     }
 }

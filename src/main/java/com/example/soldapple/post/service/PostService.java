@@ -1,7 +1,5 @@
 package com.example.soldapple.post.service;
 
-import com.example.soldapple.member.dto.MemberReqDto;
-import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.PostReqDto;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.repository.PostRepository;
