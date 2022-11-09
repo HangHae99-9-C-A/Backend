@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,6 +38,9 @@ public class Issues extends TimeStamped {
 
     @Column(nullable = false)
     private String issuesContent;
+
+    @OneToMany(mappedBy = "Issues", cascade = CascadeType.REMOVE)
+    List<IssuesComment> issuesComments = new ArrayList<>();
 
     public Issues(IssuesRequestDto issuesRequestDto, Member member){
         this.member = member;
