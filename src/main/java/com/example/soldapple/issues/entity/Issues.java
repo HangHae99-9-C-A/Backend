@@ -1,7 +1,7 @@
 package com.example.soldapple.issues.entity;
 
 import com.example.soldapple.global.TimeStamped;
-import com.example.soldapple.issues.dto.IssuesRequestDto;
+import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
 import com.example.soldapple.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

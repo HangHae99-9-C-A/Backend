@@ -1,4 +1,4 @@
-package com.example.soldapple.issues.dto;
+package com.example.soldapple.issues.dto.RequestDto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

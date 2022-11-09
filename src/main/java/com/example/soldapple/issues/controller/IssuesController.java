@@ -1,7 +1,7 @@
 package com.example.soldapple.issues.controller;
 
-import com.example.soldapple.issues.dto.IssuesRequestDto;
-import com.example.soldapple.issues.dto.IssuesResponseDto;
+import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
+import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.service.IssuesService;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;

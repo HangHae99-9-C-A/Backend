@@ -1,4 +1,4 @@
-package com.example.soldapple.issues.dto;
+package com.example.soldapple.issues.dto.ResponseDto;
 
 import com.example.soldapple.issues.entity.Issues;
 import lombok.Getter;

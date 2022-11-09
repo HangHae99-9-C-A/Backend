@@ -30,5 +30,5 @@ public class Member {
         this.nickname = memberReqDto.getNickname();
         this.password = memberReqDto.getPassword();
     }
-
+    
 }
