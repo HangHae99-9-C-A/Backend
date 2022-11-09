@@ -41,4 +41,14 @@ public class Post {
         this.content = postReqDto.getContent();
 
     }
+
+    public void PostEdit(PostReqDto postReqDto){
+        this.title = postReqDto.getTitle();
+        this.category = postReqDto.getCategory();
+        this.image = postReqDto.getImage();
+        this.expectPrice = postReqDto.getExpectPrice();
+        this.userPrice = postReqDto.getUserPrice();
+        this.content = postReqDto.getContent();
+
+    }
 }

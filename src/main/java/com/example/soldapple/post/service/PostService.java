@@ -22,4 +22,22 @@ public class PostService {
 
         return "Success";
     }
+
+    @Transactional
+    public String postEdit(Long postId, PostReqDto postReqDto){
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("post not exist")
+
+        );
+        post.PostEdit(postReqDto);
+        return "Success";
+    }
+
+    @Transactional
+    public String postDelete(Long postId){
+        postRepository.deleteById(postId);
+        return "Success";
+
+    }
+
 }
