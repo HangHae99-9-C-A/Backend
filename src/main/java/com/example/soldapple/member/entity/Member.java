@@ -31,4 +31,10 @@ public class Member {
         this.password = memberReqDto.getPassword();
     }
 
+    //myinfo 를 위해 생성하였습니다.
+    public void update(MemberReqDto memberReqDto) {
+        this.email = memberReqDto.getEmail();
+        this.nickname = memberReqDto.getNickname();
+        this.password = memberReqDto.getPassword();
+    }
 }

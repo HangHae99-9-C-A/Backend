@@ -1,13 +1,12 @@
 package com.example.soldapple.personal;
 
 
+import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/mypage")
@@ -18,8 +17,14 @@ public class PersonalController {
 
     // 내 페이지 불러오기
     @GetMapping
-    public void getMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        personalService.getMyPage(userDetails.getMember());
+    public PersonalService.PersonalResponseDto getMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return personalService.getMyPage(userDetails.getMember());
+    }
+
+    // 내 페이지 변경
+    @PatchMapping
+    public void editMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody MemberReqDto memberReqDto) {
+        personalService.editMyPage(userDetails.getMember(), memberReqDto);
     }
 
 }
