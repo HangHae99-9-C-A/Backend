@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,26 +20,26 @@ public class Issues extends TimeStamped {
     private Long issuesId;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn
     private Member member;
 
-    @Column(nullable = false)
+    @Column
     private String issuesTitle;
 
-    @Column(nullable = false)
+    @Column
     private String category;
 
-    @Column(nullable = false)
+    @Column
     private Long expectPrice;
 
-    @Column(nullable = false)
+    @Column
     private Long issuesUserPrice;
 
-    @Column(nullable = false)
+    @Column
     private String issuesContent;
 
     @OneToMany(mappedBy = "issues", cascade = CascadeType.REMOVE)
-    List<IssuesComment> issuesComments = new ArrayList<>();
+    List<IssuesComment> issuesComments;
 
     public Issues(IssuesRequestDto issuesRequestDto, Member member){
         this.member = member;
@@ -50,5 +49,4 @@ public class Issues extends TimeStamped {
         this.issuesUserPrice = issuesRequestDto.getIssuesUserPrice();
         this.issuesContent = issuesRequestDto.getIssuesContent();
     }
-
 }

@@ -2,56 +2,52 @@ package com.example.soldapple.post.controller;
 
 
 import com.example.soldapple.post.dto.PostReqDto;
-import com.example.soldapple.post.entity.Post;
-import com.example.soldapple.post.repository.PostRepository;
+import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.service.PostService;
+import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-    private final PostRepository postRepository;
 
     @PostMapping("")
-    public String postCreate(@RequestBody @Valid PostReqDto postReqDto) {
-        return postService.postCreate(postReqDto);
+    public PostResponseDto postCreate(@RequestBody PostReqDto postReqDto,
+                                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.postCreate(postReqDto, userDetails.getMember());
     }
 
-    @GetMapping("/get")
-    public List<Post> getPosts(){
-        return postRepository.findAll();
-
+    @GetMapping("")
+    public List<PostResponseDto> allPosts(){
+        return postService.allPosts();
     }
 
     @GetMapping("/detail/{postId}")
-    public Optional<Post> detailPost(@PathVariable Long postId){
-        return postRepository.findById(postId);
-
+    public PostResponseDto onePost(@PathVariable Long postId){
+        return postService.onePost(postId);
     }
 
     @GetMapping("/category/{category}")
-    public Optional<List<Post>> categoryPost(@PathVariable String category){
-        return postRepository.findAllByCategory(category);
-
+    public List<PostResponseDto> categoryPost(@PathVariable String category){
+        return postService.categoryPost(category);
     }
 
     @PutMapping("/{postId}")
-    public String postEdit(@PathVariable Long postId, @RequestBody @Valid PostReqDto postReqDto){
-        return postService.postEdit(postId, postReqDto);
-
+    public PostResponseDto postEdit(@PathVariable Long postId,
+                           @RequestBody PostReqDto postReqDto,
+                           @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.postEdit(postId, postReqDto, userDetails.getMember());
     }
 
     @DeleteMapping("{postId}")
-    public String postDelete(@PathVariable Long postId){
-        return postService.postDelete(postId);
-
+    public String postDelete(@PathVariable Long postId,
+                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.postDelete(postId, userDetails.getMember());
     }
-
 }
