@@ -4,7 +4,6 @@ package com.example.soldapple.personal;
 import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
