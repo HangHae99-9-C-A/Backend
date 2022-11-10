@@ -14,6 +14,7 @@ public class S3TestController {
 
     private final S3UploadUtil s3UploadUtil;
 
+    //test
     @PostMapping(name = "S3 파일 업로드", value = "/file")
     public String fileUpload(@RequestParam("files") MultipartFile multipartFile) throws IOException {
         s3UploadUtil.upload(multipartFile, "test"); // test 폴더에 파일 생성
