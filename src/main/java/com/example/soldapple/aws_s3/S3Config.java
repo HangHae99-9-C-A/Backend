@@ -1,4 +1,4 @@
-package com.example.ReactSpringCollaborationProject.aws_s3;
+package com.example.soldapple.aws_s3;
 
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
