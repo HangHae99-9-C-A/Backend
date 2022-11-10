@@ -23,42 +23,42 @@ public class IssuesCommentService {
     private final IssuesCommentRepository issuesCommentRepository;
     //이의제기 댓글 작성
     @Transactional
-    public List<IssuesCommentResponseDto> createIssuesComment(Long issuesId, IssuesCommentRequestDto issuesCommentRequestDto, UserDetailsImpl userDetails) {
+    public IssuesCommentResponseDto createIssuesComment(Long issuesId, IssuesCommentRequestDto issuesCommentRequestDto, UserDetailsImpl userDetails) {
         Issues issues = issuesRepository.findByIssuesId(issuesId).orElseThrow(
                 ()-> new IllegalArgumentException("해당 이의제기 글이 존재하지 않습니다.")
         );
         IssuesComment issuesComment = new IssuesComment(issues, userDetails.getMember(),  issuesCommentRequestDto.getIssuesComment());
         issuesCommentRepository.save(issuesComment);
-        return allIssuesComment();
+        return new IssuesCommentResponseDto(issuesComment);
     }
 
     //이의제기 댓글 전체 조회
-    public List<IssuesCommentResponseDto> allIssuesComment(){
-        List<IssuesComment> issuesComments = issuesCommentRepository.findAllByOrderByCreatedAtDesc();
-        List<IssuesCommentResponseDto> issuesCommentResponseDtos = new ArrayList<IssuesCommentResponseDto>();
-        for (IssuesComment issuesComment : issuesComments) {
-            issuesCommentResponseDtos.add(new IssuesCommentResponseDto(issuesComment));
-        }
-        return issuesCommentResponseDtos;
-    }
+//    public List<IssuesCommentResponseDto> allIssuesComment(){
+//        List<IssuesComment> issuesComments = issuesCommentRepository.findAllByOrderByCreatedAtDesc();
+//        List<IssuesCommentResponseDto> issuesCommentResponseDtos = new ArrayList<IssuesCommentResponseDto>();
+//        for (IssuesComment issuesComment : issuesComments) {
+//            issuesCommentResponseDtos.add(new IssuesCommentResponseDto(issuesComment));
+//        }
+//        return issuesCommentResponseDtos;
+//    }
     //이의제기 댓글 수정
     @Transactional
-    public List<IssuesCommentResponseDto> updateIssuesComment(Long issuesCommentId, IssuesCommentRequestDto issuesCommentRequestDto, Member member) {
+    public IssuesCommentResponseDto updateIssuesComment(Long issuesCommentId, IssuesCommentRequestDto issuesCommentRequestDto, Member member) {
         IssuesComment issuesComment =issuesCommentRepository.findByIssuesCommentIdAndMember(issuesCommentId, member).orElseThrow(
                 ()->new RuntimeException("해당 댓글이 없거나 수정 권한이 없습니다.")
         );
         issuesComment.setIssuesComment(issuesCommentRequestDto.getIssuesComment());
         issuesCommentRepository.save(issuesComment);
-        return allIssuesComment();
+        return new IssuesCommentResponseDto(issuesComment);
     }
 
     //이의제기 댓글 삭제
     @Transactional
-    public List<IssuesCommentResponseDto> deleteIssuesComment(Long issuesCommentId, Member member) {
+    public String deleteIssuesComment(Long issuesCommentId, Member member) {
         IssuesComment issuesComment = issuesCommentRepository.findByIssuesCommentIdAndMember(issuesCommentId, member).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 없거나 삭제 권한이 없습니다.")
         );
         issuesCommentRepository.deleteById(issuesComment.getIssuesCommentId());
-        return allIssuesComment();
+        return "댓글 삭제 성공";
     }
 }

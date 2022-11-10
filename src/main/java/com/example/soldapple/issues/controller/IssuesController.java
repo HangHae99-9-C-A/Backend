@@ -17,7 +17,7 @@ public class IssuesController {
     private final IssuesService issuesService;
 
     @PostMapping("/issue")
-    public List<IssuesResponseDto> createIssue(@RequestBody IssuesRequestDto issuesRequestDto,
+    public IssuesResponseDto createIssue(@RequestBody IssuesRequestDto issuesRequestDto,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesService.createIssue(issuesRequestDto, userDetails.getMember());
     }
@@ -31,7 +31,7 @@ public class IssuesController {
     }
 
     @DeleteMapping("/issue/{issuesId}")
-    public List<IssuesResponseDto> deleteIssue(@PathVariable Long issuesId,
+    public String deleteIssue(@PathVariable Long issuesId,
                                                @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesService.deleteIssue(issuesId, userDetails);
     }

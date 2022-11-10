@@ -21,11 +21,10 @@ public class IssuesService {
 
     //이의제기글 작성
     @Transactional
-    public List<IssuesResponseDto> createIssue(IssuesRequestDto issuesRequestDto, Member member) {
+    public IssuesResponseDto createIssue(IssuesRequestDto issuesRequestDto, Member member) {
         Issues issues = new Issues(issuesRequestDto, member);
         issuesRepository.save(issues);
-        //response로 전체 조회값 돌려줌
-        return allIssues();
+        return new IssuesResponseDto(issues);
     }
 
     //이의제기글 전체 조회
@@ -48,11 +47,11 @@ public class IssuesService {
 
     //이의제기글 삭제
     @Transactional
-    public List<IssuesResponseDto> deleteIssue(Long issuesId, UserDetailsImpl userDetails) {
+    public String deleteIssue(Long issuesId, UserDetailsImpl userDetails) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, userDetails.getMember()).orElseThrow(
                 ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 삭제 권한이 없습니다.")
         );
         issuesRepository.deleteById(issues.getIssuesId());
-        return allIssues();
+        return "이의제기글 삭제 완료";
     }
 }
