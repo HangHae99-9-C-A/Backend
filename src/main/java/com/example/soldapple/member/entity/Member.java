@@ -1,14 +1,15 @@
 package com.example.soldapple.member.entity;
 
+import com.example.soldapple.like.entity.Like;
 import com.example.soldapple.member.dto.MemberReqDto;
+import com.example.soldapple.post.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -28,6 +29,12 @@ public class Member {
     private String domain;
 
     private String avatarUrl;
+
+    @OneToMany(mappedBy = "member")
+    List<Like> like = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    List<Post> post = new ArrayList<>();
 
     public Member(MemberReqDto memberReqDto) {
         this.email = memberReqDto.getEmail();

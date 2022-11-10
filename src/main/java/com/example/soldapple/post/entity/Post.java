@@ -1,6 +1,8 @@
 package com.example.soldapple.post.entity;
 
+import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.PostReqDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,6 +33,11 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList;
+
+    @ManyToOne
+    @JoinColumn(name = "member")
+    @JsonIgnore
+    private Member member;
 
     public Post(PostReqDto postReqDto) {
         this.title = postReqDto.getTitle();
