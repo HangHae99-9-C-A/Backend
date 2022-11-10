@@ -1,8 +1,13 @@
 package com.example.soldapple.personal;
 
+import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
+import com.example.soldapple.issues.entity.Issues;
+import com.example.soldapple.issues.repository.IssuesRepository;
 import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.member.repository.MemberRepository;
+import com.example.soldapple.post.repository.CommentRepository;
+import com.example.soldapple.post.repository.PostRepository;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +24,7 @@ public class PersonalService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-    private final IssueRepository issueRepository;
+    private final IssuesRepository issuesRepository;
 
 
     //내 페이지 불러오기
@@ -28,18 +33,19 @@ public class PersonalService {
         //회원 여부 체크
         Member myMember = memberRepository.findById(member.getId()).orElseThrow(RuntimeException::new);
 
-        //get my (Post Comment Likes Issue) Lists
-        List<Post> postList = postRepository.findAllByMember(member);
-        List<Comment> commentList = commentRepository.findAllByMember(member);
-        List<Likes> myLikesList = postRepository.findAllByMember(member);
-        List<Issue> issueList = issueRepository.findAllByMember(member);
+        //get my (Post Comment Likes Issues) Lists
+
+        // List<Post> postList = postRepository.findAllByMember(member);
+        // List<Comment> commentList = commentRepository.findAllByMember(member);
+        //List<Likes> myLikesList = postRepository.findAllByMember(member);
+        List<Issues> issuesList = issuesRepository.findAllByMember(member);
 
         //response builder with Dto
         PersonalResponseDto personalResponseDto = PersonalResponseDto.builder()
-                .myPostList(postList.stream().map(PostResponseDto::new).collect(Collectors.toList()))
-                .myCommentList(commentList.stream().map(CommentResponseDto::new).collect(Collectors.toList()))
-                .myLikesList(myLikesList.stream().map(LikesResponseDto::new).collect(Collectors.toList()))
-                .myIssueList(issueList.stream().map(IssueResponseDto::new).collect(Collectors.toList()))
+                //   .myPostList(postList.stream().map(PostResponseDto::new).collect(Collectors.toList()))
+                //  .myCommentList(commentList.stream().map(CommentResponseDto::new).collect(Collectors.toList()))
+                // .myLikesList(myLikesList.stream().map(LikesResponseDto::new).collect(Collectors.toList()))
+                .myIssuesList(issuesList.stream().map(IssuesResponseDto::new).collect(Collectors.toList()))
                 .build();
 
         return personalResponseDto;
@@ -59,10 +65,10 @@ public class PersonalService {
     @Builder
     @Data
     static class PersonalResponseDto {
-        private List<PostResponseDto> myPostList;
-        private List<CommentResponseDto> myCommentList;
-        private List<PostResponseDto> myLikesList;
-        private List<IssueResponseDto> myIssueList;
+        // private List<PostResponseDto> myPostList;
+        // private List<CommentResponseDto> myCommentList;
+        // private List<PostResponseDto> myLikesList;
+        private List<IssuesResponseDto> myIssuesList;
     }
 
 }

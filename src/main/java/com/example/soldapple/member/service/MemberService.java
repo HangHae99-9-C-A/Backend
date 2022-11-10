@@ -1,19 +1,22 @@
 package com.example.soldapple.member.service;
 
+import com.example.soldapple.jwt.dto.TokenDto;
+import com.example.soldapple.jwt.util.JwtUtil;
 import com.example.soldapple.member.dto.KakaoUserInfoDto;
-import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.member.dto.LoginReqDto;
+import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.member.entity.RefreshToken;
 import com.example.soldapple.member.repository.MemberRepository;
 import com.example.soldapple.member.repository.RefreshTokenRepository;
-import com.example.soldapple.jwt.dto.TokenDto;
-import com.example.soldapple.jwt.util.JwtUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

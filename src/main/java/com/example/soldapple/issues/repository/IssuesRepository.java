@@ -11,4 +11,9 @@ public interface IssuesRepository extends JpaRepository<Issues, Long> {
     Optional<Issues> findByIssuesIdAndMember(Long issuesId, Member member);
     Optional<Issues> findByIssuesId(Long issuesId);
     List<Issues> findAllByOrderByCreatedAtDesc();
+
+
+    //myPage를 위해 추가 하였습니다
+    List<Issues> findAllByMember(Member member);
+
 }
