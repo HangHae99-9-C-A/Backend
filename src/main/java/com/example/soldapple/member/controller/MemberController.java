@@ -42,7 +42,8 @@ public class MemberController {
 
     @PostMapping("/signup/mail-confirm")
     public String mailConfirm(@RequestBody String email) throws MessagingException, UnsupportedEncodingException {
-        return emailService.sendEmail(email);
+        String allEmail = email+"@naver.com";
+        return emailService.sendEmail(allEmail);
     }
 
     @GetMapping("/kakao")
