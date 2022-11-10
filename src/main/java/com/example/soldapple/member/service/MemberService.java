@@ -88,8 +88,8 @@ public class MemberService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "7f656ffee29f64023f766253fb70514e");
-        body.add("redirect_uri", "http://localhost:3000");
+        body.add("client_id", "d2c795c61c767b9c2bc94eb5cb045230");
+        body.add("redirect_uri", "http://localhost:3000/kakaoLogin");
         body.add("code", code);
 
         // HTTP 요청 보내기

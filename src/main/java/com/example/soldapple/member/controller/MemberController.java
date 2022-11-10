@@ -40,9 +40,9 @@ public class MemberController {
         return memberService.login(loginReqDto);
     }
 
-    @PostMapping("/login/mailConfirm")
-    public String mailConfirm(@RequestBody EmailReqDto emailDto) throws MessagingException, UnsupportedEncodingException {
-        return emailService.sendEmail(emailDto.getEmail());
+    @PostMapping("/signup/mail-confirm")
+    public String mailConfirm(@RequestBody String email) throws MessagingException, UnsupportedEncodingException {
+        return emailService.sendEmail(email);
     }
 
     @GetMapping("/kakao")
