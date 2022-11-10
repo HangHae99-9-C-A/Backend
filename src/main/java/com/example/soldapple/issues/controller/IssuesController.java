@@ -12,25 +12,25 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/issue")
 public class IssuesController {
     private final IssuesService issuesService;
 
-    @PostMapping("/issue")
+    @PostMapping("")
     public IssuesResponseDto createIssue(@RequestBody IssuesRequestDto issuesRequestDto,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesService.createIssue(issuesRequestDto, userDetails.getMember());
     }
 
-    @GetMapping("/issues")
+    @GetMapping("")
     public List<IssuesResponseDto> allIssues(){return issuesService.allIssues();}
 
-    @GetMapping("/issue/{issuesId}")
+    @GetMapping("/{issuesId}")
     public IssuesResponseDto oneIssue(@PathVariable Long issuesId){
         return issuesService.oneIssue(issuesId);
     }
 
-    @DeleteMapping("/issue/{issuesId}")
+    @DeleteMapping("/{issuesId}")
     public String deleteIssue(@PathVariable Long issuesId,
                                                @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesService.deleteIssue(issuesId, userDetails);

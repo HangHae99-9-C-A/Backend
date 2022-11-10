@@ -39,7 +39,7 @@ public class Issues extends TimeStamped {
     @Column(nullable = false)
     private String issuesContent;
 
-    @OneToMany(mappedBy = "Issues", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "issues", cascade = CascadeType.REMOVE)
     List<IssuesComment> issuesComments = new ArrayList<>();
 
     public Issues(IssuesRequestDto issuesRequestDto, Member member){

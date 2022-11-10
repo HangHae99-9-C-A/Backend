@@ -51,7 +51,7 @@ public class IssuesService {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, userDetails.getMember()).orElseThrow(
                 ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 삭제 권한이 없습니다.")
         );
-        issuesRepository.deleteById(issues.getIssuesId());
+        issuesRepository.deleteById(issuesId);
         return "이의제기글 삭제 완료";
     }
 }

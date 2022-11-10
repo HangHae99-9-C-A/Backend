@@ -10,24 +10,24 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/issue-comment")
 public class IssuesCommentController {
     private final IssuesCommentService issuesCommentService;
 
-    @PostMapping("/issue-comment/{issuesId}")
+    @PostMapping("/{issuesId}")
     public IssuesCommentResponseDto createIssuesComment(@PathVariable Long issuesId,
                                                               @RequestBody IssuesCommentRequestDto issuesCommentRequestDto,
                                                               @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesCommentService.createIssuesComment(issuesId, issuesCommentRequestDto, userDetails);
     }
-    @PutMapping("/issue-comment/{issuesCommentId}")
+    @PutMapping("/{issuesCommentId}")
     public IssuesCommentResponseDto updateIssuesComment(@PathVariable Long issuesCommentId,
                                                               @RequestBody IssuesCommentRequestDto issuesCommentRequestDto,
                                                               @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesCommentService.updateIssuesComment(issuesCommentId, issuesCommentRequestDto, userDetails.getMember());
     }
 
-    @DeleteMapping("/issue-comment/{issuesCommentId}")
+    @DeleteMapping("/{issuesCommentId}")
     public String deleteIssuesComment(@PathVariable Long issuesCommentId,
                                                               @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesCommentService.deleteIssuesComment(issuesCommentId, userDetails.getMember());

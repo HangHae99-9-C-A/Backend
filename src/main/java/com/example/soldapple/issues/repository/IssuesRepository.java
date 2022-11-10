@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IssuesRepository extends JpaRepository<Issues, Long> {
-    Optional<Issues> findByIssuesIdAndMember(Long IssuesId, Member member);
-    Optional<Issues> findByIssuesId(Long IssuesId);
+    Optional<Issues> findByIssuesIdAndMember(Long issuesId, Member member);
+    Optional<Issues> findByIssuesId(Long issuesId);
     List<Issues> findAllByOrderByCreatedAtDesc();
 }

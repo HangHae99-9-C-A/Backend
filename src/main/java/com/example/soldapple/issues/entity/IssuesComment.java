@@ -2,6 +2,8 @@ package com.example.soldapple.issues.entity;
 
 import com.example.soldapple.global.TimeStamped;
 import com.example.soldapple.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,15 +14,17 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class IssuesComment extends TimeStamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long IssuesCommentId;
+    private Long issuesCommentId;
 
     @Column(nullable = false)
     private String issuesComment;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "issuesId")
     private Issues issues;
 
