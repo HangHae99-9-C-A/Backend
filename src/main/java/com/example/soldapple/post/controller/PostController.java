@@ -24,18 +24,20 @@ public class PostController {
     }
 
     @GetMapping("")
-    public List<PostResponseDto> allPosts(){
-        return postService.allPosts();
+    public List<PostResponseDto> allPosts(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.allPosts(userDetails.getMember());
     }
 
     @GetMapping("/detail/{postId}")
-    public PostResponseDto onePost(@PathVariable Long postId){
-        return postService.onePost(postId);
+    public PostResponseDto onePost(@PathVariable Long postId,
+                                   @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.onePost(postId, userDetails.getMember());
     }
 
     @GetMapping("/category/{category}")
-    public List<PostResponseDto> categoryPost(@PathVariable String category){
-        return postService.categoryPost(category);
+    public List<PostResponseDto> categoryPost(@PathVariable String category,
+                                              @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.categoryPost(category,userDetails.getMember());
     }
 
     @PutMapping("/{postId}")

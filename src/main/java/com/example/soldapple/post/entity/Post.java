@@ -24,15 +24,10 @@ public class Post extends TimeStamped {
     @ManyToOne
     @JoinColumn
     private Member member;
-    @Column
     private String title;
-    @Column
     private String category;
-    @Column
     private Long expectPrice;
-    @Column
     private Long userPrice;
-    @Column
     private String content;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
@@ -40,6 +35,9 @@ public class Post extends TimeStamped {
 
     @OneToMany(mappedBy = "post")
     private List<Like> like;
+
+    private Boolean isLike;
+    private Long postLikeCount = 0L;
 
     public Post(PostReqDto postReqDto, Member member) {
         this.member = member;
@@ -56,5 +54,9 @@ public class Post extends TimeStamped {
         this.expectPrice = postReqDto.getExpectPrice();
         this.userPrice = postReqDto.getUserPrice();
         this.content = postReqDto.getContent();
+    }
+
+    public void updatePostLikeCnt(Long postLikeCount) {
+        this.postLikeCount = postLikeCount;
     }
 }
