@@ -42,7 +42,7 @@ public class MemberController {
 
     @PostMapping("/signup/mail-confirm")
     public String mailConfirm(@RequestBody String email) throws MessagingException, UnsupportedEncodingException {
-        String allEmail = email+"@naver.com";
+        String allEmail = email.split("=")[0]+"@naver.com";
         return emailService.sendEmail(allEmail);
     }
 
