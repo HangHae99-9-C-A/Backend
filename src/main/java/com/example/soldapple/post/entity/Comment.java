@@ -1,5 +1,6 @@
 package com.example.soldapple.post.entity;
 
+import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.CommentReqDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -26,10 +27,17 @@ public class Comment {
     @JsonIgnore
     private Post post;
 
-    public Comment(CommentReqDto commentReqDto, Post post){
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn
+    private Member member;
+    private String nickname;
+
+    public Comment(CommentReqDto commentReqDto, Post post, Member member){
         this.comment = commentReqDto.getComment();
         this.post = post;
-
+        this.nickname = member.getNickname();
+        this.member = member;
 
     }
 
