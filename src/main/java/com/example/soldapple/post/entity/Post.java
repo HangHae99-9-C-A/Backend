@@ -1,6 +1,7 @@
 package com.example.soldapple.post.entity;
 
 import com.example.soldapple.global.TimeStamped;
+import com.example.soldapple.like.entity.Like;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.PostReqDto;
 import lombok.Getter;
@@ -36,6 +37,9 @@ public class Post extends TimeStamped {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "post")
+    private List<Like> like;
 
     public Post(PostReqDto postReqDto, Member member) {
         this.member = member;
