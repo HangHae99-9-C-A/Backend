@@ -1,7 +1,5 @@
 package com.example.soldapple.post.entity;
 
-import com.example.soldapple.global.TimeStamped;
-import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.PostReqDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
