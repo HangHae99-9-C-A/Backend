@@ -19,8 +19,9 @@ public class PostResponseDto {
     private String content;
 
     private List<Comment> comments;
+    private Boolean isLike;
 
-    public PostResponseDto(Post post){
+    public PostResponseDto(Post post, Boolean isLike){
         this.postId = post.getPostId();
         this.title = post.getTitle();
         this.nickname =post.getMember().getNickname();
@@ -29,5 +30,6 @@ public class PostResponseDto {
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
         this.comments = post.getComments();
+        this.isLike = isLike;
     }
 }
