@@ -1,5 +1,6 @@
 package com.example.soldapple.personal;
 
+import com.example.soldapple.aws_s3.S3UploadUtil;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.repository.IssuesRepository;
@@ -19,7 +20,9 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +35,7 @@ public class PersonalService {
     private final CommentRepository commentRepository;
     private final IssuesRepository issuesRepository;
     private final PostService postService;
-
+    private final S3UploadUtil s3UploadUtil;
 
     //내 페이지 불러오기
 
@@ -61,10 +64,16 @@ public class PersonalService {
 
     //내 페이지 수정하기
     @Transactional(readOnly = false)
-    public void editMyPage(Member member, MemberReqDto memberReqDto) {
+    public void editMyPage(MemberReqDto memberReqDto, Member member, MultipartFile imgFile) throws IOException {
         Member editMyMember = memberRepository.findById(member.getId()).orElseThrow(RuntimeException::new);
-        //editMyMember.
-        editMyMember.update(memberReqDto);
+        if (!(imgFile == null)) {
+            var r = s3UploadUtil.upload(imgFile, "test");
+            editMyMember.update(memberReqDto, r);
+        } else {
+            editMyMember.update(memberReqDto);
+//            return new PostResponseDto(post);
+        }
+
         //memberResponse 필요합니다. 다른분 개발 부탁
 
     }
@@ -107,7 +116,6 @@ public class PersonalService {
 //                .myLikesList(myLikesList.stream().map(LikesResponseDto::new).collect(Collectors.toList()))
 //                .build();
 //        return personalResponseDto;
-
     }
 
     //Response
@@ -121,7 +129,7 @@ public class PersonalService {
         private List<IssuesResponseDto> myIssuesList;
     }
 
-    public void memberCheck(Member member){
+    public void memberCheck(Member member) {
         memberRepository.findById(member.getId()).orElseThrow(RuntimeException::new);
     }
 }
