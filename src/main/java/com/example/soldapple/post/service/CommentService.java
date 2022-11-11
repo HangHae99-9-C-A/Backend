@@ -38,7 +38,12 @@ public class CommentService {
 
     @Transactional
     public String commentDelete(Long commentId, Member member) {
-        commentRepository.deleteByIdAndMember(commentId, member);
+//        commentRepository.deleteByIdAndMember(commentId, member);
+        Comment comment = commentRepository.findByIdAndMember(commentId, member).orElseThrow(
+                () -> new RuntimeException("comment not exist or don't have access")
+
+        );
+        commentRepository.deleteById(comment.getId());
         return "Success";
     }
 
