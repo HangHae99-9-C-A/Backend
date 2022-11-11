@@ -2,6 +2,7 @@ package com.example.soldapple.member.controller;
 
 import com.example.soldapple.jwt.dto.TokenDto;
 import com.example.soldapple.member.dto.EmailReqDto;
+import com.example.soldapple.member.dto.KakaoUserInfoDto;
 import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.member.dto.LoginReqDto;
 import com.example.soldapple.member.service.EmailService;
@@ -39,15 +40,16 @@ public class MemberController {
         return memberService.login(loginReqDto);
     }
 
-    @PostMapping("/login/mailConfirm")
-    public String mailConfirm(@RequestBody EmailReqDto emailDto) throws MessagingException, UnsupportedEncodingException {
-        return emailService.sendEmail(emailDto.getEmail());
+    @PostMapping("/signup/mail-confirm")
+    public String mailConfirm(@RequestBody String email) throws MessagingException, UnsupportedEncodingException {
+        String allEmail = email+"@naver.com";
+        return emailService.sendEmail(allEmail);
     }
 
     @GetMapping("/kakao")
-    public String kakaoLogin(@RequestParam(name = "code") String code) throws JsonProcessingException {
-        memberService.kakaoLogin(code);
-        return "hi";
+    public KakaoUserInfoDto kakaoLogin(@RequestParam(name = "code") String code) throws JsonProcessingException {
+        KakaoUserInfoDto kakaoUserInfoDto = memberService.kakaoLogin(code);
+        return kakaoUserInfoDto;
     }
 
     @GetMapping("/issue/token")
