@@ -1,20 +1,22 @@
 package com.example.soldapple.member.service;
 
+import com.example.soldapple.jwt.dto.TokenDto;
+import com.example.soldapple.jwt.util.JwtUtil;
 import com.example.soldapple.member.dto.KakaoUserInfoDto;
-import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.member.dto.LoginReqDto;
+import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.member.entity.RefreshToken;
 import com.example.soldapple.member.repository.MemberRepository;
 import com.example.soldapple.member.repository.RefreshTokenRepository;
-import com.example.soldapple.global.dto.GlobalResDto;
-import com.example.soldapple.jwt.dto.TokenDto;
-import com.example.soldapple.jwt.util.JwtUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +24,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Service
@@ -61,7 +62,7 @@ public class MemberService {
 
         TokenDto tokenDto = jwtUtil.createAllToken(loginReqDto.getEmail());
 
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(loginReqDto.getEmail());
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail(loginReqDto.getEmail());
 
         if(refreshToken.isPresent()) {
             refreshTokenRepository.save(refreshToken.get().updateToken(tokenDto.getRefreshToken()));
@@ -73,10 +74,11 @@ public class MemberService {
         return tokenDto;
     }
 
-    public void kakaoLogin(String code) throws JsonProcessingException {
+    public KakaoUserInfoDto kakaoLogin(String code) throws JsonProcessingException {
         String accessToken = getAccessToken(code);
 
         KakaoUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
+        return kakaoUserInfo;
     }
 
     private String getAccessToken(String code) throws JsonProcessingException {
@@ -86,8 +88,8 @@ public class MemberService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "7f656ffee29f64023f766253fb70514e");
-        body.add("redirect_uri", "http://localhost:3000");
+        body.add("client_id", "d2c795c61c767b9c2bc94eb5cb045230");
+        body.add("redirect_uri", "http://localhost:3000/kakaoLogin");
         body.add("code", code);
 
         // HTTP 요청 보내기
@@ -127,15 +129,30 @@ public class MemberService {
         String responseBody = response.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(responseBody);
-        Long id = jsonNode.get("id").asLong();
+        String email = jsonNode.get("id").asText();
         String nickname = jsonNode.get("properties")
                 .get("nickname").asText();
-        String email = jsonNode.get("kakao_account")
-                .get("email").asText();
-        String avatarImg = jsonNode.get("kakao_account")
+        String avatarUrl = jsonNode.get("kakao_account")
                         .get("profile").get("profile_image_url").asText();
 
-        System.out.println("카카오 사용자 정보: " + id + ", " + nickname + ", " + email + ", " + avatarImg);
-        return new KakaoUserInfoDto(id, nickname, email, avatarImg);
+        System.out.println("카카오 사용자 정보: " + email + ", " + nickname + ", " + avatarUrl);
+
+        if(!memberRepository.findByEmail(email).isPresent()){
+            Member member = new Member(email, nickname, "Kakao", avatarUrl);
+            memberRepository.save(member);
+        }
+
+        TokenDto tokenDto = jwtUtil.createAllToken(email);
+
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail(email);
+
+        if(refreshToken.isPresent()) {
+            refreshTokenRepository.save(refreshToken.get().updateToken(tokenDto.getRefreshToken()));
+        }else {
+            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), email);
+            refreshTokenRepository.save(newToken);
+        }
+
+        return new KakaoUserInfoDto(email, nickname, avatarUrl, tokenDto);
     }
 }
