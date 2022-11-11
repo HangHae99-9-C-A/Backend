@@ -23,7 +23,7 @@ public class LikeService {
         Member member = memberRepository.findById(userDetails.getMember().getId()).orElseThrow(
                 () -> new IllegalArgumentException("member is not exist")
         );
-        Post post = postRepository.findByIdAndMemberNot(postId, member).orElseThrow(
+        Post post = postRepository.findByPostIdAndMemberNot(postId, member).orElseThrow(
                 () -> new IllegalArgumentException("it's your post OR post is not exist")
         );
         Like like = new Like(post, member);
@@ -35,7 +35,7 @@ public class LikeService {
         Member member = memberRepository.findById(userDetails.getMember().getId()).orElseThrow(
                 () -> new IllegalArgumentException("member is not exist")
         );
-        Post post = postRepository.findByIdAndMemberNot(postId, member).orElseThrow(
+        Post post = postRepository.findByPostIdAndMemberNot(postId, member).orElseThrow(
                 () -> new IllegalArgumentException("it's your post OR post is not exist")
         );
         likeRepository.deleteByPostAndMember(post, member);

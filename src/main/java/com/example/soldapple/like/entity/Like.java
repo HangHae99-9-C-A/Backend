@@ -19,7 +19,7 @@ public class Like {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "post")
     private Post post;
 
     @ManyToOne

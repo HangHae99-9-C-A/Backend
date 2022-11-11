@@ -12,7 +12,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findByPostIdAndMember(Long postId, Member member);
     Optional<Post> findByPostId(Long postId);
     List<Post> findAllByOrderByCreatedAtDesc();
-    Optional<List<Post>> findAllByCategory(String category);
-    Optional<Post> findByCategoryAndId(String category, Long postId);
-    Optional<Post> findByIdAndMemberNot(Long postId, Member member);
+    Optional<Post> findByPostIdAndMemberNot(Long postId, Member member);
 }
