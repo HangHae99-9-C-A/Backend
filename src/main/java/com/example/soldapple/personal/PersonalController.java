@@ -20,6 +20,10 @@ public class PersonalController {
     private final PersonalService personalService;
 
     // 내 페이지 불러오기
+    @GetMapping
+    public MemberResponseDto getMyInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return personalService.getMyInfo(userDetails.getMember());
+    }
     @GetMapping("/post")
     public PersonalService.PersonalResponseDto getMyPost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyPost(userDetails.getMember());

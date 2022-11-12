@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e54b29d9-8c37-4207-8791-9d33b1f3330f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/MemberResponseDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/member/entity/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/member/entity/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/MemberResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/MemberResponseDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/PersonalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/PersonalController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/PersonalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/PersonalService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,11 +72,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="feature/4_mypage" />
-                    <option name="lastUsedInstant" value="1668153029" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="test/tester" />
-                    <option name="lastUsedInstant" value="1668148733" />
+                    <option name="lastUsedInstant" value="1668259123" />
                   </RecentBranch>
                 </list>
               </option>
@@ -104,7 +100,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "extract.method.default.visibility": "private",
-    "last_opened_file_path": "E:/dev/spring/week5/clone-instagram-BE",
+    "last_opened_file_path": "E:/dev/spring/week6/final",
     "spring.configuration.checksum": "c91deea73b576d34e26519e633da0b6b"
   }
 }]]></component>
@@ -177,6 +173,7 @@
       <workItem from="1668149141375" duration="3721000" />
       <workItem from="1668171577615" duration="947000" />
       <workItem from="1668173661796" duration="1664000" />
+      <workItem from="1668264970349" duration="659000" />
     </task>
     <servers />
   </component>

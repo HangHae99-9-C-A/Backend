@@ -118,6 +118,14 @@ public class PersonalService {
 //        return personalResponseDto;
     }
 
+    // 마이페이지 정보 불러오기
+    public MemberResponseDto getMyInfo(Member member) {
+        //회원 여부 체크
+        memberCheck(member);
+        return new MemberResponseDto(member);
+
+    }
+
     //Response
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Builder
