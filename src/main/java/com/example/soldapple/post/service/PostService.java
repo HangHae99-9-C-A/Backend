@@ -1,39 +1,66 @@
 package com.example.soldapple.post.service;
 
+
+import com.example.soldapple.aws_s3.S3UploadUtil;
 import com.example.soldapple.like.repository.LikeRepository;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.PostReqDto;
 import com.example.soldapple.post.dto.PostResponseDto;
+import com.example.soldapple.post.entity.Image;
 import com.example.soldapple.post.entity.Post;
+import com.example.soldapple.post.repository.ImageRepository;
 import com.example.soldapple.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
-
-    private final PostRepository postRepository;
+    private final S3UploadUtil s3UploadUtil;
+    private final ImageRepository imageRepository;
     private final LikeRepository likeRepository;
-
+    private final PostRepository postRepository;
     //게시글 작성
     @Transactional
-    public PostResponseDto postCreate(PostReqDto postReqDto, Member member) {
+    public PostResponseDto postCreate(List<MultipartFile> multipartFiles,
+                                      PostReqDto postReqDto,
+                                      Member member) throws IOException {
+
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
-        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post,isLike);
+
+        List<Image> imageList = new ArrayList<>();
+
+        if(!(multipartFiles.size()==0)){
+            System.out.println(multipartFiles.get(0).getOriginalFilename());
+            for(MultipartFile imgFile : multipartFiles){
+                Map<String, String> img = s3UploadUtil.upload(imgFile, "test");
+                Image image = new Image(img, post);
+                imageRepository.save(image);
+                imageList.add(image);
+            }
+        }
+            Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
+        return new PostResponseDto(post, imageList, isLike);
+    }
+    public void postTest(){
+        System.out.println("테스트성공");
     }
     //게시글 전체 조회
     public List<PostResponseDto> allPosts(Member member) {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
         for (Post post : posts) {
+//            List<Image> image = new LinkedList<>();
             Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
+
             postResponseDtos.add(new PostResponseDto(post,isLike));
         }
         return postResponseDtos;

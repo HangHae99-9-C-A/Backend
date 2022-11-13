@@ -12,9 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -58,7 +55,7 @@ public class IssuesCommentService {
         IssuesComment issuesComment = issuesCommentRepository.findByIssuesCommentIdAndMember(issuesCommentId, member).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 없거나 삭제 권한이 없습니다.")
         );
-        issuesCommentRepository.deleteById(issuesComment.getIssuesCommentId());
+        issuesCommentRepository.delete(issuesComment);
         return "댓글 삭제 성공";
     }
 }
