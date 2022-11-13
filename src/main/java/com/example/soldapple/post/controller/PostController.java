@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,11 +44,11 @@ public class PostController {
     }
 
     @PutMapping("/{postId}")
-    public PostResponseDto postEdit(MultipartHttpServletRequest imgs,
+    public PostResponseDto postEdit(@RequestPart List<MultipartFile> multipartFiles,
                                     @PathVariable Long postId,
                                     @RequestBody PostReqDto postReqDto,
                                     @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return postService.postEdit(postId, postReqDto, userDetails.getMember());
+        return postService.postEdit(multipartFiles, postId, postReqDto, userDetails.getMember());
     }
     @DeleteMapping("/{postId}")
     public String postDelete(@PathVariable Long postId,
