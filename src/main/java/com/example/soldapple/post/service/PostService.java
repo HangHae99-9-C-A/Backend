@@ -36,19 +36,7 @@ public class PostService {
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
 
-        List<Image> imageList = new ArrayList<>();
-
-        if(!(multipartFiles.size()==0)){
-            System.out.println(multipartFiles.get(0).getOriginalFilename());
-            for(MultipartFile imgFile : multipartFiles){
-                Map<String, String> img = s3UploadUtil.upload(imgFile, "test");
-                Image image = new Image(img, post);
-                imageRepository.save(image);
-                imageList.add(image);
-            }
-        }
-            Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, imageList, isLike);
+        return imgSave(multipartFiles, post, member);
     }
 //    public void postTest(){
 //        System.out.println("테스트성공");
@@ -84,20 +72,23 @@ public class PostService {
     }
     //게시글 수정
     @Transactional
-    public PostResponseDto postEdit(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member){
+    public PostResponseDto postEdit(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member)throws IOException{
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글이 존재하지 않거나 수정 권한이 없습니다.")
         );
+        post.update(postReqDto);
 
+        //기존 사진 삭제
         List<Image> imageList = post.getImages();
         for (Image image : imageList) {
             imageRepository.deleteById(image.getId());
+            s3UploadUtil.delete(image.getImgKey());
         }
 
-        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        post.update(postReqDto);
-        return new PostResponseDto(post, isLike);
+        return imgSave(multipartFiles, post, member);
     }
+
+
     //게시글 삭제
     @Transactional
     public String postDelete(Long postId, Member member){
@@ -112,6 +103,22 @@ public class PostService {
 
         postRepository.delete(post);
         return "게시글 삭제 완료";
+    }
+    //이미지 저장
+    public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member) throws IOException{
+        List<Image> imageList = new ArrayList<>();
+
+        if(!(multipartFiles.size()==0)){
+            System.out.println(multipartFiles.get(0).getOriginalFilename());
+            for(MultipartFile imgFile : multipartFiles){
+                Map<String, String> img = s3UploadUtil.upload(imgFile, "test");
+                Image image = new Image(img, post);
+                imageRepository.save(image);
+                imageList.add(image);
+            }
+        }
+        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
+        return new PostResponseDto(post, imageList, isLike);
     }
 
     public PostResponseDto putImgsAndLikeToDto(Post post, Member member){

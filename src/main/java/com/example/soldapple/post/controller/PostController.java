@@ -47,7 +47,7 @@ public class PostController {
     public PostResponseDto postEdit(@RequestPart List<MultipartFile> multipartFiles,
                                     @PathVariable Long postId,
                                     @RequestBody PostReqDto postReqDto,
-                                    @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                    @AuthenticationPrincipal UserDetailsImpl userDetails)throws IOException{
         return postService.postEdit(multipartFiles, postId, postReqDto, userDetails.getMember());
     }
     @DeleteMapping("/{postId}")
