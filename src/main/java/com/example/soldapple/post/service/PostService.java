@@ -58,13 +58,7 @@ public class PostService {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
         for (Post post : posts) {
-            List<Image> imgList = new ArrayList<>();
-            for(Image img:post.getImages()){
-                imgList.add(img);
-            }
-            Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-
-            postResponseDtos.add(new PostResponseDto(post,imgList,isLike));
+            postResponseDtos.add(putImgsAndLikeToDto(post, member));
         }
         return postResponseDtos;
     }
@@ -74,29 +68,32 @@ public class PostService {
         Post post = postRepository.findByPostId(postId).orElseThrow(
                 ()->new RuntimeException("해당 게시글이 존재하지 않습니다.")
         );
-        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post,isLike);
+        return putImgsAndLikeToDto(post, member);
     }
 
-    //게시글 카테고리 조히
+    //게시글 카테고리 조회
     public List<PostResponseDto> categoryPost(String category, Member member) {
         List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
         List<Post> posts = postRepository.findAllByCategoryOrderByCreatedAtDesc(category).orElseThrow(
                 ()->new RuntimeException("해당 카테고리가 없습니다.")
         );
         for (Post post : posts) {
-            Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-            postResponseDtos.add(new PostResponseDto(post, isLike));
+            postResponseDtos.add(putImgsAndLikeToDto(post, member));
         }
-
         return postResponseDtos;
     }
     //게시글 수정
     @Transactional
-    public PostResponseDto postEdit(Long postId, PostReqDto postReqDto, Member member){
+    public PostResponseDto postEdit(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member){
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글이 존재하지 않거나 수정 권한이 없습니다.")
         );
+
+        List<Image> imageList = post.getImages();
+        for (Image image : imageList) {
+            imageRepository.deleteById(image.getId());
+        }
+
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         post.update(postReqDto);
         return new PostResponseDto(post, isLike);
@@ -107,7 +104,22 @@ public class PostService {
         Post post = postRepository.findByPostIdAndMember(postId,member).orElseThrow(
                 () -> new RuntimeException("해당 게시글이 존재하지 않거나 삭제 권한이 없습니다.")
         );
+
+        List<Image> imageList = post.getImages();
+        for (Image image : imageList) {
+            s3UploadUtil.delete(image.getImgKey());
+        }
+
         postRepository.delete(post);
         return "게시글 삭제 완료";
+    }
+
+    public PostResponseDto putImgsAndLikeToDto(Post post, Member member){
+        List<Image> imgList = new ArrayList<>();
+        for(Image img:post.getImages()){
+            imgList.add(img);
+        }
+        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
+        return new PostResponseDto(post,imgList,isLike);
     }
 }
