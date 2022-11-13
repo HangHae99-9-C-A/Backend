@@ -32,7 +32,7 @@ public class PostService {
     public PostResponseDto postCreate(List<MultipartFile> multipartFiles,
                                       PostReqDto postReqDto,
                                       Member member) throws IOException {
-
+        //게시글 저장
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
 
@@ -50,18 +50,21 @@ public class PostService {
             Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         return new PostResponseDto(post, imageList, isLike);
     }
-    public void postTest(){
-        System.out.println("테스트성공");
-    }
+//    public void postTest(){
+//        System.out.println("테스트성공");
+//    }
     //게시글 전체 조회
     public List<PostResponseDto> allPosts(Member member) {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
         for (Post post : posts) {
-//            List<Image> image = new LinkedList<>();
+            List<Image> imgList = new ArrayList<>();
+            for(Image img:post.getImages()){
+                imgList.add(img);
+            }
             Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
 
-            postResponseDtos.add(new PostResponseDto(post,isLike));
+            postResponseDtos.add(new PostResponseDto(post,imgList,isLike));
         }
         return postResponseDtos;
     }

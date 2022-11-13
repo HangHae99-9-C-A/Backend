@@ -31,6 +31,7 @@ public class Post extends TimeStamped {
     @JsonIgnore
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Image> images;
+
     private Long expectPrice;
     private Long userPrice;
     private String content;
