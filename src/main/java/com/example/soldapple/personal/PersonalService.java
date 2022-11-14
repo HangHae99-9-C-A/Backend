@@ -126,8 +126,8 @@ public class PersonalService {
     }
 
     //판매자 정보페이지 불러오기 api 수정하였습니다
-    public PersonalResponseDto getUserInfo(String nickname) {
-        Member sellerMember = memberRepository.findByNickname(nickname).orElseThrow(RuntimeException::new);
+    public PersonalResponseDto getUserInfo(Long memberId) {
+        Member sellerMember = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
         List<Post> postList = postRepository.findAllByMember(sellerMember);
         PersonalResponseDto personalResponseDto = PersonalResponseDto.builder()
                 .myPostList(postList.stream().map(PostResponseDto::new).collect(Collectors.toList()))
