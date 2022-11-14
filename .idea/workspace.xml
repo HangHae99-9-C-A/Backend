@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="e54b29d9-8c37-4207-8791-9d33b1f3330f" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/security/WebSecurityConfig.java" afterDir="false" />
     </list>
+=======
+    <list default="true" id="e54b29d9-8c37-4207-8791-9d33b1f3330f" name="Changes" comment="" />
+>>>>>>> feature/11_sellerpage
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,8 +80,17 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+<<<<<<< HEAD
                     <option name="branchName" value="feature/11_expect_price_category" />
                     <option name="lastUsedInstant" value="1668369699" />
+=======
+                    <option name="branchName" value="feature/11_sellerpage" />
+                    <option name="lastUsedInstant" value="1668413251" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/4_mypage" />
+                    <option name="lastUsedInstant" value="1668405704" />
+>>>>>>> feature/11_sellerpage
                   </RecentBranch>
                 </list>
               </option>
@@ -96,6 +109,7 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RequestMappingsPanelOrder0": "0",
@@ -112,6 +126,23 @@
   }
 }]]></component>
   <component name="RunManager" selected="Spring Boot.SoldAppleApplication">
+=======
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/dev/spring/week6/final&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;c91deea73b576d34e26519e633da0b6b&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Gradle.final [build]">
+>>>>>>> feature/11_sellerpage
     <configuration name="final [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />

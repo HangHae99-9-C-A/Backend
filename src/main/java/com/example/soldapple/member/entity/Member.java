@@ -2,10 +2,10 @@ package com.example.soldapple.member.entity;
 
 import com.example.soldapple.like.entity.Like;
 import com.example.soldapple.member.dto.MemberReqDto;
+import com.example.soldapple.personal.MyInfoRequestDto;
 import com.example.soldapple.post.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -57,16 +57,16 @@ public class Member {
     }
 
     //myinfo 를 위해 생성하였습니다.
-    public void update(MemberReqDto memberReqDto) {
-        this.email = memberReqDto.getEmail();
-        this.nickname = memberReqDto.getNickname();
-        this.password = memberReqDto.getPassword();
+    public void update(MyInfoRequestDto myInfoRequestDto) {
+        //   this.email = memberReqDto.getEmail();
+        this.nickname = myInfoRequestDto.getNickname();
+        //     this.password = memberReqDto.getPassword();
     }
 
-    public void update(MemberReqDto memberReqDto, Map<String, String> imgUrl) {
-        this.email = memberReqDto.getEmail();
-        this.nickname = memberReqDto.getNickname();
-        this.password = memberReqDto.getPassword();
+    public void update(MyInfoRequestDto myInfoRequestDto, Map<String, String> imgUrl) {
+//        this.email = myInfoRequestDto.getEmail();
+        this.nickname = myInfoRequestDto.getNickname();
+//        this.password = myInfoRequestDto.getPassword();
         this.avatarUrl = imgUrl.get("url");
         this.avatarUrlKey = imgUrl.get("key");
     }

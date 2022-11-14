@@ -4,7 +4,6 @@ import com.example.soldapple.aws_s3.S3UploadUtil;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.repository.IssuesRepository;
-import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.member.repository.MemberRepository;
 import com.example.soldapple.post.dto.CommentResponseDto;
@@ -64,13 +63,13 @@ public class PersonalService {
 
     //내 페이지 수정하기
     @Transactional(readOnly = false)
-    public void editMyPage(MemberReqDto memberReqDto, Member member, MultipartFile imgFile) throws IOException {
+    public void editMyPage(MyInfoRequestDto myInfoRequestDto, Member member, MultipartFile imgFile) throws IOException {
         Member editMyMember = memberRepository.findById(member.getId()).orElseThrow(RuntimeException::new);
         if (!(imgFile == null)) {
             var r = s3UploadUtil.upload(imgFile, "test");
-            editMyMember.update(memberReqDto, r);
+            editMyMember.update(myInfoRequestDto, r);
         } else {
-            editMyMember.update(memberReqDto);
+            editMyMember.update(myInfoRequestDto);
 //            return new PostResponseDto(post);
         }
 
@@ -126,6 +125,21 @@ public class PersonalService {
 
     }
 
+    //판매자 정보페이지 불러오기 api 수정하였습니다
+    public PersonalResponseDto getUserInfo(String nickname) {
+        Member sellerMember = memberRepository.findByNickname(nickname).orElseThrow(RuntimeException::new);
+        List<Post> postList = postRepository.findAllByMember(sellerMember);
+        PersonalResponseDto personalResponseDto = PersonalResponseDto.builder()
+                .myPostList(postList.stream().map(PostResponseDto::new).collect(Collectors.toList()))
+                .sellerInfoDto(new MemberResponseDto(sellerMember))
+                .build();
+        return personalResponseDto;
+    }
+
+
+
+
+
     //Response
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Builder
@@ -135,9 +149,16 @@ public class PersonalService {
         private List<CommentResponseDto> myCommentList;
         private List<PostResponseDto> myLikesList;
         private List<IssuesResponseDto> myIssuesList;
+        private MemberResponseDto sellerInfoDto;
+
     }
 
+    //Methods
     public void memberCheck(Member member) {
         memberRepository.findById(member.getId()).orElseThrow(RuntimeException::new);
+    }
+
+    public void memberNicknameCheck(String nickname) {
+
     }
 }

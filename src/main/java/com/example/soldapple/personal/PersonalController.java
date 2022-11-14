@@ -1,7 +1,6 @@
 package com.example.soldapple.personal;
 
 
-import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/myinfo")
@@ -24,6 +22,7 @@ public class PersonalController {
     public MemberResponseDto getMyInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyInfo(userDetails.getMember());
     }
+
     @GetMapping("/post")
     public PersonalService.PersonalResponseDto getMyPost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyPost(userDetails.getMember());
@@ -46,13 +45,18 @@ public class PersonalController {
 
     // 내 페이지 변경
     @PatchMapping("/edit")
-    public void editMyPage(@RequestPart(name = "memberReqDto", required = false) MemberReqDto memberReqDto,
+    public void editMyPage(@RequestPart(name = "myInfoRequestDto", required = false) MyInfoRequestDto myInfoRequestDto,
                            @AuthenticationPrincipal UserDetailsImpl userDetails,
                            MultipartHttpServletRequest img) throws IOException {
 
         MultipartFile imgFile = img.getFile("image");
-        personalService.editMyPage(memberReqDto,userDetails.getMember(),imgFile);
+        personalService.editMyPage(myInfoRequestDto, userDetails.getMember(), imgFile);
 
     }
 
+    // 판매자 상세 정보 불러오기
+    @GetMapping("/seller/{nickname}")
+    public PersonalService.PersonalResponseDto getUserInfo(@PathVariable("nickname") String nickname) {
+        return personalService.getUserInfo(nickname);
+    }
 }
