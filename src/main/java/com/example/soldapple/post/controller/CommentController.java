@@ -38,9 +38,5 @@ public class CommentController {
     @PutMapping("/{commentId}")
     public CommentResponseDto commentEdit(@PathVariable Long commentId, @RequestBody @Valid CommentReqDto commentReqDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.commentEdit(commentId, commentReqDto, userDetails.getMember());
-
     }
-
-
-
 }
