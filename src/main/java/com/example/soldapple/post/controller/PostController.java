@@ -49,8 +49,8 @@ public class PostController {
 
     @PutMapping("/{postId}")
     public PostResponseDto postEdit(@RequestPart List<MultipartFile> multipartFiles,
+                                    @RequestPart PostReqDto postReqDto,
                                     @PathVariable Long postId,
-                                    @RequestBody PostReqDto postReqDto,
                                     @AuthenticationPrincipal UserDetailsImpl userDetails)throws IOException{
         System.out.println("==========컨트롤러 지나는중==========");
         return postService.postEdit(multipartFiles, postId, postReqDto, userDetails.getMember());
