@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e54b29d9-8c37-4207-8791-9d33b1f3330f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/MyInfoRequestDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/MemberResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/MemberResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/member/entity/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/member/entity/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/member/repository/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/member/repository/MemberRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/PersonalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/PersonalController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/PersonalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/personal/PersonalService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +73,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="feature/4_mypage" />
-                    <option name="lastUsedInstant" value="1668259123" />
+                    <option name="lastUsedInstant" value="1668405704" />
                   </RecentBranch>
                 </list>
               </option>
@@ -90,20 +91,20 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "extract.method.default.visibility": "private",
-    "last_opened_file_path": "E:/dev/spring/week6/final",
-    "spring.configuration.checksum": "c91deea73b576d34e26519e633da0b6b"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/dev/spring/week6/final&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;c91deea73b576d34e26519e633da0b6b&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Gradle.final [build]">
     <configuration name="final [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
