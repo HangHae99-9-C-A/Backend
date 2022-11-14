@@ -4,6 +4,7 @@ import com.example.soldapple.global.TimeStamped;
 import com.example.soldapple.like.entity.Like;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.PostReqDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,11 @@ public class Post extends TimeStamped {
     private Member member;
     private String title;
     private String category;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Image> images;
+
     private Long expectPrice;
     private Long userPrice;
     private String content;
