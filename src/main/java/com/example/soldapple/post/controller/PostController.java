@@ -22,24 +22,28 @@ public class PostController {
     public PostResponseDto postCreate(@RequestPart List<MultipartFile> multipartFiles,
                                       @RequestPart PostReqDto postReqDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
+        System.out.println("==========컨트롤러 지나는중==========");
         return postService.postCreate(multipartFiles, postReqDto, userDetails.getMember());
 //        postService.postTest();
     }
 
     @GetMapping("/category/all")
     public List<PostResponseDto> allPosts(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        System.out.println("==========컨트롤러 지나는중==========");
         return postService.allPosts(userDetails.getMember());
     }
 
     @GetMapping("/detail/{postId}")
     public PostResponseDto onePost(@PathVariable Long postId,
                                    @AuthenticationPrincipal UserDetailsImpl userDetails){
+        System.out.println("==========컨트롤러 지나는중==========");
         return postService.onePost(postId, userDetails.getMember());
     }
 
     @GetMapping("/category/{category}")
     public List<PostResponseDto> categoryPost(@PathVariable String category,
                                               @AuthenticationPrincipal UserDetailsImpl userDetails){
+        System.out.println("==========컨트롤러 지나는중==========");
         return postService.categoryPost(category,userDetails.getMember());
     }
 
@@ -48,11 +52,13 @@ public class PostController {
                                     @PathVariable Long postId,
                                     @RequestBody PostReqDto postReqDto,
                                     @AuthenticationPrincipal UserDetailsImpl userDetails)throws IOException{
+        System.out.println("==========컨트롤러 지나는중==========");
         return postService.postEdit(multipartFiles, postId, postReqDto, userDetails.getMember());
     }
     @DeleteMapping("/{postId}")
     public String postDelete(@PathVariable Long postId,
                              @AuthenticationPrincipal UserDetailsImpl userDetails){
+        System.out.println("==========컨트롤러 지나는중==========");
         return postService.postDelete(postId, userDetails.getMember());
     }
 }
