@@ -1,7 +1,9 @@
 package com.example.soldapple.create_price.service;
 
 import com.example.soldapple.global.entity.IPhone;
+import com.example.soldapple.global.entity.Macbook;
 import com.example.soldapple.global.repository.IPhoneRepository;
+import com.example.soldapple.global.repository.MacbookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +16,9 @@ import java.util.List;
 @Transactional
 public class CreatePriceService {
     private final IPhoneRepository iPhoneRepository;
+    private final MacbookRepository macbookRepository;
 
-    public List<Long> first() {
+    public List<Long> iphoneFirst() {
         List<IPhone> iPhones = iPhoneRepository.findAllByOrderByAsd();
         List<Long> longList = new ArrayList<>();
         for (int i = 0; i < iPhones.size(); i++) {
@@ -31,7 +34,7 @@ public class CreatePriceService {
         return longList;
 }
 
-    public List<String> second(Long year) {
+    public List<String> iphoneSecond(Long year) {
         List<IPhone> iPhones = iPhoneRepository.findAllByAsdOrderByModel(year);
         List<String> stringList = new ArrayList<>();
         for (int i = 0; i < iPhones.size(); i++) {
@@ -47,7 +50,7 @@ public class CreatePriceService {
         return stringList;
     }
 
-    public List<String> third(Long year, String model) {
+    public List<String> iphoneThird(Long year, String model) {
         List<IPhone> iPhones = iPhoneRepository.findAllByAsdAndModelOrderByStorage(year, model);
         List<String> stringList = new ArrayList<>();
         for (int i = 0; i < iPhones.size(); i++) {
@@ -61,5 +64,21 @@ public class CreatePriceService {
             }
         }
         return stringList;
+    }
+
+    public List<Long> macbookFirst() {
+        List<Macbook> macbooks = macbookRepository.findAllByOrderByAsd();
+        List<Long> longList = new ArrayList<>();
+        for (int i = 0; i < macbooks.size(); i++) {
+            if (i == 0) {
+                longList.add(macbooks.get(i).getAsd());
+            } else {
+                if (macbooks.get(i).getAsd().equals(macbooks.get(i - 1).getAsd())) {
+                    continue;
+                }
+                longList.add(macbooks.get(i).getAsd());
+            }
+        }
+        return longList;
     }
 }

@@ -16,19 +16,23 @@ public class CreatePriceController {
     private final CreatePriceService createPriceService;
 
     @GetMapping("/iphone")  //iPhone,Macbook
-    public List<Long> chooseTag1() {
-        return createPriceService.first();
+    public List<Long> iphoneFirst() {
+        return createPriceService.iphoneFirst();
     }
 
     @GetMapping("/iphone/{year}")   //출시년도
-    public List<String> chooseTag2(@PathVariable Long year) {
-        return createPriceService.second(year);
+    public List<String> iphoneSecond(@PathVariable Long year) {
+        return createPriceService.iphoneSecond(year);
     }
 
     @GetMapping("/iphone/{year}/{model}")    //기종
-    public List<?> chooseTag3(@PathVariable Long year,
+    public List<?> iphoneThird(@PathVariable Long year,
                               @PathVariable String model) {
-        return createPriceService.third(year, model);
+        return createPriceService.iphoneThird(year, model);
+    }
 
+    @GetMapping("/macbook")  //iPhone,Macbook
+    public List<Long> macbookFirst() {
+        return createPriceService.macbookFirst();
     }
 }

@@ -1,6 +1,6 @@
 package com.example.soldapple.global.entity;
 
-import com.example.soldapple.global.dto.CreateTableReqDto;
+import com.example.soldapple.global.dto.CreateIPhoneReqDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +19,7 @@ public class IPhone {
     private String model;
     private String storage;
 
-    public IPhone(CreateTableReqDto createTableReqDto){
+    public IPhone(CreateIPhoneReqDto createTableReqDto){
         this.asd = createTableReqDto.getYear();
         this.model = createTableReqDto.getModel();
         this.storage = createTableReqDto.getStorage();

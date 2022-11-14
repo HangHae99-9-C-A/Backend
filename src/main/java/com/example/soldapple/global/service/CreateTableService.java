@@ -1,8 +1,11 @@
 package com.example.soldapple.global.service;
 
-import com.example.soldapple.global.dto.CreateTableReqDto;
+import com.example.soldapple.global.dto.CreateIPhoneReqDto;
+import com.example.soldapple.global.dto.CreateMacbookReqDto;
 import com.example.soldapple.global.entity.IPhone;
+import com.example.soldapple.global.entity.Macbook;
 import com.example.soldapple.global.repository.IPhoneRepository;
+import com.example.soldapple.global.repository.MacbookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,16 +15,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CreateTableService {
     private final IPhoneRepository iPhoneRepository;
+    private final MacbookRepository macbookRepository;
 
-    public String createTable(String category, CreateTableReqDto createTableReqDto) {
-        if(category.equals("IPhone")) {
-            System.out.println(category+createTableReqDto.getModel()+createTableReqDto.getYear());
-            IPhone iPhone = new IPhone(createTableReqDto);
-            iPhoneRepository.save(iPhone);
-        } else{
-            return "맥북 받는거랑 예외처리해야함";
-        }
+    public String createIPhone(CreateIPhoneReqDto createIPhoneReqDto) {
+        IPhone iPhone = new IPhone(createIPhoneReqDto);
+        iPhoneRepository.save(iPhone);
+        return "success";
+    }
 
+    public String createMacbook(CreateMacbookReqDto createMacbookReqDto) {
+        Macbook macbook = new Macbook(createMacbookReqDto);
+        macbookRepository.save(macbook);
         return "success";
     }
 }

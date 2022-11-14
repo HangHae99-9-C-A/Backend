@@ -5,9 +5,10 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateTableReqDto {
-
+public class CreateMacbookReqDto {
     private Long year;
     private String model;
-    private String storage;
+    private String cpu;
+    private Long inch;
+    private String keyboard;
 }
