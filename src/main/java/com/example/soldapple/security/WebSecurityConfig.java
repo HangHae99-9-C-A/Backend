@@ -62,6 +62,8 @@ public class WebSecurityConfig {
                 .antMatchers("/post/**").permitAll()
                 .antMatchers("/posts/**").permitAll()
                 .antMatchers("/comment/**").permitAll()
+                .antMatchers("/create/**").permitAll()
+                .antMatchers("/price/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
