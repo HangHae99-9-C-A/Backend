@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PostService {
     private final S3UploadUtil s3UploadUtil;
@@ -41,6 +42,28 @@ public class PostService {
 //    public void postTest(){
 //        System.out.println("테스트성공");
 //    }
+
+    //게시글 수정
+    @Transactional
+    public PostResponseDto postEdit(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member)throws IOException{
+        Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시글이 존재하지 않거나 수정 권한이 없습니다.")
+        );
+        post.update(postReqDto);
+        deleteImgAndPost(post);
+        return imgSave(multipartFiles, post, member);
+    }
+
+    //게시글 삭제
+    @Transactional
+    public String postDelete(Long postId, Member member){
+        Post post = postRepository.findByPostIdAndMember(postId,member).orElseThrow(
+                () -> new RuntimeException("해당 게시글이 존재하지 않거나 삭제 권한이 없습니다.")
+        );
+        deleteImgAndPost(post);
+        return "게시글 삭제 완료";
+    }
+
     //게시글 전체 조회
     public List<PostResponseDto> allPosts(Member member) {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
@@ -70,40 +93,8 @@ public class PostService {
         }
         return postResponseDtos;
     }
-    //게시글 수정
-    @Transactional
-    public PostResponseDto postEdit(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member)throws IOException{
-        Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
-                () -> new IllegalArgumentException("해당 게시글이 존재하지 않거나 수정 권한이 없습니다.")
-        );
-        post.update(postReqDto);
 
-        //기존 사진 삭제
-        List<Image> imageList = post.getImages();
-        for (Image image : imageList) {
-            imageRepository.deleteById(image.getId());
-            s3UploadUtil.delete(image.getImgKey());
-        }
-        return imgSave(multipartFiles, post, member);
-    }
-
-
-    //게시글 삭제
-    @Transactional
-    public String postDelete(Long postId, Member member){
-        Post post = postRepository.findByPostIdAndMember(postId,member).orElseThrow(
-                () -> new RuntimeException("해당 게시글이 존재하지 않거나 삭제 권한이 없습니다.")
-        );
-
-        List<Image> imageList = post.getImages();
-        for (Image image : imageList) {
-            s3UploadUtil.delete(image.getImgKey());
-        }
-
-        postRepository.delete(post);
-        return "게시글 삭제 완료";
-    }
-
+////반복되는 로직 메소드
     //이미지 저장
     public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member) throws IOException{
         List<Image> imageList = new ArrayList<>();
@@ -113,14 +104,25 @@ public class PostService {
             for(MultipartFile imgFile : multipartFiles){
                 Map<String, String> img = s3UploadUtil.upload(imgFile, "test");
                 Image image = new Image(img, post);
-                imageRepository.save(image);
                 imageList.add(image);
+                imageRepository.save(image);
             }
         }
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         return new PostResponseDto(post, imageList, isLike);
     }
-    //반복되는 조회로직
+
+    //기존 사진 삭제
+    public void deleteImgAndPost(Post post){
+        List<Image> imageList = post.getImages();
+        for (Image image : imageList) {
+            imageRepository.deleteById(image.getId());
+            s3UploadUtil.delete(image.getImgKey());
+        }
+        postRepository.delete(post);
+    }
+
+    //반복되는 조회리스트 로직
     public PostResponseDto putImgsAndLikeToDto(Post post, Member member){
         List<Image> imgList = new ArrayList<>();
         for(Image img:post.getImages()){
