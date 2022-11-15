@@ -1,6 +1,6 @@
 package com.example.soldapple.global.entity;
 
-import com.example.soldapple.global.dto.CreateTableReqDto;
+import com.example.soldapple.global.dto.CreateIPhoneReqDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,12 +15,12 @@ public class IPhone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long iPhoneId;
 
-    private Long asd;
+    private Integer productYear;
     private String model;
     private String storage;
 
-    public IPhone(CreateTableReqDto createTableReqDto){
-        this.asd = createTableReqDto.getYear();
+    public IPhone(CreateIPhoneReqDto createTableReqDto){
+        this.productYear = createTableReqDto.getYear();
         this.model = createTableReqDto.getModel();
         this.storage = createTableReqDto.getStorage();
     }

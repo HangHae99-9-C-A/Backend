@@ -8,8 +8,8 @@ import java.util.List;
 
 @Repository
 public interface IPhoneRepository extends JpaRepository<IPhone,Long> {
-    List<IPhone> findAllByOrderByAsd();
-    List<IPhone> findAllByAsdOrderByModel(Long asd);
+    List<IPhone> findAllByOrderByProductYear();
+    List<IPhone> findAllByProductYearOrderByModel(Integer productYear);
 
-    List<IPhone> findAllByAsdAndModelOrderByStorage(Long asd, String model);
+    List<IPhone> findAllByProductYearAndModelOrderByStorage(Integer productYear, String model);
 }

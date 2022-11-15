@@ -129,7 +129,8 @@ public class MemberService {
         String responseBody = response.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(responseBody);
-        String email = jsonNode.get("id").asText();
+        String email = jsonNode.get("kakao_account")
+                .get("email").asText();
         String nickname = jsonNode.get("properties")
                 .get("nickname").asText();
         String avatarUrl = jsonNode.get("kakao_account")

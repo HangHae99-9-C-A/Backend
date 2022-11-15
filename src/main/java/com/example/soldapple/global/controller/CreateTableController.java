@@ -1,6 +1,7 @@
 package com.example.soldapple.global.controller;
 
-import com.example.soldapple.global.dto.CreateTableReqDto;
+import com.example.soldapple.global.dto.CreateIPhoneReqDto;
+import com.example.soldapple.global.dto.CreateMacbookReqDto;
 import com.example.soldapple.global.service.CreateTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +12,13 @@ import org.springframework.web.bind.annotation.*;
 public class CreateTableController {
     private final CreateTableService createTableService;
 
-    @PostMapping("/{category}")
-    public String createTable(@PathVariable String category, @RequestBody CreateTableReqDto createTableReqDto){
-        return createTableService.createTable(category,createTableReqDto);
+    @PostMapping("/iphone")
+    public String createTable(@RequestBody CreateIPhoneReqDto createIPhoneReqDto){
+        return createTableService.createIPhone(createIPhoneReqDto);
+    }
+
+    @PostMapping("/macbook")
+    public String createTable(@RequestBody CreateMacbookReqDto createTableReqDto){
+        return createTableService.createMacbook(createTableReqDto);
     }
 }
