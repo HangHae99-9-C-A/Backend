@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
 
@@ -19,22 +19,22 @@ public class PersonalController {
 
     // 내 페이지 불러오기
     @GetMapping
-    public MemberResponseDto getMyInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public MemberResponseDto getMyInfo(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyInfo(userDetails.getMember());
     }
 
     @GetMapping("/post")
-    public PersonalService.PersonalResponseDto getMyPost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public PersonalService.PersonalResponseDto getMyPost(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyPost(userDetails.getMember());
     }
 
     @GetMapping("/comment")
-    public PersonalService.PersonalResponseDto getMyComment(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public PersonalService.PersonalResponseDto getMyComment(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyComment(userDetails.getMember());
     }
 
     @GetMapping("/issue")
-    public PersonalService.PersonalResponseDto getMyIssue(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public PersonalService.PersonalResponseDto getMyIssue(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyIssue(userDetails.getMember());
     }
 
@@ -46,11 +46,9 @@ public class PersonalController {
     // 내 페이지 변경
     @PatchMapping("/edit")
     public void editMyPage(@RequestPart(name = "myInfoRequestDto", required = false) MyInfoRequestDto myInfoRequestDto,
-                           @AuthenticationPrincipal UserDetailsImpl userDetails,
-                           MultipartHttpServletRequest img) throws IOException {
-
-        MultipartFile imgFile = img.getFile("image");
-        personalService.editMyPage(myInfoRequestDto, userDetails.getMember(), imgFile);
+                           @RequestPart MultipartFile image,
+                           @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+        personalService.editMyPage(myInfoRequestDto, userDetails.getMember(), image);
 
     }
 

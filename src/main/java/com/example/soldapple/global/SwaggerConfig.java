@@ -24,8 +24,8 @@ import java.util.List;
         @Bean
         public Docket api() {
             return new Docket(DocumentationType.OAS_30)
-                    .securityContexts(Arrays.asList(securityContext()))
-                    .securitySchemes(Arrays.asList(apiKey()))
+//                    .securityContexts(Arrays.asList(securityContext()))
+//                    .securitySchemes(Arrays.asList(apiKey()))
                     .select()
                     .apis(RequestHandlerSelectors.basePackage("com.example.soldapple"))
                     .paths(PathSelectors.any())
@@ -40,23 +40,23 @@ import java.util.List;
                     .version("1.0")
                     .build();
         }
-        //밑으로는 스웨거에서 access_token사용하기위한 설정
-        private ApiKey apiKey() {
-            return new ApiKey("Access_Token", "Access_Token", "header");
-        }
-
-        private SecurityContext securityContext() {
-            return SecurityContext.builder()
-                    .securityReferences(defaultAuth())
-                    .build();
-        }
-
-        private List<SecurityReference> defaultAuth() {
-            AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-            AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-            authorizationScopes[0] = authorizationScope;
-            return Arrays.asList(new SecurityReference("Access_Token", authorizationScopes));
-        }
+//        //밑으로는 스웨거에서 access_token사용하기위한 설정
+//        private ApiKey apiKey() {
+//            return new ApiKey("Access_Token", "Access_Token", "header");
+//        }
+//
+//        private SecurityContext securityContext() {
+//            return SecurityContext.builder()
+//                    .securityReferences(defaultAuth())
+//                    .build();
+//        }
+//
+//        private List<SecurityReference> defaultAuth() {
+//            AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+//            AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+//            authorizationScopes[0] = authorizationScope;
+//            return Arrays.asList(new SecurityReference("Access_Token", authorizationScopes));
+//        }
     }
 
 

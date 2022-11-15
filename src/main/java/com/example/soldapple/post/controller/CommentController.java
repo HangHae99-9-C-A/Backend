@@ -8,6 +8,7 @@ import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -25,18 +26,18 @@ public class CommentController {
 //    }
 
     @PostMapping("/{postId}")
-    public CommentResponseDto commentCreate(@PathVariable Long postId, @RequestBody @Valid CommentReqDto commentReqDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public CommentResponseDto commentCreate(@PathVariable Long postId, @RequestBody @Valid CommentReqDto commentReqDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.commentCreate(postId, commentReqDto,  userDetails);
     }
 
     @DeleteMapping("/{commentId}")
-    public String commentDelete(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public String commentDelete(@PathVariable Long commentId, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.commentDelete(commentId, userDetails.getMember());
 
     }
 
     @PutMapping("/{commentId}")
-    public CommentResponseDto commentEdit(@PathVariable Long commentId, @RequestBody @Valid CommentReqDto commentReqDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public CommentResponseDto commentEdit(@PathVariable Long commentId, @RequestBody @Valid CommentReqDto commentReqDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.commentEdit(commentId, commentReqDto, userDetails.getMember());
     }
 }

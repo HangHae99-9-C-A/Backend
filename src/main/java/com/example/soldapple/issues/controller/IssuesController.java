@@ -7,6 +7,7 @@ import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class IssuesController {
 
     @PostMapping("")
     public IssuesResponseDto createIssue(@RequestBody IssuesRequestDto issuesRequestDto,
-                                         @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesService.createIssue(issuesRequestDto, userDetails.getMember());
     }
 
@@ -32,7 +33,7 @@ public class IssuesController {
 
     @DeleteMapping("/{issuesId}")
     public String deleteIssue(@PathVariable Long issuesId,
-                                               @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                               @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesService.deleteIssue(issuesId, userDetails);
     }
 }

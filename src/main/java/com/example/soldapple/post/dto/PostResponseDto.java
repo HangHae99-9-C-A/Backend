@@ -49,6 +49,7 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.nickname =post.getMember().getNickname();
         this.category = post.getCategory();
+       // this.images = images;
         this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
@@ -65,6 +66,7 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.nickname =post.getMember().getNickname();
         this.category = post.getCategory();
+        this.images = post.getImages();
         this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
