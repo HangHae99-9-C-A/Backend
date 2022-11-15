@@ -26,6 +26,9 @@ public class PostResponseDto {
     private List<Comment> comments;
     private Boolean isLike;
 
+    //프론트 요청으로...... 어쩔수없이 id 추가
+    private Long memberId;
+
     public PostResponseDto(Post post, List<Image> images, Boolean isLike){
         this.postId = post.getPostId();
         this.title = post.getTitle();
@@ -37,6 +40,9 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.comments = post.getComments();
         this.isLike = isLike;
+
+        //프론트 요청
+        this.memberId = post.getMember().getId();
     }
     public PostResponseDto(Post post, Boolean isLike){
         this.postId = post.getPostId();
@@ -48,6 +54,9 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.comments = post.getComments();
         this.isLike = isLike;
+
+        //프론트 요청
+        this.memberId = post.getMember().getId();
     }
 
     //myinfo
@@ -60,5 +69,6 @@ public class PostResponseDto {
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
         this.comments = post.getComments();
+        this.memberId = post.getMember().getId();
     }
 }

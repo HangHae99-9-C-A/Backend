@@ -55,8 +55,8 @@ public class PersonalController {
     }
 
     // 판매자 상세 정보 불러오기
-    @GetMapping("/seller/{nickname}")
-    public PersonalService.PersonalResponseDto getUserInfo(@PathVariable("nickname") String nickname) {
-        return personalService.getUserInfo(nickname);
+    @GetMapping("/seller/{memberId}")
+    public PersonalService.PersonalResponseDto getUserInfo(@PathVariable("memberId") Long memberId) {
+        return personalService.getUserInfo(memberId);
     }
 }
