@@ -84,7 +84,6 @@ public class PostService {
             imageRepository.deleteById(image.getId());
             s3UploadUtil.delete(image.getImgKey());
         }
-
         return imgSave(multipartFiles, post, member);
     }
 
@@ -104,6 +103,7 @@ public class PostService {
         postRepository.delete(post);
         return "게시글 삭제 완료";
     }
+
     //이미지 저장
     public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member) throws IOException{
         List<Image> imageList = new ArrayList<>();
@@ -120,7 +120,7 @@ public class PostService {
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         return new PostResponseDto(post, imageList, isLike);
     }
-
+    //반복되는 조회로직
     public PostResponseDto putImgsAndLikeToDto(Post post, Member member){
         List<Image> imgList = new ArrayList<>();
         for(Image img:post.getImages()){

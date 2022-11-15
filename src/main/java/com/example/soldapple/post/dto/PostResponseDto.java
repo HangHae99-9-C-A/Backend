@@ -38,17 +38,6 @@ public class PostResponseDto {
         this.comments = post.getComments();
         this.isLike = isLike;
     }
-    public PostResponseDto(Post post, Boolean isLike){
-        this.postId = post.getPostId();
-        this.title = post.getTitle();
-        this.nickname =post.getMember().getNickname();
-        this.category = post.getCategory();
-        this.expectPrice = post.getExpectPrice();
-        this.userPrice = post.getUserPrice();
-        this.content = post.getContent();
-        this.comments = post.getComments();
-        this.isLike = isLike;
-    }
 
     //myinfo
     public PostResponseDto(Post post){

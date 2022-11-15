@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/likes")
 @RequiredArgsConstructor
-public class LikeController {
+public class IssuesLikeController {
     private final LikeService likeService;
 
-    @PostMapping("/{postId}")
-    public String addLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return likeService.addLike(postId, userDetails);
+    @PostMapping("/{issuesId}")
+    public String addLike(@PathVariable Long issuesId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return likeService.addLike(issuesId, userDetails);
     }
 
-    @DeleteMapping("/{postId}")
-    public String deleteLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return likeService.deleteLike(postId, userDetails);
+    @DeleteMapping("/{issuesId}")
+    public String deleteLike(@PathVariable Long issuesId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return likeService.deleteLike(issuesId, userDetails);
     }
 }
