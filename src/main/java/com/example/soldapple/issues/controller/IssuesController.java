@@ -7,7 +7,6 @@ import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -21,9 +20,6 @@ public class IssuesController {
     private final IssuesService issuesService;
 
     @PostMapping("")
-    public IssuesResponseDto createIssue(@RequestBody IssuesRequestDto issuesRequestDto,
-                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return issuesService.createIssue(issuesRequestDto, userDetails.getMember());
     public IssuesResponseDto createIssue(@RequestPart List<MultipartFile> multipartFiles,
                                          @RequestPart IssuesRequestDto issuesRequestDto,
                                          @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) throws IOException {
