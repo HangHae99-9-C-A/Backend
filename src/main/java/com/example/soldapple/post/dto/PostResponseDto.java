@@ -44,21 +44,6 @@ public class PostResponseDto {
         //프론트 요청
         this.memberId = post.getMember().getId();
     }
-    public PostResponseDto(Post post, Boolean isLike){
-        this.postId = post.getPostId();
-        this.title = post.getTitle();
-        this.nickname =post.getMember().getNickname();
-        this.category = post.getCategory();
-       // this.images = images;
-        this.expectPrice = post.getExpectPrice();
-        this.userPrice = post.getUserPrice();
-        this.content = post.getContent();
-        this.comments = post.getComments();
-        this.isLike = isLike;
-
-        //프론트 요청
-        this.memberId = post.getMember().getId();
-    }
 
     //myinfo
     public PostResponseDto(Post post){
