@@ -15,12 +15,12 @@ public class IPhone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long iPhoneId;
 
-    private Long asd;
+    private Integer productYear;
     private String model;
     private String storage;
 
     public IPhone(CreateIPhoneReqDto createTableReqDto){
-        this.asd = createTableReqDto.getYear();
+        this.productYear = createTableReqDto.getYear();
         this.model = createTableReqDto.getModel();
         this.storage = createTableReqDto.getStorage();
     }
