@@ -45,7 +45,7 @@ public class PostService {
 
     //게시글 수정
     @Transactional
-    public PostResponseDto postEdit(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member)throws IOException{
+    public PostResponseDto updatePost(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member)throws IOException{
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글이 존재하지 않거나 수정 권한이 없습니다.")
         );

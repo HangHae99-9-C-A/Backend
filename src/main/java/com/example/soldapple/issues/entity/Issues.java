@@ -61,4 +61,8 @@ public class Issues extends TimeStamped {
     }
 
     public void updateIssuesLikeCnt(Long issuesLikecnt){this.issuesLikecnt = issuesLikecnt;}
+
+    public void update(IssuesRequestDto issuesRequestDto) {
+        this.issuesContent = issuesRequestDto.getIssuesContent();
+    }
 }

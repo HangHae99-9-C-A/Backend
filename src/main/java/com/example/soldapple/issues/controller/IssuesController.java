@@ -19,7 +19,7 @@ import java.util.List;
 public class IssuesController {
     private final IssuesService issuesService;
 
-    @PostMapping("")
+    @PostMapping
     public IssuesResponseDto createIssue(@RequestPart List<MultipartFile> multipartFiles,
                                          @RequestPart IssuesRequestDto issuesRequestDto,
                                          @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) throws IOException {
@@ -27,7 +27,7 @@ public class IssuesController {
         return issuesService.createIssue(multipartFiles, issuesRequestDto, userDetails.getMember());
     }
 
-    @GetMapping("")
+    @GetMapping
     public List<IssuesResponseDto> allIssues(@AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails){
         System.out.println("==========컨트롤러 지나는중==========");
         return issuesService.allIssues(userDetails.getMember());
@@ -38,6 +38,14 @@ public class IssuesController {
                                       @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails){
         System.out.println("==========컨트롤러 지나는중==========");
         return issuesService.oneIssue(issuesId, userDetails.getMember());
+    }
+
+    @PatchMapping("/{issuesId}")
+    public IssuesResponseDto updateIssue(@PathVariable Long issuesId,
+                                         @RequestPart IssuesRequestDto issuesRequestDto,
+                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        System.out.println("==========컨트롤러 지나는중==========");
+        return issuesService.updateIssue(issuesId, issuesRequestDto, userDetails.getMember());
     }
 
     @DeleteMapping("/{issuesId}")

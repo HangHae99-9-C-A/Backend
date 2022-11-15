@@ -38,6 +38,16 @@ public class IssuesService {
         return imgSave(multipartFiles, issues, member);
     }
 
+    public IssuesResponseDto updateIssue(Long issuesId,IssuesRequestDto issuesRequestDto, Member member) {
+        Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
+                ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 수정 권한이 없습니다.")
+        );
+        issues.update(issuesRequestDto);
+        issuesRepository.save(issues);
+
+        return putImgsAndLikeToDto(issues, member);
+    }
+
     //이의제기글 삭제
     public String deleteIssue(Long issuesId, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(

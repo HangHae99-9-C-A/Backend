@@ -48,13 +48,13 @@ public class PostController {
         return postService.categoryPost(category,userDetails.getMember());
     }
 
-    @PutMapping("/{postId}")
+    @PatchMapping("/{postId}")
     public PostResponseDto postEdit(@RequestPart List<MultipartFile> multipartFiles,
                                     @RequestPart PostReqDto postReqDto,
                                     @PathVariable Long postId,
                                     @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails)throws IOException{
         System.out.println("==========컨트롤러 지나는중==========");
-        return postService.postEdit(multipartFiles, postId, postReqDto, userDetails.getMember());
+        return postService.updatePost(multipartFiles, postId, postReqDto, userDetails.getMember());
     }
     @DeleteMapping("/{postId}")
     public String postDelete(@PathVariable Long postId,
