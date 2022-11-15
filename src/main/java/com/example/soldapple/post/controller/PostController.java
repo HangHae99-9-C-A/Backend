@@ -20,8 +20,8 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     @PostMapping
-    public PostResponseDto postCreate(@RequestPart List<MultipartFile> multipartFiles,
-                                      @RequestPart PostReqDto postReqDto,
+    public PostResponseDto postCreate(@RequestPart(required = false) List<MultipartFile> multipartFiles,
+                                      @RequestPart(required = false) PostReqDto postReqDto,
                                       @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
         System.out.println("==========컨트롤러 지나는중==========");
         return postService.postCreate(multipartFiles, postReqDto, userDetails.getMember());
