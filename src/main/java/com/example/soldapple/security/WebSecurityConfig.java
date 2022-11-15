@@ -26,6 +26,20 @@ public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
 
+    private static final String[] PERMIT_URL_ARRAY = {
+            /* swagger v2 */
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            /* swagger v3 */
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -58,12 +72,15 @@ public class WebSecurityConfig {
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeRequests().antMatchers("/member/**").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/member/**").permitAll()
                 .antMatchers("/post/**").permitAll()
                 .antMatchers("/posts/**").permitAll()
+                .antMatchers("/issue/**").permitAll()
                 .antMatchers("/comment/**").permitAll()
                 .antMatchers("/create/**").permitAll()
                 .antMatchers("/price/**").permitAll()
+                .antMatchers ( PERMIT_URL_ARRAY ).permitAll ()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 

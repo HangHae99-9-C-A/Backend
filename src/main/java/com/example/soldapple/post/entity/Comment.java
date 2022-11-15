@@ -22,12 +22,12 @@ public class Comment {
 
     //many comment to one post
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post")
     @JsonIgnore
     private Post post;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn
     private Member member;
