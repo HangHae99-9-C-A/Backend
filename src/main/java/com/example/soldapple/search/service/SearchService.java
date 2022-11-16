@@ -1,13 +1,11 @@
 package com.example.soldapple.search.service;
 
 import com.example.soldapple.post.dto.PostResponseDto;
-import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.search.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,8 +15,8 @@ public class SearchService {
 
     @Transactional
     public List<PostResponseDto> searchPost(String keyword){
-        List<PostResponseDto> postResponseDtos = new ArrayList<>();
-        postResponseDtos = searchRepository.findByTitleContaining(keyword).orElseThrow(
+//        List<PostResponseDto> postResponseDtos = new ArrayList<>();
+        List<PostResponseDto> postResponseDtos = searchRepository.findByTitleContaining(keyword).orElseThrow(
                 () -> new RuntimeException("검색 결과가 없습니다.")
         );
 
