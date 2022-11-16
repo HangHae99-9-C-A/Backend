@@ -1,12 +1,9 @@
 package com.example.soldapple.create_price.controller;
 
-import com.example.soldapple.create_price.dto.MacbookResDto;
+import com.example.soldapple.create_price.dto.*;
 import com.example.soldapple.create_price.service.CreatePriceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,8 +13,15 @@ import java.util.List;
 public class CreatePriceController {
     private final CreatePriceService createPriceService;
 
-    @GetMapping
-    public Integer getPrice(){ return 10000; }
+    @PostMapping("/iphone")
+    public GetIPhonePriceResDto getIPhonePrice(@RequestBody GetIPhonePriceReqDto getIPhonePriceResDto){
+        return createPriceService.getIPhonePrice(getIPhonePriceResDto);
+    }
+
+    @PostMapping("/macbook")
+    public GetMacbookPriceResDto getMacbookPrice(@RequestBody GetMacbookPriceReqDto getMacbookPriceReqDto){
+        return createPriceService.getMacbookPrice(getMacbookPriceReqDto);
+    }
 
     @GetMapping("/iphone")  //iPhone,Macbook
     public List<Integer> iphoneFirst() {
