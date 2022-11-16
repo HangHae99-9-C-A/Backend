@@ -39,10 +39,11 @@ public class Post extends TimeStamped {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE)
     private List<Like> likes;
 
     private Boolean isLike;
+    private Long postLikeCnt=0L;
 
     public Post(PostReqDto postReqDto, Member member) {
         this.member = member;
@@ -61,7 +62,7 @@ public class Post extends TimeStamped {
         this.content = postReqDto.getContent();
     }
 
-    public int likeCnt() {
-        return likes.size();
+    public void likeUpdate(Long likeCnt) {
+        this.postLikeCnt = likeCnt;
     }
 }

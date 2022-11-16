@@ -29,7 +29,9 @@ public class PostResponseDto {
     //프론트 요청으로...... 어쩔수없이 id 추가
     private Long memberId;
 
-    public PostResponseDto(Post post, List<Image> images, Boolean isLike){
+    private Long likeCnt;
+
+    public PostResponseDto(Post post, List<Image> images, Boolean isLike, Long likeCnt){
         this.postId = post.getPostId();
         this.title = post.getTitle();
         this.nickname =post.getMember().getNickname();
@@ -40,6 +42,7 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.comments = post.getComments();
         this.isLike = isLike;
+        this.likeCnt = likeCnt;
 
         //프론트 요청
         this.memberId = post.getMember().getId();

@@ -85,9 +85,7 @@ public class PostService {
     //게시글 카테고리 조회
     public List<PostResponseDto> categoryPost(String category, Member member) {
         List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
-        List<Post> posts = postRepository.findAllByCategoryOrderByCreatedAtDesc(category).orElseThrow(
-                ()->new RuntimeException("해당 카테고리가 없습니다.")
-        );
+        List<Post> posts = postRepository.findAllByCategoryOrderByCreatedAtDesc(category);
         for (Post post : posts) {
             postResponseDtos.add(putImgsAndLikeToDto(post, member));
         }
@@ -109,7 +107,7 @@ public class PostService {
             }
         }
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, imageList, isLike);
+        return new PostResponseDto(post, imageList, isLike, post.getPostLikeCnt());
     }
 
     //기존 사진 삭제
@@ -129,6 +127,6 @@ public class PostService {
             imgList.add(img);
         }
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post,imgList,isLike);
+        return new PostResponseDto(post,imgList,isLike,post.getPostLikeCnt());
     }
 }

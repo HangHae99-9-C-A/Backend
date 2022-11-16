@@ -26,9 +26,12 @@ public class LikeService {
         Post post = postRepository.findByPostIdAndMemberNot(postId, member).orElseThrow(
                 () -> new IllegalArgumentException("it's your post OR post is not exist")
         );
+
+        Long likeCnt = post.getPostLikeCnt();
         Like like = new Like(post, member);
+        post.likeUpdate(likeCnt+1);
         likeRepository.save(like);
-        return "success";
+        return "찜 성공";
     }
 
     public String deleteLike(Long postId, UserDetailsImpl userDetails){
@@ -39,6 +42,10 @@ public class LikeService {
                 () -> new IllegalArgumentException("it's your post OR post is not exist")
         );
         likeRepository.deleteByPostAndMember(post, member);
-        return "success";
+
+        Long likeCnt = post.getPostLikeCnt();
+        Like like = new Like(post, member);
+        post.likeUpdate(likeCnt-1);
+        return "찜 삭제";
     }
 }
