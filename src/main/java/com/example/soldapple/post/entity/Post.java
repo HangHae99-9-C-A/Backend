@@ -17,7 +17,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 public class Post extends TimeStamped {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;

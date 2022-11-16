@@ -1,22 +1,25 @@
 package com.example.soldapple.like.controller;
 
+import com.example.soldapple.like.service.IssuesLikeService;
+import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@RequestMapping("/likes")
+@RequestMapping("/issue/likes")
 @RequiredArgsConstructor
 public class IssuesLikeController {
-//    private final LikeService likeService;
-//
-//    @PostMapping("/{issuesId}")
-//    public String addLike(@PathVariable Long issuesId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return likeService.addLike(issuesId, userDetails);
-//    }
-//
-//    @DeleteMapping("/{issuesId}")
-//    public String deleteLike(@PathVariable Long issuesId, @AuthenticationPrincipal UserDetailsImpl userDetails){
-//        return likeService.deleteLike(issuesId, userDetails);
-//    }
+    private final IssuesLikeService issuesLikeService;
+
+    @PostMapping("/{issuesId}")
+    public String addLike(@PathVariable Long issuesId, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return issuesLikeService.addLike(issuesId, userDetails);
+    }
+
+    @DeleteMapping("/{issuesId}")
+    public String deleteLike(@PathVariable Long issuesId, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return issuesLikeService.deleteLike(issuesId, userDetails);
+    }
 }
