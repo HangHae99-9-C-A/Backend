@@ -1,6 +1,6 @@
 package com.example.soldapple.create_price.service;
 
-import com.example.soldapple.create_price.dto.MacbookResDto;
+import com.example.soldapple.create_price.dto.*;
 import com.example.soldapple.global.entity.IPhone;
 import com.example.soldapple.global.entity.Macbook;
 import com.example.soldapple.global.repository.IPhoneRepository;
@@ -56,5 +56,13 @@ public class CreatePriceService {
         List<String> storageList = macbookRepository.findAllByProductYearAndModelAndCpuAndInchOrderByStorage(year,model,cpu,inch).stream().map(Macbook::getStorage).distinct().collect(Collectors.toList());
 
         return new MacbookResDto(keyboardList, ramList, storageList);
+    }
+
+    public GetIPhonePriceResDto getIPhonePrice(GetIPhonePriceReqDto getIPhonePriceReqDto) {
+        return new GetIPhonePriceResDto(getIPhonePriceReqDto);
+    }
+
+    public GetMacbookPriceResDto getMacbookPrice(GetMacbookPriceReqDto getMacbookPriceReqDto) {
+        return new GetMacbookPriceResDto(getMacbookPriceReqDto);
     }
 }
