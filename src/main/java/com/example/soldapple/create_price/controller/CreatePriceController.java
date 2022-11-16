@@ -16,6 +16,9 @@ import java.util.List;
 public class CreatePriceController {
     private final CreatePriceService createPriceService;
 
+    @GetMapping
+    public Integer getPrice(){ return 10000; }
+
     @GetMapping("/iphone")  //iPhone,Macbook
     public List<Integer> iphoneFirst() {
         return createPriceService.iphoneFirst();

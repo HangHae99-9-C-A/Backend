@@ -41,7 +41,7 @@ public class CreatePriceService {
     }
 
     public List<String> macbookSecond(Integer year) {
-        List<String> modelCpuList = macbookRepository.findAllByProductYearOrderByModel(year).stream().map(macbook -> new String(macbook.getModel() + " - " + macbook.getCpu())).distinct().collect(Collectors.toList());
+        List<String> modelCpuList = macbookRepository.findAllByProductYearOrderByModel(year).stream().map(macbook -> new String(macbook.getModel() + "-" + macbook.getCpu())).distinct().collect(Collectors.toList());
         return modelCpuList;
     }
 
