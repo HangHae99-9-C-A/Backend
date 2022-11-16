@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="71fe6959-1579-4c80-9909-5eb3d7b3ed52" name="Changes" comment="#15 이의제기, 게시글 patch">
+    <list default="true" id="71fe6959-1579-4c80-9909-5eb3d7b3ed52" name="Changes" comment="#17 like 작업중">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/like/entity/Like.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/like/entity/Like.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/post/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/post/entity/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/dto/RequestDto/IssuesRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/dto/RequestDto/IssuesRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/dto/ResponseDto/IssuesResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/dto/ResponseDto/IssuesResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/entity/Issues.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/entity/Issues.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -209,7 +210,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668537041038</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="#17 like 작업중">
+      <created>1668570009010</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1668570009010</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,6 +238,7 @@
     <MESSAGE value="#12 Swagger 적용(각자 자기 controller에 @ApiIgnore 붙여주세요)" />
     <MESSAGE value="#15 이의제기글에 S3 사진 업로드" />
     <MESSAGE value="#15 이의제기, 게시글 patch" />
-    <option name="LAST_COMMIT_MESSAGE" value="#15 이의제기, 게시글 patch" />
+    <MESSAGE value="#17 like 작업중" />
+    <option name="LAST_COMMIT_MESSAGE" value="#17 like 작업중" />
   </component>
 </project>

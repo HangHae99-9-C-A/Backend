@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class IssuesRequestDto {
-    private String issuesTitle;
+    private String title;
     private String category;
-    private String issuesContent;
+    private String content;
     private Long expectPrice;
-    private Long issuesUserPrice;
+    private Long userPrice;
 }

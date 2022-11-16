@@ -53,16 +53,16 @@ public class Issues extends TimeStamped {
 
     public Issues(IssuesRequestDto issuesRequestDto, Member member){
         this.member = member;
-        this.issuesTitle = issuesRequestDto.getIssuesTitle();
+        this.issuesTitle = issuesRequestDto.getTitle();
         this.category = issuesRequestDto.getCategory();
         this.expectPrice = issuesRequestDto.getExpectPrice();
-        this.issuesUserPrice = issuesRequestDto.getIssuesUserPrice();
-        this.issuesContent = issuesRequestDto.getIssuesContent();
+        this.issuesUserPrice = issuesRequestDto.getUserPrice();
+        this.issuesContent = issuesRequestDto.getContent();
     }
 
     public void updateIssuesLikeCnt(Long issuesLikecnt){this.issuesLikecnt = issuesLikecnt;}
 
     public void update(IssuesRequestDto issuesRequestDto) {
-        this.issuesContent = issuesRequestDto.getIssuesContent();
+        this.issuesContent = issuesRequestDto.getContent();
     }
 }
