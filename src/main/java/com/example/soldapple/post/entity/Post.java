@@ -17,7 +17,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 public class Post extends TimeStamped {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
@@ -39,11 +38,11 @@ public class Post extends TimeStamped {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "post")
-    private List<Like> like;
+    @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE)
+    private List<Like> likes;
 
     private Boolean isLike;
-    private Long postLikeCnt = 0L;
+    private Long postLikeCnt=0L;
 
     public Post(PostReqDto postReqDto, Member member) {
         this.member = member;
@@ -62,7 +61,7 @@ public class Post extends TimeStamped {
         this.content = postReqDto.getContent();
     }
 
-    public void updatePostLikeCnt(Long postLikeCnt) {
-        this.postLikeCnt = postLikeCnt;
+    public void likeUpdate(Long likeCnt) {
+        this.postLikeCnt = likeCnt;
     }
 }

@@ -31,7 +31,7 @@ public class Issues extends TimeStamped {
     @Column
     private String category;
     @JsonIgnore
-    @OneToMany(mappedBy = "issues", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "issues", cascade = CascadeType.REMOVE)
     private List<IssuesImage> issuesimages;
 
     @Column
@@ -46,23 +46,25 @@ public class Issues extends TimeStamped {
     @OneToMany(mappedBy = "issues", cascade = CascadeType.REMOVE)
     List<IssuesComment> issuesComments;
 
-    @OneToMany(mappedBy = "issues")
+    @OneToMany(mappedBy = "issues", cascade = CascadeType.REMOVE)
     private List<IssuesLike> issuesLikes;
     private Boolean isLike;
-    private Long issuesLikecnt = 0L;
+    private Long issuesLikeCnt = 0L;
 
-    public Issues(IssuesRequestDto issuesRequestDto, Member member){
+    public Issues(IssuesRequestDto issuesRequestDto, Member member) {
         this.member = member;
-        this.issuesTitle = issuesRequestDto.getIssuesTitle();
+        this.issuesTitle = issuesRequestDto.getTitle();
         this.category = issuesRequestDto.getCategory();
         this.expectPrice = issuesRequestDto.getExpectPrice();
-        this.issuesUserPrice = issuesRequestDto.getIssuesUserPrice();
-        this.issuesContent = issuesRequestDto.getIssuesContent();
+        this.issuesUserPrice = issuesRequestDto.getUserPrice();
+        this.issuesContent = issuesRequestDto.getContent();
     }
 
-    public void updateIssuesLikeCnt(Long issuesLikecnt){this.issuesLikecnt = issuesLikecnt;}
-
     public void update(IssuesRequestDto issuesRequestDto) {
-        this.issuesContent = issuesRequestDto.getIssuesContent();
+        this.issuesContent = issuesRequestDto.getContent();
+    }
+
+    public void likeUpdate(Long likeCnt) {
+        this.issuesLikeCnt = likeCnt;
     }
 }
