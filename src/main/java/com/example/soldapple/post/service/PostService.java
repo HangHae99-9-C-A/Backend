@@ -11,6 +11,8 @@ import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.repository.ImageRepository;
 import com.example.soldapple.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +30,7 @@ public class PostService {
     private final ImageRepository imageRepository;
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
+
     //게시글 작성
     @Transactional
     public PostResponseDto postCreate(List<MultipartFile> multipartFiles,
@@ -62,6 +65,11 @@ public class PostService {
         );
         deleteImgAndPost(post);
         return "게시글 삭제 완료";
+    }
+
+    //게시글 전체 조회 무한스크롤
+    public Page<PostResponseDto> testGetAllPost(Pageable pageable) {
+        return postRepository.findMyQuery(pageable);
     }
 
     //게시글 전체 조회

@@ -24,7 +24,7 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
     List<Post> findAllByMember(Member member);
 
     //Native Query
-//    List<Post> findAllMyTest(Member member);
+//    List<Post> findAllMyLikes(Member member);
 
 
 }

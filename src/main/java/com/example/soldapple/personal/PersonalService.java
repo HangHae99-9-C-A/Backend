@@ -111,7 +111,7 @@ public class PersonalService {
     //내 likes한 post 가져오기
     public PersonalResponseDto getMyLikes(Member member) {
         Member myMember = memberRepository.findById(member.getId()).orElseThrow(RuntimeException::new);
-        List<Post> myLikesList = postRepository.findAllMyTest(member);
+        List<Post> myLikesList = postRepository.findAllMyLikes(member);
         PersonalResponseDto personalResponseDto = PersonalResponseDto.builder()
                 .myLikesList(myLikesList.stream().map(PostResponseDto::new).collect(Collectors.toList()))
                 .build();
