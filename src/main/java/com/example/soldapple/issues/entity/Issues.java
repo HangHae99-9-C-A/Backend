@@ -32,7 +32,7 @@ public class Issues extends TimeStamped {
     private String category;
     @JsonIgnore
     @OneToMany(mappedBy = "issues", cascade = CascadeType.REMOVE)
-    private List<IssuesImage> issuesimages;
+    private List<IssuesImage> issuesImages;
 
     @Column
     private Long expectPrice;

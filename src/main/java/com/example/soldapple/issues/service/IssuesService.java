@@ -107,7 +107,7 @@ public class IssuesService {
 
     //사진과 게시글 삭제
     public void deleteImgAndIssues(Issues issues){
-        List<IssuesImage> imageList = issues.getIssuesimages();
+        List<IssuesImage> imageList = issues.getIssuesImages();
         for (IssuesImage issuesImage : imageList) {
             s3UploadUtil.delete(issuesImage.getImgKey());
         }
@@ -117,7 +117,7 @@ public class IssuesService {
     //반복되는 조회로직
     public IssuesResponseDto putImgsAndLikeToDto(Issues issues, Member member){
         List<IssuesImage> imgList = new ArrayList<>();
-        for(IssuesImage img:issues.getIssuesimages()){
+        for(IssuesImage img:issues.getIssuesImages()){
             imgList.add(img);
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
