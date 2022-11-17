@@ -1,6 +1,7 @@
 package com.example.soldapple.post.controller;
 
 
+import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.post.dto.PostReqDto;
 import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.service.PostService;
@@ -31,12 +32,15 @@ public class PostController {
 
     @PostMapping
     public PostResponseDto postCreate(@RequestPart(required = false) List<MultipartFile> multipartFiles,
-                                      @RequestPart(required = false) PostReqDto postReqDto,
+                                      @RequestPart(required = false, name = "postReqDto") PostReqDto postReqDto,
+//                                      @RequestPart(required = false) GetIPhonePriceResDto iphoneOption,
+                                      @RequestPart(required = false, name = "macbookOption") GetMacbookPriceResDto macbookOption,
                                       @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         System.out.println("==========컨트롤러 지나는중==========");
-        return postService.postCreate(multipartFiles, postReqDto, userDetails.getMember());
+        return postService.postCreate(multipartFiles, postReqDto, macbookOption, userDetails.getMember());
 //        postService.postTest();
     }
+
 
     @GetMapping("/category/all")
     public List<PostResponseDto> allPosts(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {

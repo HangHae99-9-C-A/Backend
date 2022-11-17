@@ -2,13 +2,16 @@ package com.example.soldapple.post.service;
 
 
 import com.example.soldapple.aws_s3.S3UploadUtil;
+import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.like.repository.LikeRepository;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.PostReqDto;
 import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.entity.Image;
+import com.example.soldapple.post.entity.Opt;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.repository.ImageRepository;
+import com.example.soldapple.post.repository.OptionRepository;
 import com.example.soldapple.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,17 +33,36 @@ public class PostService {
     private final ImageRepository imageRepository;
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
+    private final OptionRepository optionRepository;
+
 
     //게시글 작성
     @Transactional
     public PostResponseDto postCreate(List<MultipartFile> multipartFiles,
                                       PostReqDto postReqDto,
+//                                      GetIPhonePriceResDto iphoneOption,
+                                      GetMacbookPriceResDto macbookOption,
                                       Member member) throws IOException {
         //게시글 저장
+
+
+        //맥북일 때
+//        if (iphoneOption.getScratchState() ==null){
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
+        Opt options = new Opt(macbookOption, post);
+        optionRepository.save(options);
 
-        return imgSave(multipartFiles, post, member);
+
+
+            return imgSave(multipartFiles, post, member);
+//        } else{
+//            //아이폰일 때
+//            Opt options = new Opt(iphoneOption);
+//            Post post = new Post(postReqDto, member, options);
+//            postRepository.save(post);
+//            return imgSave(multipartFiles, post, member);
+//        }
     }
 //    public void postTest(){
 //        System.out.println("테스트성공");

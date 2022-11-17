@@ -2,6 +2,7 @@ package com.example.soldapple.post.dto;
 
 import com.example.soldapple.post.entity.Comment;
 import com.example.soldapple.post.entity.Image;
+import com.example.soldapple.post.entity.Opt;
 import com.example.soldapple.post.entity.Post;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
@@ -19,6 +20,7 @@ public class PostResponseDto {
     private String title;
     private String nickname;
     private String category;
+    private Opt opt;
     private List<Image> images;
     private Long expectPrice;
     private Long userPrice;
@@ -44,6 +46,7 @@ public class PostResponseDto {
         this.comments = post.getComments();
         this.isLike = isLike;
         this.likeCnt = likeCnt;
+//        this.opt = options;
 
         //프론트 요청
         this.memberId = post.getMember().getId();
