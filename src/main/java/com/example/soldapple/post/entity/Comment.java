@@ -1,5 +1,6 @@
 package com.example.soldapple.post.entity;
 
+import com.example.soldapple.global.TimeStamped;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.CommentReqDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Comment {
+public class Comment extends TimeStamped {
 
 
     @Id

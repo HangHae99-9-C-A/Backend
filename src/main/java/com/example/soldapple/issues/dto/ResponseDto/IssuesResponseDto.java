@@ -1,5 +1,6 @@
 package com.example.soldapple.issues.dto.ResponseDto;
 
+import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.entity.IssuesComment;
 import com.example.soldapple.issues.entity.IssuesImage;
@@ -14,6 +15,8 @@ public class IssuesResponseDto {
     private Long id;
     private String title;
     private String nickname;
+    private String createdAt;
+    private String modifiedAt;
     private String category;
     private List<IssuesImage> images;
     private Long expectPrice;
@@ -29,6 +32,8 @@ public class IssuesResponseDto {
         this.id = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
+        this.createdAt = TimeConverter.convertTime ( issues.getCreatedAt () );
+        this.modifiedAt = TimeConverter.convertTime ( issues.getModifiedAt () );
         this.category = issues.getCategory();
         this.images = issuesImages;
         this.expectPrice = issues.getExpectPrice();
