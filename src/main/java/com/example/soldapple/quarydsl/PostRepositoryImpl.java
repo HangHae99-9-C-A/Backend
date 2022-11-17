@@ -54,13 +54,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 //    테스트를 위해 주석
     @Override
     public List<Post> findAllMyTest(Member mem) {
-        QPost qPost = QPost.post;
-        QLike qLike = QLike.like;
+        QPost qPost = post;
+        QLike qLike = like;
 
         return queryFactory
                 .select(post)
                 .from(post)
-                .join(post.like, like).on(like.member.eq(mem))
+                .join(post.likes, like).on(like.member.eq(mem))
                 .fetch();
     }
 
