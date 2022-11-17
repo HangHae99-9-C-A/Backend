@@ -108,13 +108,14 @@ public class PersonalService {
         return personalResponseDto;
     }
 
-    public void getMyLikes(Member member) {
+    //내 likes한 post 가져오기
+    public PersonalResponseDto getMyLikes(Member member) {
         Member myMember = memberRepository.findById(member.getId()).orElseThrow(RuntimeException::new);
-//        //List<Like> myLikesList = postRepository.findAllByMember(member);
-//        PersonalResponseDto personalResponseDto = PersonalResponseDto.builder()
-//                .myLikesList(myLikesList.stream().map(LikesResponseDto::new).collect(Collectors.toList()))
-//                .build();
-//        return personalResponseDto;
+        List<Post> myLikesList = postRepository.findAllMyTest(member);
+        PersonalResponseDto personalResponseDto = PersonalResponseDto.builder()
+                .myLikesList(myLikesList.stream().map(PostResponseDto::new).collect(Collectors.toList()))
+                .build();
+        return personalResponseDto;
     }
 
     // 마이페이지 정보 불러오기

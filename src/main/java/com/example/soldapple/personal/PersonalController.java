@@ -23,11 +23,13 @@ public class PersonalController {
         return personalService.getMyInfo(userDetails.getMember());
     }
 
+    //내가 쓴 포스트 리스트
     @GetMapping("/post")
     public PersonalService.PersonalResponseDto getMyPost(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyPost(userDetails.getMember());
     }
 
+    // 내가 쓴 커멘트 리스트
     @GetMapping("/comment")
     public PersonalService.PersonalResponseDto getMyComment(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyComment(userDetails.getMember());
@@ -38,10 +40,11 @@ public class PersonalController {
         return personalService.getMyIssue(userDetails.getMember());
     }
 
-//    @GetMapping("/likes")
-//    public PersonalService.PersonalResponseDto getMyLikes(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return personalService.getMyLikes(userDetails.getMember());
-//    }
+    //내가 좋아요 한 포스트 리스트
+    @GetMapping("/likes")
+    public PersonalService.PersonalResponseDto getMyLikes(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return personalService.getMyLikes(userDetails.getMember());
+    }
 
     // 내 페이지 변경
     @PatchMapping("/edit")
