@@ -4,6 +4,7 @@ import com.example.soldapple.post.entity.Comment;
 import com.example.soldapple.post.entity.Image;
 import com.example.soldapple.post.entity.Post;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,6 +47,7 @@ public class PostResponseDto {
     }
 
     //myinfo
+    @QueryProjection
     public PostResponseDto(Post post){
         this.postId = post.getPostId();
         this.title = post.getTitle();
@@ -57,5 +59,9 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.comments = post.getComments();
         this.memberId = post.getMember().getId();
+
+        //like는 연관관계를 수정해야 합니다.
+        // 정상적인 로직이 아님
+//        this.isLike = post.getIsLike();
     }
 }

@@ -2,9 +2,16 @@ package com.example.soldapple.quarydsl;
 
 import com.example.soldapple.like.entity.QLike;
 import com.example.soldapple.member.entity.Member;
+import com.example.soldapple.post.dto.PostResponseDto;
+import com.example.soldapple.post.dto.QPostResponseDto;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.entity.QPost;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -23,37 +30,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-
-    //    @Override
-//    public List<PostResponseDto> findAllMyTest(){
-//    QPost qPost = QPost.post;
-//    QLike qLike = QLike.like;
-//
-//        queryFactory
-//                .select(post)
-//                .from()
-//                .join(post.like, like)
-//                .fetch();
-//
-//    }
-
-
-    //    @Override
-//    public List<Post> findAllMyTest() {
-//        QPost qPost = QPost.post;
-//
-//        //QLike qLike = QLike.like;
-//
-//        return queryFactory
-//                .select(post)
-//                .from(post)
-//                .where(post.member.nickname.eq("이승주"))
-//                .fetch();
-//
-//    }
-//    테스트를 위해 주석
     @Override
-    public List<Post> findAllMyTest(Member mem) {
+    public List<Post> findAllMyLikes(Member mem) {
         QPost qPost = QPost.post;
         QLike qLike = QLike.like;
 
@@ -64,5 +42,26 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public Page<PostResponseDto> findMyQuery(Pageable pageable) {
+
+        QPost qPost = QPost.post;
+
+        List<PostResponseDto> postList = queryFactory
+                .select(new QPostResponseDto(post))
+                .from(post)
+                .orderBy(post.postId.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(post.count())
+                .from(post);
+
+
+ //       return new PageImpl<>(postList, pageable, 0);
+        return PageableExecutionUtils.getPage(postList,pageable,countQuery::fetchOne);
+    }
 
 }
