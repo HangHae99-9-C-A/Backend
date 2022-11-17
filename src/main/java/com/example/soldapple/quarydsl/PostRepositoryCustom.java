@@ -3,6 +3,7 @@ package com.example.soldapple.quarydsl;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.entity.Post;
+import com.querydsl.core.Tuple;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,4 +15,7 @@ public interface PostRepositoryCustom {
     List<Post> findAllMyLikes(Member member);
 
     Page<PostResponseDto> findMyQuery(Pageable pageable);
+
+    //post - category 정렬 + 내가 한 좋아요
+    Page<?> findAllPostWithCategory(Pageable pageable, String category, Member member);
 }

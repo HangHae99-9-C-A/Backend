@@ -1,10 +1,13 @@
 package com.example.soldapple.post.controller;
 
 
+import com.example.soldapple.member.entity.Member;
+import com.example.soldapple.personal.ResponseDto;
 import com.example.soldapple.post.dto.PostReqDto;
 import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.service.PostService;
 import com.example.soldapple.security.user.UserDetailsImpl;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,12 +25,23 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+
     //무한스크롤 적용입니다
+    // 모든 포스트 읽어오기
     @GetMapping
-    public Page<PostResponseDto> testGetAllPost(Pageable pageable) {
-        return postService.testGetAllPost(pageable);
+    public Page<PostResponseDto> getAllPost(Pageable pageable) {
+        return postService.getAllPost(pageable);
 
     }
+
+    // 카테고리별 + 내 좋아요 한 포스트 읽어오기
+    @GetMapping("/{category}")
+    public Page<?> getAllPostWithCategory(
+            Pageable pageable, @PathVariable(name = "category") String category,
+            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.getAllPostWithCategory(pageable, category, userDetails.getMember());
+    }
+
 
     @PostMapping
     public PostResponseDto postCreate(@RequestPart(required = false) List<MultipartFile> multipartFiles,
