@@ -22,8 +22,10 @@ public class IssuesResponseDto {
 
     private List<IssuesComment> comments;
     private Boolean isLike;
+    private Long likeCnt;
+    private Long memberId;
 
-    public IssuesResponseDto(Issues issues, List<IssuesImage> issuesImages, Boolean isLike){
+    public IssuesResponseDto(Issues issues, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt){
         this.id = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
@@ -34,6 +36,8 @@ public class IssuesResponseDto {
         this.content = issues.getIssuesContent();
         this.comments = issues.getIssuesComments();
         this.isLike = isLike;
+        this.likeCnt = likeCnt;
+        this.memberId = issues.getMember().getId();
     }
     public IssuesResponseDto(Issues issues){
         this.id = issues.getIssuesId();

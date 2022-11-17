@@ -42,9 +42,7 @@ public class LikeService {
                 () -> new IllegalArgumentException("it's your post OR post is not exist")
         );
         likeRepository.deleteByPostAndMember(post, member);
-
         Long likeCnt = post.getPostLikeCnt();
-        Like like = new Like(post, member);
         post.likeUpdate(likeCnt-1);
         return "찜 삭제";
     }

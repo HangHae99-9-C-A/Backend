@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface IssuesRepository extends JpaRepository<Issues, Long> {
     Optional<List<Issues>> findAllByCategoryOrderByCreatedAtDesc(String category);
     Optional<Issues> findByIssuesIdAndMember(Long issuesId, Member member);
+    Optional<Issues> findByIssuesIdAndMemberNot(Long issuesId, Member member);
     Optional<Issues> findByIssuesId(Long issuesId);
     List<Issues> findAllByOrderByCreatedAtDesc();
 

@@ -102,7 +102,7 @@ public class IssuesService {
             }
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, imageList, isLike);
+        return new IssuesResponseDto(issues, imageList, isLike,issues.getIssuesLikeCnt());
     }
 
     //사진과 게시글 삭제
@@ -121,6 +121,6 @@ public class IssuesService {
             imgList.add(img);
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, imgList, isLike);
+        return new IssuesResponseDto(issues, imgList, isLike, issues.getIssuesLikeCnt());
     }
 }

@@ -23,7 +23,7 @@ public class IssuesLikeService {
         Member member = memberRepository.findById(userDetails.getMember().getId()).orElseThrow(
                 () -> new IllegalArgumentException("회원이 아닙니다.")
         );
-        Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId,member).orElseThrow(
+        Issues issues = issuesRepository.findByIssuesIdAndMemberNot(issuesId,member).orElseThrow(
                 () -> new IllegalArgumentException("본인이 작성한 이의제기 글이거나 글이 존재하지 않습니다.")
         );
         Long likeCnt = issues.getIssuesLikeCnt();
@@ -37,13 +37,11 @@ public class IssuesLikeService {
         Member member = memberRepository.findById(userDetails.getMember().getId()).orElseThrow(
                 () -> new IllegalArgumentException("회원이 아닙니다.")
         );
-        Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId,member).orElseThrow(
+        Issues issues = issuesRepository.findByIssuesIdAndMemberNot(issuesId,member).orElseThrow(
                 () -> new IllegalArgumentException("본인이 작성한 이의제기 글이거나 글이 존재하지 않습니다.")
         );
         issueslikeRepository.deleteByIssuesAndMember(issues, member);
-
         Long likeCnt = issues.getIssuesLikeCnt();
-        IssuesLike issuesLike = new IssuesLike(issues, member);
         issues.likeUpdate(likeCnt-1);
         return "찜 삭제";
     }

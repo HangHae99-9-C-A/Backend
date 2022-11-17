@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="71fe6959-1579-4c80-9909-5eb3d7b3ed52" name="Changes" comment="#17 게시글 좋아요 갯수 추가">
+    <list default="true" id="71fe6959-1579-4c80-9909-5eb3d7b3ed52" name="Changes" comment="#17 이의제기 좋아요 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/entity/Issues.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/entity/Issues.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/like/controller/IssuesLikeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/like/controller/IssuesLikeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/like/controller/LikeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/like/controller/LikeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/dto/ResponseDto/IssuesResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/dto/ResponseDto/IssuesResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/repository/IssuesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/repository/IssuesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/service/IssuesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/issues/service/IssuesService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/like/service/IssuesLikeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/like/service/IssuesLikeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/post/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/post/entity/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/soldapple/like/service/LikeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/soldapple/like/service/LikeService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,22 +99,22 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelOrder2&quot;: &quot;2&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth2&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/dev/spring/week6/final&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;c91deea73b576d34e26519e633da0b6b&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelOrder2": "2",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RequestMappingsPanelWidth2": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "extract.method.default.visibility": "private",
+    "last_opened_file_path": "C:/Users/user/바탕 화면/findApple",
+    "spring.configuration.checksum": "c91deea73b576d34e26519e633da0b6b"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Spring Boot.SoldAppleApplication">
     <configuration name="final [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -157,6 +157,19 @@
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="LoginLiveSession2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="LoginLiveSession2" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SoldAppleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="LoginLiveSession2.main" />
@@ -260,6 +273,7 @@
     <MESSAGE value="#17 like 작업중" />
     <MESSAGE value="프론트 요청으로 issues dto 필드명 변경" />
     <MESSAGE value="#17 게시글 좋아요 갯수 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="#17 게시글 좋아요 갯수 추가" />
+    <MESSAGE value="#17 이의제기 좋아요 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="#17 이의제기 좋아요 수정" />
   </component>
 </project>
