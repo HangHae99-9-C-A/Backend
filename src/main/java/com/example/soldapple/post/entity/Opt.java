@@ -1,5 +1,6 @@
 package com.example.soldapple.post.entity;
 
+import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +23,8 @@ public class Opt {
     private String model;
     private String options;
     private String batteryState;
-//    private String displayState;
-//    private String scratchState;
+    private String displayState;
+    private String scratchState;
     private String careOX;
     private String careDate;
     private Integer getPrice;
@@ -50,16 +51,16 @@ public class Opt {
         this.post = post;
     }
 
-//    public Opt(GetIPhonePriceResDto iphoneOption) {
-//        this.category=iphoneOption.getCategory();
-//        this.year=iphoneOption.getYear();
-//        this.model=iphoneOption.getModel();
-//        this.option=iphoneOption.getOption();
-//        this.batteryState = iphoneOption.getBatteryState();
-//        this.displayState = iphoneOption.getDisplayState();
-//        this.scratchState= iphoneOption.getScratchState();
-//        this.careOX = iphoneOption.getCareOX();
-//        this.careDate = iphoneOption.getCareDate();
-//        this.getPrice = iphoneOption.getGetPrice();
-//    }
+    public Opt(GetIPhonePriceResDto iphoneOption, Post post) {
+        this.category=iphoneOption.getCategory();
+        this.years=iphoneOption.getYear();
+        this.model=iphoneOption.getModel();
+        this.options=iphoneOption.getOption();
+        this.batteryState = iphoneOption.getBatteryState();
+        this.displayState = iphoneOption.getDisplayState();
+        this.scratchState= iphoneOption.getScratchState();
+        this.careOX = iphoneOption.getCareOX();
+        this.careDate = iphoneOption.getCareDate();
+        this.getPrice = iphoneOption.getGetPrice();
+    }
 }

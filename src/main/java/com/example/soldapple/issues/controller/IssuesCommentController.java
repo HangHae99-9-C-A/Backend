@@ -21,6 +21,7 @@ public class IssuesCommentController {
                                                               @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesCommentService.createIssuesComment(issuesId, issuesCommentRequestDto, userDetails);
     }
+
     @PutMapping("/{issuesCommentId}")
     public IssuesCommentResponseDto updateIssuesComment(@PathVariable Long issuesCommentId,
                                                               @RequestBody IssuesCommentRequestDto issuesCommentRequestDto,
@@ -33,5 +34,4 @@ public class IssuesCommentController {
                                                               @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         return issuesCommentService.deleteIssuesComment(issuesCommentId, userDetails.getMember());
     }
-
 }

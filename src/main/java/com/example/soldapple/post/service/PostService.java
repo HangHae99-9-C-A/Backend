@@ -2,6 +2,7 @@ package com.example.soldapple.post.service;
 
 
 import com.example.soldapple.aws_s3.S3UploadUtil;
+import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.like.repository.LikeRepository;
 import com.example.soldapple.member.entity.Member;
@@ -40,29 +41,23 @@ public class PostService {
     @Transactional
     public PostResponseDto postCreate(List<MultipartFile> multipartFiles,
                                       PostReqDto postReqDto,
-//                                      GetIPhonePriceResDto iphoneOption,
+                                      GetIPhonePriceResDto iphoneOption,
                                       GetMacbookPriceResDto macbookOption,
                                       Member member) throws IOException {
         //게시글 저장
-
-
-        //맥북일 때
-//        if (iphoneOption.getScratchState() ==null){
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
-        Opt options = new Opt(macbookOption, post);
-        optionRepository.save(options);
 
-
-
-            return imgSave(multipartFiles, post, member);
-//        } else{
-//            //아이폰일 때
-//            Opt options = new Opt(iphoneOption);
-//            Post post = new Post(postReqDto, member, options);
-//            postRepository.save(post);
-//            return imgSave(multipartFiles, post, member);
-//        }
+        //맥북일 때
+        if (iphoneOption==null){
+            Opt options = new Opt(macbookOption, post);
+            optionRepository.save(options);
+        } else{
+            //아이폰일 때
+            Opt options = new Opt(iphoneOption, post);
+            optionRepository.save(options);
+        }
+        return imgSave(multipartFiles, post, member);
     }
 //    public void postTest(){
 //        System.out.println("테스트성공");
