@@ -39,6 +39,7 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.nickname =post.getMember().getNickname();
         this.category = post.getCategory();
+        this.opt = post.getOption();
         this.images = images;
         this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
@@ -46,7 +47,6 @@ public class PostResponseDto {
         this.comments = post.getComments();
         this.isLike = isLike;
         this.likeCnt = likeCnt;
-//        this.opt = options;
 
         //프론트 요청
         this.memberId = post.getMember().getId();

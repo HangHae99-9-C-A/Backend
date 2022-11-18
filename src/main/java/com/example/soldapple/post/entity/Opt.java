@@ -2,6 +2,7 @@ package com.example.soldapple.post.entity;
 
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,6 +32,8 @@ public class Opt {
     private String ram;
     private String keyboard;
     private String storage;
+
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "postId")
     private Post post;

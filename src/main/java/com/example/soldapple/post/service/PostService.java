@@ -69,8 +69,9 @@ public class PostService {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글이 존재하지 않거나 수정 권한이 없습니다.")
         );
+
+        deleteImg(post);
         post.update(postReqDto);
-        deleteImgAndPost(post);
         return imgSave(multipartFiles, post, member);
     }
 
@@ -80,7 +81,8 @@ public class PostService {
         Post post = postRepository.findByPostIdAndMember(postId,member).orElseThrow(
                 () -> new RuntimeException("해당 게시글이 존재하지 않거나 삭제 권한이 없습니다.")
         );
-        deleteImgAndPost(post);
+        deleteImg(post);
+        postRepository.delete(post);
         return "게시글 삭제 완료";
     }
 
@@ -136,13 +138,12 @@ public class PostService {
     }
 
     //기존 사진 삭제
-    public void deleteImgAndPost(Post post){
+    public void deleteImg(Post post){
         List<Image> imageList = post.getImages();
         for (Image image : imageList) {
-            imageRepository.deleteById(image.getId());
+//            imageRepository.delete(image);
             s3UploadUtil.delete(image.getImgKey());
         }
-        postRepository.delete(post);
     }
 
     //반복되는 조회리스트 로직
