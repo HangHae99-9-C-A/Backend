@@ -30,6 +30,7 @@ public class Issues extends TimeStamped {
 
     @Column
     private String category;
+
     @JsonIgnore
     @OneToMany(mappedBy = "issues", cascade = CascadeType.REMOVE)
     private List<IssuesImage> issuesImages;

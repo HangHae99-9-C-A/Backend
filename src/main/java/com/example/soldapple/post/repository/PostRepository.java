@@ -2,7 +2,7 @@ package com.example.soldapple.post.repository;
 
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.entity.Post;
-import com.example.soldapple.quarydsl.PostRepositoryCustom;
+import com.example.soldapple.quarydsl.post.PostRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

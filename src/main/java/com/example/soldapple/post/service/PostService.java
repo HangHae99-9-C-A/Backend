@@ -2,6 +2,7 @@ package com.example.soldapple.post.service;
 
 
 import com.example.soldapple.aws_s3.S3UploadUtil;
+import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.like.repository.LikeRepository;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.PostReqDto;
@@ -73,6 +74,12 @@ public class PostService {
         return postRepository.findMyQuery(pageable);
     }
 
+    //category + 내 좋아요 무한스크롤
+    public Page<?> getAllPostWithCategory(Pageable pageable, String category, Member member) {
+        Page<?> allPostWithCategory = postRepository.findAllPostWithCategory(pageable, category, member);
+        return allPostWithCategory;
+    }
+
 //    //게시글 전체 조회
 //    public List<PostResponseDto> allPosts(Member member) {
 //        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
@@ -140,9 +147,4 @@ public class PostService {
     }
 
 
-    //category + 내 좋아요 무한스크롤
-    public Page<?> getAllPostWithCategory(Pageable pageable, String category, Member member) {
-        Page<?> allPostWithCategory = postRepository.findAllPostWithCategory(pageable, category, member);
-        return allPostWithCategory;
-    }
 }

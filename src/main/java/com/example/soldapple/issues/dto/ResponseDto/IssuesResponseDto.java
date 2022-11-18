@@ -4,15 +4,18 @@ import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.entity.IssuesComment;
 import com.example.soldapple.issues.entity.IssuesImage;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @NoArgsConstructor
 public class IssuesResponseDto {
-    private Long id;
+
+    private Long issuesId;
     private String title;
     private String nickname;
     private String createdAt;
@@ -28,12 +31,12 @@ public class IssuesResponseDto {
     private Long likeCnt;
     private Long memberId;
 
-    public IssuesResponseDto(Issues issues, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt){
-        this.id = issues.getIssuesId();
+    public IssuesResponseDto(Issues issues, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt) {
+        this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
-        this.createdAt = TimeConverter.convertTime ( issues.getCreatedAt () );
-        this.modifiedAt = TimeConverter.convertTime ( issues.getModifiedAt () );
+        this.createdAt = TimeConverter.convertTime(issues.getCreatedAt());
+        this.modifiedAt = TimeConverter.convertTime(issues.getModifiedAt());
         this.category = issues.getCategory();
         this.images = issuesImages;
         this.expectPrice = issues.getExpectPrice();
@@ -44,14 +47,21 @@ public class IssuesResponseDto {
         this.likeCnt = likeCnt;
         this.memberId = issues.getMember().getId();
     }
-    public IssuesResponseDto(Issues issues){
-        this.id = issues.getIssuesId();
+
+    @QueryProjection
+    public IssuesResponseDto(Issues issues) {
+        this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
         this.category = issues.getCategory();
         this.expectPrice = issues.getExpectPrice();
         this.userPrice = issues.getIssuesUserPrice();
         this.content = issues.getIssuesContent();
-        this.comments = issues.getIssuesComments();
+        //   this.comments = issues.getIssuesComments();
+
+        this.createdAt = TimeConverter.convertTime(issues.getCreatedAt());
+        this.modifiedAt = TimeConverter.convertTime(issues.getModifiedAt());
+        this.memberId = issues.getMember().getId();
     }
+
 }

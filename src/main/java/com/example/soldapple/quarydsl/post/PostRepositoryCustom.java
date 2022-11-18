@@ -1,4 +1,4 @@
-package com.example.soldapple.quarydsl;
+package com.example.soldapple.quarydsl.post;
 
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.PostResponseDto;
