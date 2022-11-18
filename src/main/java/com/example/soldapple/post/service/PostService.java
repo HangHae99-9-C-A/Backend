@@ -2,7 +2,6 @@ package com.example.soldapple.post.service;
 
 
 import com.example.soldapple.aws_s3.S3UploadUtil;
-import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.like.repository.LikeRepository;
@@ -15,7 +14,6 @@ import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.repository.ImageRepository;
 import com.example.soldapple.post.repository.OptionRepository;
 import com.example.soldapple.post.repository.PostRepository;
-import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -139,7 +137,7 @@ public class PostService {
     public void deleteImg(Post post) {
         List<Image> imageList = post.getImages();
         for (Image image : imageList) {
-//            imageRepository.delete(image);
+            imageRepository.delete(image);
             s3UploadUtil.delete(image.getImgKey());
         }
     }
