@@ -35,21 +35,21 @@ public class PostResponseDto {
 
     private Long likeCnt;
 
-    public PostResponseDto(Post post, List<Image> images, Boolean isLike, Long likeCnt){
+    public PostResponseDto(Post post,String avatarUrl, List<Image> images, Boolean isLike, Long likeCnt, Opt options){
         this.postId = post.getPostId();
         this.title = post.getTitle();
         this.memberId = post.getMember().getId();
         this.nickname =post.getMember().getNickname();
-        this.avatarUrl = post.getMember().getAvatarUrl();
+        this.avatarUrl = avatarUrl;
         this.category = post.getCategory();
         this.options = post.getOpt();
-        this.images = post.getImages();
+        this.images = images;
         this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
-        this.comments = post.getComments();
-        this.isLike = post.getIsLike();
-        this.likeCnt = post.getPostLikeCnt();
+        this.options = options;
+        this.isLike = isLike;
+        this.likeCnt = likeCnt;
 //                likeCnt;
 
         //프론트 요청

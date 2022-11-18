@@ -30,14 +30,14 @@ public class IssuesResponseDto {
     private Long likeCnt;
     private Long memberId;
 
-    public IssuesResponseDto(Issues issues, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt){
+    public IssuesResponseDto(Issues issues, String avatarUrl, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt, Opt opt){
         this.id = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
-        this.avatarUrl = issues.getMember().getAvatarUrl();
+        this.avatarUrl = avatarUrl;
         this.memberId = issues.getMember().getId();
         this.category = issues.getCategory();
-        this.options = issues.getOpt();
+        this.options = opt;
         this.images = issuesImages;
         this.expectPrice = issues.getExpectPrice();
         this.userPrice = issues.getIssuesUserPrice();

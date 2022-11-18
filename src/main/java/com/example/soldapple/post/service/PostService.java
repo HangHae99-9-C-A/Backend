@@ -48,16 +48,18 @@ public class PostService {
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
 
+        /*옵션항목들 저장*/
         //맥북일 때
         if (iphoneOption==null){
             Opt options = new Opt(macbookOption, post);
             optionRepository.save(options);
+            return imgSave(multipartFiles, post, member, options);
         } else{
             //아이폰일 때
             Opt options = new Opt(iphoneOption, post);
             optionRepository.save(options);
+            return imgSave(multipartFiles, post, member, options);
         }
-        return imgSave(multipartFiles, post, member);
     }
 //    public void postTest(){
 //        System.out.println("테스트성공");
@@ -72,7 +74,7 @@ public class PostService {
 
         deleteImg(post);
         post.update(postReqDto);
-        return imgSave(multipartFiles, post, member);
+        return imgSave(multipartFiles, post, member, post.getOpt());
     }
 
     //게시글 삭제
@@ -121,7 +123,7 @@ public class PostService {
 
 ////반복되는 로직 메소드
     //이미지 저장
-    public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member) throws IOException{
+    public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member, Opt opt) throws IOException{
         List<Image> imageList = new ArrayList<>();
 
         if(!(multipartFiles.size()==0)){
@@ -134,7 +136,8 @@ public class PostService {
             }
         }
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, imageList, isLike, post.getPostLikeCnt());
+        String avatarUrl = member.getAvatarUrl();
+        return new PostResponseDto(post, avatarUrl, imageList, isLike, post.getPostLikeCnt(), opt);
     }
 
     //기존 사진 삭제
@@ -153,6 +156,7 @@ public class PostService {
             imgList.add(img);
         }
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post,imgList,isLike,post.getPostLikeCnt());
+        String avatarUrl = member.getAvatarUrl();
+        return new PostResponseDto(post,avatarUrl,imgList,isLike,post.getPostLikeCnt(), post.getOpt());
     }
 }

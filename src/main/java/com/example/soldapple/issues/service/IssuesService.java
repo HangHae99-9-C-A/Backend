@@ -46,12 +46,14 @@ public class IssuesService {
         if (iphoneOption==null){
             Opt options = new Opt(macbookOption, issues);
             optionRepository.save(options);
+            return imgSave(multipartFiles, issues, member,options);
         } else{
             //아이폰일 때
             Opt options = new Opt(iphoneOption, issues);
             optionRepository.save(options);
+            return imgSave(multipartFiles, issues, member,options);
         }
-        return imgSave(multipartFiles, issues, member);
+
     }
 
     //이의제기글 수정
@@ -106,7 +108,7 @@ public class IssuesService {
 
 ////반복되는 로직 메소드
     //이미지 저장
-    public IssuesResponseDto imgSave(List<MultipartFile> multipartFiles, Issues issues, Member member) throws IOException {
+    public IssuesResponseDto imgSave(List<MultipartFile> multipartFiles, Issues issues, Member member, Opt opt) throws IOException {
         List<IssuesImage> imageList = new ArrayList<>();
 
         if(!(multipartFiles.size()==0)){
@@ -119,7 +121,8 @@ public class IssuesService {
             }
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, imageList, isLike,issues.getIssuesLikeCnt());
+        String avatarUrl = member.getAvatarUrl();
+        return new IssuesResponseDto(issues,avatarUrl, imageList, isLike,issues.getIssuesLikeCnt(), opt);
     }
 
     //사진과 게시글 삭제
@@ -138,6 +141,7 @@ public class IssuesService {
             imgList.add(img);
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, imgList, isLike, issues.getIssuesLikeCnt());
+        String avatarUrl = member.getAvatarUrl();
+        return new IssuesResponseDto(issues, avatarUrl, imgList, isLike, issues.getIssuesLikeCnt(), issues.getOpt());
     }
 }
