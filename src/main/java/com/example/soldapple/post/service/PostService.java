@@ -52,11 +52,11 @@ public class PostService {
 
         /*옵션항목들 저장*/
         //맥북일 때
-        if (iphoneOption==null){
+        if (iphoneOption == null) {
             Opt options = new Opt(macbookOption, post);
             optionRepository.save(options);
             return imgSave(multipartFiles, post, member, options);
-        } else{
+        } else {
             //아이폰일 때
             Opt options = new Opt(iphoneOption, post);
             optionRepository.save(options);
@@ -69,7 +69,7 @@ public class PostService {
 
     //게시글 수정
     @Transactional
-    public PostResponseDto updatePost(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member)throws IOException{
+    public PostResponseDto updatePost(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member) throws IOException {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글이 존재하지 않거나 수정 권한이 없습니다.")
         );
@@ -81,8 +81,8 @@ public class PostService {
 
     //게시글 삭제
     @Transactional
-    public String postDelete(Long postId, Member member){
-        Post post = postRepository.findByPostIdAndMember(postId,member).orElseThrow(
+    public String postDelete(Long postId, Member member) {
+        Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new RuntimeException("해당 게시글이 존재하지 않거나 삭제 권한이 없습니다.")
         );
         deleteImg(post);
@@ -101,42 +101,29 @@ public class PostService {
         return allPostWithCategory;
     }
 
-//    //게시글 전체 조회
-//    public List<PostResponseDto> allPosts(Member member) {
-//        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-//        List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
-//        for (Post post : posts) {
-//            postResponseDtos.add(putImgsAndLikeToDto(post, member));
-//        }
-//        return postResponseDtos;
-//    }
+    //category + 검색 정렬
+    public Page<?> getAllPostWithCategoryWithSearch(Pageable pageable, String category, String search) {
+        Page<?> allPostWithCategoryWithSearch = postRepository.findAllPostWithCategoryWithSearch(pageable, category, search);
+        return allPostWithCategoryWithSearch;
+    }
 
     //게시글 하나 조회
     public PostResponseDto onePost(Long postId, Member member) {
         Post post = postRepository.findByPostId(postId).orElseThrow(
-                ()->new RuntimeException("해당 게시글이 존재하지 않습니다.")
+                () -> new RuntimeException("해당 게시글이 존재하지 않습니다.")
         );
         return putImgsAndLikeToDto(post, member);
     }
 
-    //게시글 카테고리 조회
-//    public List<PostResponseDto> categoryPost(String category, Member member) {
-//        List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
-//        List<Post> posts = postRepository.findAllByCategoryOrderByCreatedAtDesc(category);
-//        for (Post post : posts) {
-//            postResponseDtos.add(putImgsAndLikeToDto(post, member));
-//        }
-//        return postResponseDtos;
-//    }
 
-////반복되는 로직 메소드
+    ////반복되는 로직 메소드
     //이미지 저장
     public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member, Opt opt) throws IOException {
         List<Image> imageList = new ArrayList<>();
 
-        if(!(multipartFiles.size()==0)){
+        if (!(multipartFiles.size() == 0)) {
             System.out.println(multipartFiles.get(0).getOriginalFilename());
-            for(MultipartFile imgFile : multipartFiles){
+            for (MultipartFile imgFile : multipartFiles) {
                 Map<String, String> img = s3UploadUtil.upload(imgFile, "test");
                 Image image = new Image(img, post);
                 imageList.add(image);
@@ -149,7 +136,7 @@ public class PostService {
     }
 
     //기존 사진 삭제
-    public void deleteImg(Post post){
+    public void deleteImg(Post post) {
         List<Image> imageList = post.getImages();
         for (Image image : imageList) {
 //            imageRepository.delete(image);
@@ -158,13 +145,15 @@ public class PostService {
     }
 
     //반복되는 조회리스트 로직
-    public PostResponseDto putImgsAndLikeToDto(Post post, Member member){
+    public PostResponseDto putImgsAndLikeToDto(Post post, Member member) {
         List<Image> imgList = new ArrayList<>();
-        for(Image img:post.getImages()){
+        for (Image img : post.getImages()) {
             imgList.add(img);
         }
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         String avatarUrl = member.getAvatarUrl();
-        return new PostResponseDto(post,avatarUrl,imgList,isLike,post.getPostLikeCnt(), post.getOpt());
+        return new PostResponseDto(post, avatarUrl, imgList, isLike, post.getPostLikeCnt(), post.getOpt());
     }
+
+
 }
