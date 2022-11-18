@@ -38,7 +38,6 @@ public class PostResponseDto {
     //프론트 요청으로...... 어쩔수없이 id 추가
     private Long memberId;
 
-    private Long likeCnt;
 
     public PostResponseDto(Post post,String avatarUrl, List<Image> images, Boolean isLike, Long likeCnt, Opt options){
         this.postId = post.getPostId();

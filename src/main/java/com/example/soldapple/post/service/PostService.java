@@ -14,7 +14,6 @@ import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.repository.ImageRepository;
 import com.example.soldapple.post.repository.OptionRepository;
 import com.example.soldapple.post.repository.PostRepository;
-import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -124,7 +123,7 @@ public class PostService {
 
 ////반복되는 로직 메소드
     //이미지 저장
-    public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member) throws IOException {
+    public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member, Opt opt) throws IOException {
         List<Image> imageList = new ArrayList<>();
 
         if(!(multipartFiles.size()==0)){
