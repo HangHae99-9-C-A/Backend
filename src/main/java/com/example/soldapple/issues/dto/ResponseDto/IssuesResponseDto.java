@@ -4,6 +4,8 @@ import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.entity.IssuesComment;
 import com.example.soldapple.issues.entity.IssuesImage;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.querydsl.core.annotations.QueryProjection;
 import com.example.soldapple.issues.entity.IssuesOpt;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -15,7 +17,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class IssuesResponseDto {
-    private Long id;
+
+    private Long issuesId;
     private String title;
     private String nickname;
     private String createdAt;
@@ -34,7 +37,7 @@ public class IssuesResponseDto {
     private Long memberId;
 
     public IssuesResponseDto(Issues issues, String avatarUrl, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt, IssuesOpt options){
-        this.id = issues.getIssuesId();
+        this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
         this.avatarUrl = avatarUrl;
@@ -52,14 +55,20 @@ public class IssuesResponseDto {
         this.likeCnt = likeCnt;
         this.memberId = issues.getMember().getId();
     }
-    public IssuesResponseDto(Issues issues){
-        this.id = issues.getIssuesId();
+
+    @QueryProjection
+    public IssuesResponseDto(Issues issues) {
+        this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
         this.category = issues.getCategory();
         this.expectPrice = issues.getExpectPrice();
         this.userPrice = issues.getIssuesUserPrice();
         this.content = issues.getIssuesContent();
-        this.comments = issues.getIssuesComments();
+        //   this.comments = issues.getIssuesComments();
+
+        this.createdAt = TimeConverter.convertTime(issues.getCreatedAt());
+        this.modifiedAt = TimeConverter.convertTime(issues.getModifiedAt());
+        this.memberId = issues.getMember().getId();
     }
 }

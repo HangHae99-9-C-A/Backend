@@ -1,4 +1,4 @@
-package com.example.soldapple.quarydsl;
+package com.example.soldapple.quarydsl.post;
 
 import com.example.soldapple.like.entity.QLike;
 import com.example.soldapple.member.entity.Member;

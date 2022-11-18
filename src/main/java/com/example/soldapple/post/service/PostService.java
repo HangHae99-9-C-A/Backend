@@ -2,6 +2,7 @@ package com.example.soldapple.post.service;
 
 
 import com.example.soldapple.aws_s3.S3UploadUtil;
+import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.like.repository.LikeRepository;
@@ -14,6 +15,7 @@ import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.repository.ImageRepository;
 import com.example.soldapple.post.repository.OptionRepository;
 import com.example.soldapple.post.repository.PostRepository;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -93,6 +95,12 @@ public class PostService {
         return postRepository.findMyQuery(pageable);
     }
 
+    //category + 내 좋아요 무한스크롤
+    public Page<?> getAllPostWithCategory(Pageable pageable, String category, Member member) {
+        Page<?> allPostWithCategory = postRepository.findAllPostWithCategory(pageable, category, member);
+        return allPostWithCategory;
+    }
+
 //    //게시글 전체 조회
 //    public List<PostResponseDto> allPosts(Member member) {
 //        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
@@ -112,14 +120,14 @@ public class PostService {
     }
 
     //게시글 카테고리 조회
-    public List<PostResponseDto> categoryPost(String category, Member member) {
-        List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
-        List<Post> posts = postRepository.findAllByCategoryOrderByCreatedAtDesc(category);
-        for (Post post : posts) {
-            postResponseDtos.add(putImgsAndLikeToDto(post, member));
-        }
-        return postResponseDtos;
-    }
+//    public List<PostResponseDto> categoryPost(String category, Member member) {
+//        List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
+//        List<Post> posts = postRepository.findAllByCategoryOrderByCreatedAtDesc(category);
+//        for (Post post : posts) {
+//            postResponseDtos.add(putImgsAndLikeToDto(post, member));
+//        }
+//        return postResponseDtos;
+//    }
 
 ////반복되는 로직 메소드
     //이미지 저장
@@ -158,12 +166,5 @@ public class PostService {
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         String avatarUrl = member.getAvatarUrl();
         return new PostResponseDto(post,avatarUrl,imgList,isLike,post.getPostLikeCnt(), post.getOpt());
-    }
-
-
-    //category + 내 좋아요 무한스크롤
-    public Page<?> getAllPostWithCategory(Pageable pageable, String category, Member member) {
-        Page<?> allPostWithCategory = postRepository.findAllPostWithCategory(pageable, category, member);
-        return allPostWithCategory;
     }
 }
