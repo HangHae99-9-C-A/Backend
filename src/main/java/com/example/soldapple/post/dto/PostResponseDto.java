@@ -19,8 +19,9 @@ public class PostResponseDto {
     private Long postId;
     private String title;
     private String nickname;
+    private String avatarUrl;
     private String category;
-    private Opt opt;
+    private Opt options;
     private List<Image> images;
     private Long expectPrice;
     private Long userPrice;
@@ -37,19 +38,21 @@ public class PostResponseDto {
     public PostResponseDto(Post post, List<Image> images, Boolean isLike, Long likeCnt){
         this.postId = post.getPostId();
         this.title = post.getTitle();
+        this.memberId = post.getMember().getId();
         this.nickname =post.getMember().getNickname();
+        this.avatarUrl = post.getMember().getAvatarUrl();
         this.category = post.getCategory();
-        this.opt = post.getOption();
-        this.images = images;
+        this.options = post.getOpt();
+        this.images = post.getImages();
         this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
         this.comments = post.getComments();
-        this.isLike = isLike;
-        this.likeCnt = likeCnt;
+        this.isLike = post.getIsLike();
+        this.likeCnt = post.getPostLikeCnt();
+//                likeCnt;
 
         //프론트 요청
-        this.memberId = post.getMember().getId();
     }
 
     //myinfo

@@ -48,7 +48,7 @@ public class Post extends TimeStamped {
     private Long postLikeCnt=0L;
 
     @OneToOne(mappedBy = "post", fetch=FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private Opt option;
+    private Opt opt;
 
     public Post(PostReqDto postReqDto, Member member) {
         this.member = member;
@@ -57,7 +57,6 @@ public class Post extends TimeStamped {
         this.expectPrice = postReqDto.getExpectPrice();
         this.userPrice = postReqDto.getUserPrice();
         this.content = postReqDto.getContent();
-
     }
 
     public void update(PostReqDto postReqDto) {

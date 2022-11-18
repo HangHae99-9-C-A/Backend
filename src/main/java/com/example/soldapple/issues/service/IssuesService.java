@@ -1,6 +1,8 @@
 package com.example.soldapple.issues.service;
 
 import com.example.soldapple.aws_s3.S3UploadUtil;
+import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
+import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.entity.Issues;
@@ -9,6 +11,8 @@ import com.example.soldapple.issues.repository.IssuesImageRepository;
 import com.example.soldapple.issues.repository.IssuesRepository;
 import com.example.soldapple.like.repository.IssuesLikeRepository;
 import com.example.soldapple.member.entity.Member;
+import com.example.soldapple.post.entity.Opt;
+import com.example.soldapple.post.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,17 +31,30 @@ public class IssuesService {
     private final S3UploadUtil s3UploadUtil;
     private final IssuesImageRepository issuesimageRepository;
     private final IssuesLikeRepository issuesLikeRepository;
+    private final OptionRepository optionRepository;
 
     //이의제기글 작성
     public IssuesResponseDto createIssue(List<MultipartFile> multipartFiles,
                                          IssuesRequestDto issuesRequestDto,
+                                         GetIPhonePriceResDto iphoneOption,
+                                         GetMacbookPriceResDto macbookOption,
                                          Member member) throws IOException{
         Issues issues = new Issues(issuesRequestDto, member);
         issuesRepository.save(issues);
 
+        //맥북일 때
+        if (iphoneOption==null){
+            Opt options = new Opt(macbookOption, issues);
+            optionRepository.save(options);
+        } else{
+            //아이폰일 때
+            Opt options = new Opt(iphoneOption, issues);
+            optionRepository.save(options);
+        }
         return imgSave(multipartFiles, issues, member);
     }
 
+    //이의제기글 수정
     public IssuesResponseDto updateIssue(Long issuesId,IssuesRequestDto issuesRequestDto, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
                 ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 수정 권한이 없습니다.")

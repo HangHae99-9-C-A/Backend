@@ -1,5 +1,7 @@
 package com.example.soldapple.issues.controller;
 
+import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
+import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.service.IssuesService;
@@ -20,11 +22,13 @@ public class IssuesController {
     private final IssuesService issuesService;
 
     @PostMapping
-    public IssuesResponseDto createIssue(@RequestPart List<MultipartFile> multipartFiles,
-                                         @RequestPart IssuesRequestDto issuesRequestDto,
+    public IssuesResponseDto createIssue(@RequestPart(required = false) List<MultipartFile> multipartFiles,
+                                         @RequestPart(required = false) IssuesRequestDto issuesRequestDto,
+                                         @RequestPart(required = false) GetIPhonePriceResDto iphoneOption,
+                                         @RequestPart(required = false) GetMacbookPriceResDto macbookOption,
                                          @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) throws IOException {
         System.out.println("==========컨트롤러 지나는중==========");
-        return issuesService.createIssue(multipartFiles, issuesRequestDto, userDetails.getMember());
+        return issuesService.createIssue(multipartFiles, issuesRequestDto, iphoneOption, macbookOption, userDetails.getMember());
     }
 
     @GetMapping
