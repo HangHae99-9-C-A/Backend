@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
@@ -34,12 +35,12 @@ public class PostResponseDto {
     //프론트 요청으로...... 어쩔수없이 id 추가
     private Long memberId;
 
-    public PostResponseDto(Post post, List<Image> images, Boolean isLike, Long likeCnt){
+    public PostResponseDto(Post post, List<Image> images, Boolean isLike, Long likeCnt) {
         this.postId = post.getPostId();
         this.title = post.getTitle();
-        this.nickname =post.getMember().getNickname();
-        this.createdAt = TimeConverter.convertTime ( post.getCreatedAt () );
-        this.modifiedAt = TimeConverter.convertTime ( post.getModifiedAt () );
+        this.nickname = post.getMember().getNickname();
+        this.createdAt = TimeConverter.convertTime(post.getCreatedAt());
+        this.modifiedAt = TimeConverter.convertTime(post.getModifiedAt());
         this.category = post.getCategory();
         this.images = images;
         this.expectPrice = post.getExpectPrice();
@@ -55,20 +56,22 @@ public class PostResponseDto {
 
     //myinfo
     @QueryProjection
-    public PostResponseDto(Post post){
+    public PostResponseDto(Post post) {
         this.postId = post.getPostId();
         this.title = post.getTitle();
-        this.nickname =post.getMember().getNickname();
+        this.nickname = post.getMember().getNickname();
         this.category = post.getCategory();
         this.images = post.getImages();
         //this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
-       // this.comments = post.getComments();
+        // this.comments = post.getComments();
         this.memberId = post.getMember().getId();
 
-        //like는 연관관계를 수정해야 합니다.
-        // 정상적인 로직이 아님
+        //시간 추가
+        this.createdAt = TimeConverter.convertTime(post.getCreatedAt());
+        this.modifiedAt = TimeConverter.convertTime(post.getModifiedAt());
+
 //        this.isLike = post.getIsLike();
     }
 }

@@ -15,7 +15,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.soldapple.like.entity.QLike.like;
@@ -90,10 +90,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 //        list.stream().map(r-> {return (r.get(like.likeId)==null) ? false: true;}).collect(Collectors.toList());
 
         //제 3안
-        List<PostResponseDto> collect = list.stream().map(r -> new PostResponseDto(r.get(post)){public Boolean isLike = r.get(like.likeId) != null;}).collect(Collectors.toList());
+        List<PostResponseDto> collect = list.stream().map(r -> new PostResponseDto(r.get(post)){public Boolean myLikeCheck = r.get(like.likeId) != null;}).collect(Collectors.toList());
 //        list.stream().map(r-> {return r.get(like.likeId) != null;}).collect(Collectors.toList());
 
-        //제 4안
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post);
