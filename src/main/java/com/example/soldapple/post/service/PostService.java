@@ -73,15 +73,15 @@ public class PostService {
         return postRepository.findMyQuery(pageable);
     }
 
-    //게시글 전체 조회
-    public List<PostResponseDto> allPosts(Member member) {
-        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-        List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
-        for (Post post : posts) {
-            postResponseDtos.add(putImgsAndLikeToDto(post, member));
-        }
-        return postResponseDtos;
-    }
+//    //게시글 전체 조회
+//    public List<PostResponseDto> allPosts(Member member) {
+//        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
+//        List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
+//        for (Post post : posts) {
+//            postResponseDtos.add(putImgsAndLikeToDto(post, member));
+//        }
+//        return postResponseDtos;
+//    }
 
     //게시글 하나 조회
     public PostResponseDto onePost(Long postId, Member member) {
@@ -92,14 +92,14 @@ public class PostService {
     }
 
     //게시글 카테고리 조회
-    public List<PostResponseDto> categoryPost(String category, Member member) {
-        List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
-        List<Post> posts = postRepository.findAllByCategoryOrderByCreatedAtDesc(category);
-        for (Post post : posts) {
-            postResponseDtos.add(putImgsAndLikeToDto(post, member));
-        }
-        return postResponseDtos;
-    }
+//    public List<PostResponseDto> categoryPost(String category, Member member) {
+//        List<PostResponseDto> postResponseDtos = new ArrayList<PostResponseDto>();
+//        List<Post> posts = postRepository.findAllByCategoryOrderByCreatedAtDesc(category);
+//        for (Post post : posts) {
+//            postResponseDtos.add(putImgsAndLikeToDto(post, member));
+//        }
+//        return postResponseDtos;
+//    }
 
     ////반복되는 로직 메소드
     //이미지 저장

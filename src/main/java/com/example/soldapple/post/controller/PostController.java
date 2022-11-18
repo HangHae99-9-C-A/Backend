@@ -1,13 +1,10 @@
 package com.example.soldapple.post.controller;
 
 
-import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.personal.ResponseDto;
 import com.example.soldapple.post.dto.PostReqDto;
 import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.service.PostService;
 import com.example.soldapple.security.user.UserDetailsImpl;
-import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +32,8 @@ public class PostController {
     }
 
     // 카테고리별 + 내 좋아요 한 포스트 읽어오기
-    @GetMapping("/{category}")
+    // api/post/{카테고리명}
+    @GetMapping("/{category}") // category = all
     public Page<?> getAllPostWithCategory(
             Pageable pageable, @PathVariable(name = "category") String category,
             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -52,11 +50,11 @@ public class PostController {
 //        postService.postTest();
     }
 
-    @GetMapping("/category/all")
-    public List<PostResponseDto> allPosts(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        System.out.println("==========컨트롤러 지나는중==========");
-        return postService.allPosts(userDetails.getMember());
-    }
+//    @GetMapping("/category/all")
+//    public List<PostResponseDto> allPosts(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        System.out.println("==========컨트롤러 지나는중==========");
+//        return postService.allPosts(userDetails.getMember());
+//    }
 
     @GetMapping("/detail/{postId}")
     public PostResponseDto onePost(@PathVariable Long postId,
@@ -65,12 +63,12 @@ public class PostController {
         return postService.onePost(postId, userDetails.getMember());
     }
 
-    @GetMapping("/category/{category}")
-    public List<PostResponseDto> categoryPost(@PathVariable String category,
-                                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        System.out.println("==========컨트롤러 지나는중==========");
-        return postService.categoryPost(category, userDetails.getMember());
-    }
+//    @GetMapping("/category/{category}")
+//    public List<PostResponseDto> categoryPost(@PathVariable String category,
+//                                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        System.out.println("==========컨트롤러 지나는중==========");
+//        return postService.categoryPost(category, userDetails.getMember());
+//    }
 
     @PatchMapping("/{postId}")
     public PostResponseDto postEdit(@RequestPart List<MultipartFile> multipartFiles,

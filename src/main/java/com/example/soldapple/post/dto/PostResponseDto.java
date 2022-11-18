@@ -57,10 +57,10 @@ public class PostResponseDto {
         this.nickname =post.getMember().getNickname();
         this.category = post.getCategory();
         this.images = post.getImages();
-        this.expectPrice = post.getExpectPrice();
+        //this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
-        this.comments = post.getComments();
+       // this.comments = post.getComments();
         this.memberId = post.getMember().getId();
 
         //like는 연관관계를 수정해야 합니다.
