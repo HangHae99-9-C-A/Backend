@@ -1,6 +1,5 @@
 package com.example.soldapple.post.entity;
 
-import com.example.soldapple.create_price.dto.GetIPhonePriceReqDto;
 import com.example.soldapple.global.TimeStamped;
 import com.example.soldapple.like.entity.Like;
 import com.example.soldapple.member.entity.Member;
@@ -47,7 +46,7 @@ public class Post extends TimeStamped {
     private Boolean isLike;
     private Long postLikeCnt=0L;
 
-    @OneToOne(mappedBy = "post", fetch=FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "post", fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Opt opt;
 
     public Post(PostReqDto postReqDto, Member member) {

@@ -3,7 +3,7 @@ package com.example.soldapple.issues.dto.ResponseDto;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.entity.IssuesComment;
 import com.example.soldapple.issues.entity.IssuesImage;
-import com.example.soldapple.post.entity.Opt;
+import com.example.soldapple.issues.entity.IssuesOpt;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ public class IssuesResponseDto {
     private String nickname;
     private String avatarUrl;
     private String category;
-    private Opt options;
+    private IssuesOpt options;
     private List<IssuesImage> images;
     private Long expectPrice;
     private Long userPrice;
@@ -30,14 +30,14 @@ public class IssuesResponseDto {
     private Long likeCnt;
     private Long memberId;
 
-    public IssuesResponseDto(Issues issues, String avatarUrl, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt, Opt opt){
+    public IssuesResponseDto(Issues issues, String avatarUrl, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt, IssuesOpt options){
         this.id = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
         this.avatarUrl = avatarUrl;
         this.memberId = issues.getMember().getId();
         this.category = issues.getCategory();
-        this.options = opt;
+        this.options = options;
         this.images = issuesImages;
         this.expectPrice = issues.getExpectPrice();
         this.userPrice = issues.getIssuesUserPrice();

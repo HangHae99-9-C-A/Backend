@@ -1,4 +1,4 @@
-package com.example.soldapple.post.entity;
+package com.example.soldapple.issues.entity;
 
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
@@ -13,10 +13,9 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Opt {
-
+public class IssuesOpt {
     @Id
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long optionId;
 
     private String category;
@@ -35,11 +34,10 @@ public class Opt {
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "postId")
-    private Post post;
+    @JoinColumn(name = "issuesId")
+    private Issues issues;
 
-
-    public Opt(GetMacbookPriceResDto macbookOption, Post post) {
+    public IssuesOpt(GetMacbookPriceResDto macbookOption, Issues issues) {
         this.category = macbookOption.getCategory();
         this.years = macbookOption.getYear();
         this.model = macbookOption.getModel();
@@ -51,10 +49,10 @@ public class Opt {
         this.careOX = macbookOption.getCareOX();
         this.careDate = macbookOption.getCareDate();
         this.getPrice = macbookOption.getGetPrice();
-        this.post = post;
+        this.issues = issues;
     }
 
-    public Opt(GetIPhonePriceResDto iphoneOption, Post post) {
+    public IssuesOpt(GetIPhonePriceResDto iphoneOption, Issues issues) {
         this.category=iphoneOption.getCategory();
         this.years=iphoneOption.getYear();
         this.model=iphoneOption.getModel();
@@ -65,8 +63,6 @@ public class Opt {
         this.careOX = iphoneOption.getCareOX();
         this.careDate = iphoneOption.getCareDate();
         this.getPrice = iphoneOption.getGetPrice();
-        this.post = post;
+        this.issues = issues;
     }
-
-
 }

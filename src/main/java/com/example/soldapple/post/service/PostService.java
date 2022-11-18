@@ -84,7 +84,7 @@ public class PostService {
                 () -> new RuntimeException("해당 게시글이 존재하지 않거나 삭제 권한이 없습니다.")
         );
         deleteImg(post);
-        postRepository.deleteById(post.getPostId());
+        postRepository.deleteById(postId);
         return "게시글 삭제 완료";
     }
 

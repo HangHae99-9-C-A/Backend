@@ -4,7 +4,6 @@ import com.example.soldapple.global.TimeStamped;
 import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
 import com.example.soldapple.like.entity.IssuesLike;
 import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.post.entity.Opt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -52,8 +51,8 @@ public class Issues extends TimeStamped {
     private Boolean isLike;
     private Long issuesLikeCnt = 0L;
 
-    @OneToOne(mappedBy = "issues",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    private Opt opt;
+    @OneToOne(mappedBy = "issues",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private IssuesOpt issuesOpt;
 
     public Issues(IssuesRequestDto issuesRequestDto, Member member) {
         this.member = member;

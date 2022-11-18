@@ -7,12 +7,12 @@ import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.entity.IssuesImage;
+import com.example.soldapple.issues.entity.IssuesOpt;
 import com.example.soldapple.issues.repository.IssuesImageRepository;
+import com.example.soldapple.issues.repository.IssuesOptRepository;
 import com.example.soldapple.issues.repository.IssuesRepository;
 import com.example.soldapple.like.repository.IssuesLikeRepository;
 import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.post.entity.Opt;
-import com.example.soldapple.post.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +31,7 @@ public class IssuesService {
     private final S3UploadUtil s3UploadUtil;
     private final IssuesImageRepository issuesimageRepository;
     private final IssuesLikeRepository issuesLikeRepository;
-    private final OptionRepository optionRepository;
-
+    private final IssuesOptRepository issuesOptRepository;
     //이의제기글 작성
     public IssuesResponseDto createIssue(List<MultipartFile> multipartFiles,
                                          IssuesRequestDto issuesRequestDto,
@@ -44,13 +43,13 @@ public class IssuesService {
 
         //맥북일 때
         if (iphoneOption==null){
-            Opt options = new Opt(macbookOption, issues);
-            optionRepository.save(options);
+            IssuesOpt options = new IssuesOpt(macbookOption, issues);
+            issuesOptRepository.save(options);
             return imgSave(multipartFiles, issues, member,options);
         } else{
             //아이폰일 때
-            Opt options = new Opt(iphoneOption, issues);
-            optionRepository.save(options);
+            IssuesOpt options = new IssuesOpt(iphoneOption, issues);
+            issuesOptRepository.save(options);
             return imgSave(multipartFiles, issues, member,options);
         }
 
@@ -108,7 +107,7 @@ public class IssuesService {
 
 ////반복되는 로직 메소드
     //이미지 저장
-    public IssuesResponseDto imgSave(List<MultipartFile> multipartFiles, Issues issues, Member member, Opt opt) throws IOException {
+    public IssuesResponseDto imgSave(List<MultipartFile> multipartFiles, Issues issues, Member member, IssuesOpt options) throws IOException {
         List<IssuesImage> imageList = new ArrayList<>();
 
         if(!(multipartFiles.size()==0)){
@@ -122,7 +121,7 @@ public class IssuesService {
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
         String avatarUrl = member.getAvatarUrl();
-        return new IssuesResponseDto(issues,avatarUrl, imageList, isLike,issues.getIssuesLikeCnt(), opt);
+        return new IssuesResponseDto(issues,avatarUrl, imageList, isLike,issues.getIssuesLikeCnt(), options);
     }
 
     //사진과 게시글 삭제
@@ -142,6 +141,6 @@ public class IssuesService {
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
         String avatarUrl = member.getAvatarUrl();
-        return new IssuesResponseDto(issues, avatarUrl, imgList, isLike, issues.getIssuesLikeCnt(), issues.getOpt());
+        return new IssuesResponseDto(issues, avatarUrl, imgList, isLike, issues.getIssuesLikeCnt(), issues.getIssuesOpt());
     }
 }
