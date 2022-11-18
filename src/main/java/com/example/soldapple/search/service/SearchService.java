@@ -15,10 +15,7 @@ public class SearchService {
 
     @Transactional
     public List<PostResponseDto> searchPost(String keyword){
-//        List<PostResponseDto> postResponseDtos = new ArrayList<>();
-        List<PostResponseDto> postResponseDtos = searchRepository.findByTitleContaining(keyword).orElseThrow(
-                () -> new RuntimeException("검색 결과가 없습니다.")
-        );
+        List<PostResponseDto> postResponseDtos = searchRepository.findByTitleContainingOrContentContaining(keyword, keyword);
 
         return postResponseDtos;
     }
