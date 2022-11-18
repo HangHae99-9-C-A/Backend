@@ -18,4 +18,8 @@ public interface PostRepositoryCustom {
 
     //post - category 정렬 + 내가 한 좋아요
     Page<?> findAllPostWithCategory(Pageable pageable, String category, Member member);
+
+    //post -category - search
+    Page<?> findAllPostWithCategoryWithSearch(Pageable pageable, String category, String search);
+
 }

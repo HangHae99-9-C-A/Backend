@@ -41,7 +41,16 @@ public class PostController {
             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.getAllPostWithCategory(pageable, category, userDetails.getMember());
     }
-
+    // 카테고리별 + 검색어
+    // api/post/{카테고리명}
+    @GetMapping("/{category}/{search}") // category = all
+    public Page<?> getAllPostWithCategoryWithSearch(
+            Pageable pageable,
+            @PathVariable(name = "category") String category,
+            @PathVariable(name = "search") String search,
+            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.getAllPostWithCategoryWithSearch(pageable, category, search);
+    }
 
     @PostMapping
     public PostResponseDto postCreate(@RequestPart(required = false) List<MultipartFile> multipartFiles,

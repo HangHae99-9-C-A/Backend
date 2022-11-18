@@ -7,10 +7,15 @@ import com.example.soldapple.post.dto.QPostResponseDto;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.entity.QPost;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
@@ -90,7 +95,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 //        list.stream().map(r-> {return (r.get(like.likeId)==null) ? false: true;}).collect(Collectors.toList());
 
         //제 3안
-        List<PostResponseDto> collect = list.stream().map(r -> new PostResponseDto(r.get(post)){public Boolean myLikeCheck = r.get(like.likeId) != null;}).collect(Collectors.toList());
+        List<PostResponseDto> collect = list.stream().map(r -> new PostResponseDto(r.get(post)) {
+            public Boolean myLikeCheck = r.get(like.likeId) != null;
+        }).collect(Collectors.toList());
 //        list.stream().map(r-> {return r.get(like.likeId) != null;}).collect(Collectors.toList());
 
         JPAQuery<Long> countQuery = queryFactory
@@ -100,54 +107,36 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return PageableExecutionUtils.getPage(collect, pageable, countQuery::fetchOne);
     }
 
-//    @Override
-//    public Page<PostResponseDto> findAllPostWithCategory2(Pageable pageable, String categoryReceived, Member mem) {
-//        QPost qPost = QPost.post;
-//        // QMember qMember = QMember.member;
-//        QLike qLike = QLike.like;
-//
-//        List<PostResponseDto> list = queryFactory.
-//                select(new QPostResponseDto(post))
-//                .from(post)
-//                .where(post.category.eq(categoryReceived))
-//                .leftJoin(post.likes, like).on(like.member.eq(mem))
-//                .orderBy(post.postId.desc())
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
-//
-////        System.out.println("Tuple 성공");
-////        list.stream().forEach(System.out::println);
-//        JPAQuery<Long> countQuery = queryFactory
-//                .select(post.count())
-//                .from(post);
-//
-//        return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
-//    }
+    @Override
+    public Page<?> findAllPostWithCategoryWithSearch(Pageable pageable, String categoryReceived, String searchReceived) {
 
-//    @Override
-//    public Page<PostResponseDto> findAllPostWithCategory(Pageable pageable, String categoryReceived) {
-//        QPost qPost = QPost.post;
-//        // QMember qMember = QMember.member;
-//        QLike qLike = QLike.like;
-//
-//        List<PostResponseDto> list = queryFactory.
-//                select(new QPostResponseDto(post))
-//                .from(post)
-//                .where(post.category.eq(categoryReceived))
-////                .leftJoin(post.likes, like).on(like.member.eq(mem))
-//                .orderBy(post.postId.desc())
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
-//
-////        System.out.println("Tuple 성공");
-////
-////        list.stream().forEach(System.out::println);
-//        JPAQuery<Long> countQuery = queryFactory
-//                .select(post.count())
-//                .from(post);
-//
-//        return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
-//    }
+        JPAQuery<PostResponseDto> query = queryFactory
+                .select(new QPostResponseDto(post))
+                .from(post)
+                .where(post.category.eq(categoryReceived)
+                        .and(post.title.contains(searchReceived))
+                        .or(post.content.contains(searchReceived)))
+//                .sor(pageable.getSort())
+                .orderBy()
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+
+
+
+        // sorting
+        Sort sort = pageable.getSort();
+        for (Sort.Order o : pageable.getSort()) {
+            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
+                    pathBuilder.get(o.getProperty())));
+        }
+
+        List<PostResponseDto> list = query.fetch();
+        JPAQuery<Long> countQuery = queryFactory
+                .select(post.count())
+                .from(post);
+
+        return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
+    }
 }

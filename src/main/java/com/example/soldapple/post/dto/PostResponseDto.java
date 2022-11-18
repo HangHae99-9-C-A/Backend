@@ -75,7 +75,7 @@ public class PostResponseDto {
         this.content = post.getContent();
         // this.comments = post.getComments();
         this.memberId = post.getMember().getId();
-
+        this.likeCnt = post.getPostLikeCnt();
         //시간 추가
         this.createdAt = TimeConverter.convertTime(post.getCreatedAt());
         this.modifiedAt = TimeConverter.convertTime(post.getModifiedAt());
