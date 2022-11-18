@@ -7,10 +7,15 @@ import com.example.soldapple.post.dto.QPostResponseDto;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.entity.QPost;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
@@ -105,17 +110,29 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<?> findAllPostWithCategoryWithSearch(Pageable pageable, String categoryReceived, String searchReceived) {
 
-        List<PostResponseDto> list = queryFactory
+        JPAQuery<PostResponseDto> query = queryFactory
                 .select(new QPostResponseDto(post))
                 .from(post)
                 .where(post.category.eq(categoryReceived)
                         .and(post.title.contains(searchReceived))
                         .or(post.content.contains(searchReceived)))
+//                .sor(pageable.getSort())
                 .orderBy()
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+                .limit(pageable.getPageSize());
 
+
+
+
+        // sorting
+        Sort sort = pageable.getSort();
+        for (Sort.Order o : pageable.getSort()) {
+            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
+                    pathBuilder.get(o.getProperty())));
+        }
+
+        List<PostResponseDto> list = query.fetch();
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post);
