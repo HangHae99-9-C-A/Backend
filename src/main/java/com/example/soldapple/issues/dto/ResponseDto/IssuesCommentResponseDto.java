@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IssuesCommentResponseDto {
-    private Long issuesCommentId;
+    private Long commentId;
     private String nickname;
     private String comment;
     private String createdAt;
@@ -18,7 +18,7 @@ public class IssuesCommentResponseDto {
     private String modifiedAt;
 
     public IssuesCommentResponseDto(IssuesComment issuesComment){
-        this.issuesCommentId = issuesComment.getIssuesCommentId();
+        this.commentId = issuesComment.getIssuesCommentId();
         this.nickname = issuesComment.getMember().getNickname();
         this.comment = issuesComment.getIssuesComment();
         this.createdAt = TimeConverter.convertTime ( issuesComment.getCreatedAt () );

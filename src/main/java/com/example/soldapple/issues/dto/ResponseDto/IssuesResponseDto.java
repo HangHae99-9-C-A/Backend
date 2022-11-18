@@ -4,11 +4,14 @@ import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.entity.IssuesComment;
 import com.example.soldapple.issues.entity.IssuesImage;
+import com.example.soldapple.issues.entity.IssuesOpt;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @NoArgsConstructor
 public class IssuesResponseDto {
@@ -17,7 +20,9 @@ public class IssuesResponseDto {
     private String nickname;
     private String createdAt;
     private String modifiedAt;
+    private String avatarUrl;
     private String category;
+    private IssuesOpt options;
     private List<IssuesImage> images;
     private Long expectPrice;
     private Long userPrice;
@@ -28,13 +33,16 @@ public class IssuesResponseDto {
     private Long likeCnt;
     private Long memberId;
 
-    public IssuesResponseDto(Issues issues, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt){
+    public IssuesResponseDto(Issues issues, String avatarUrl, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt, IssuesOpt options){
         this.id = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
+        this.avatarUrl = avatarUrl;
+        this.memberId = issues.getMember().getId();
         this.createdAt = TimeConverter.convertTime ( issues.getCreatedAt () );
         this.modifiedAt = TimeConverter.convertTime ( issues.getModifiedAt () );
         this.category = issues.getCategory();
+        this.options = options;
         this.images = issuesImages;
         this.expectPrice = issues.getExpectPrice();
         this.userPrice = issues.getIssuesUserPrice();

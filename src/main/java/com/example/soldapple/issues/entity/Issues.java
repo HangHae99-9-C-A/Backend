@@ -51,6 +51,9 @@ public class Issues extends TimeStamped {
     private Boolean isLike;
     private Long issuesLikeCnt = 0L;
 
+    @OneToOne(mappedBy = "issues",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private IssuesOpt issuesOpt;
+
     public Issues(IssuesRequestDto issuesRequestDto, Member member) {
         this.member = member;
         this.issuesTitle = issuesRequestDto.getTitle();

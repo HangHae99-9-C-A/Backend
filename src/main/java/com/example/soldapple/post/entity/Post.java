@@ -43,6 +43,9 @@ public class Post extends TimeStamped {
     private Boolean isLike;
     private Long postLikeCnt=0L;
 
+    @OneToOne(mappedBy = "post", fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Opt opt;
+
     public Post(PostReqDto postReqDto, Member member) {
         this.member = member;
         this.title = postReqDto.getTitle();

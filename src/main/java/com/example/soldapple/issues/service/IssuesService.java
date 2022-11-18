@@ -1,11 +1,15 @@
 package com.example.soldapple.issues.service;
 
 import com.example.soldapple.aws_s3.S3UploadUtil;
+import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
+import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.entity.IssuesImage;
+import com.example.soldapple.issues.entity.IssuesOpt;
 import com.example.soldapple.issues.repository.IssuesImageRepository;
+import com.example.soldapple.issues.repository.IssuesOptRepository;
 import com.example.soldapple.issues.repository.IssuesRepository;
 import com.example.soldapple.like.repository.IssuesLikeRepository;
 import com.example.soldapple.member.entity.Member;
@@ -27,17 +31,31 @@ public class IssuesService {
     private final S3UploadUtil s3UploadUtil;
     private final IssuesImageRepository issuesimageRepository;
     private final IssuesLikeRepository issuesLikeRepository;
-
+    private final IssuesOptRepository issuesOptRepository;
     //이의제기글 작성
     public IssuesResponseDto createIssue(List<MultipartFile> multipartFiles,
                                          IssuesRequestDto issuesRequestDto,
+                                         GetIPhonePriceResDto iphoneOption,
+                                         GetMacbookPriceResDto macbookOption,
                                          Member member) throws IOException{
         Issues issues = new Issues(issuesRequestDto, member);
         issuesRepository.save(issues);
 
-        return imgSave(multipartFiles, issues, member);
+        //맥북일 때
+        if (iphoneOption==null){
+            IssuesOpt options = new IssuesOpt(macbookOption, issues);
+            issuesOptRepository.save(options);
+            return imgSave(multipartFiles, issues, member,options);
+        } else{
+            //아이폰일 때
+            IssuesOpt options = new IssuesOpt(iphoneOption, issues);
+            issuesOptRepository.save(options);
+            return imgSave(multipartFiles, issues, member,options);
+        }
+
     }
 
+    //이의제기글 수정
     public IssuesResponseDto updateIssue(Long issuesId,IssuesRequestDto issuesRequestDto, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
                 ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 수정 권한이 없습니다.")
@@ -89,7 +107,7 @@ public class IssuesService {
 
 ////반복되는 로직 메소드
     //이미지 저장
-    public IssuesResponseDto imgSave(List<MultipartFile> multipartFiles, Issues issues, Member member) throws IOException {
+    public IssuesResponseDto imgSave(List<MultipartFile> multipartFiles, Issues issues, Member member, IssuesOpt options) throws IOException {
         List<IssuesImage> imageList = new ArrayList<>();
 
         if(!(multipartFiles.size()==0)){
@@ -102,7 +120,8 @@ public class IssuesService {
             }
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, imageList, isLike,issues.getIssuesLikeCnt());
+        String avatarUrl = member.getAvatarUrl();
+        return new IssuesResponseDto(issues,avatarUrl, imageList, isLike,issues.getIssuesLikeCnt(), options);
     }
 
     //사진과 게시글 삭제
@@ -121,6 +140,7 @@ public class IssuesService {
             imgList.add(img);
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, imgList, isLike, issues.getIssuesLikeCnt());
+        String avatarUrl = member.getAvatarUrl();
+        return new IssuesResponseDto(issues, avatarUrl, imgList, isLike, issues.getIssuesLikeCnt(), issues.getIssuesOpt());
     }
 }

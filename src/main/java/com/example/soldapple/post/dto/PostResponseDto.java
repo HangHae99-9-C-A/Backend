@@ -3,6 +3,7 @@ package com.example.soldapple.post.dto;
 import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.post.entity.Comment;
 import com.example.soldapple.post.entity.Image;
+import com.example.soldapple.post.entity.Opt;
 import com.example.soldapple.post.entity.Post;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
@@ -22,7 +23,9 @@ public class PostResponseDto {
     private String nickname;
     private String createdAt;
     private String modifiedAt;
+    private String avatarUrl;
     private String category;
+    private Opt options;
     private List<Image> images;
     private Long expectPrice;
     private Long userPrice;
@@ -35,18 +38,24 @@ public class PostResponseDto {
     //프론트 요청으로...... 어쩔수없이 id 추가
     private Long memberId;
 
-    public PostResponseDto(Post post, List<Image> images, Boolean isLike, Long likeCnt) {
+    private Long likeCnt;
+
+    public PostResponseDto(Post post,String avatarUrl, List<Image> images, Boolean isLike, Long likeCnt, Opt options){
         this.postId = post.getPostId();
         this.title = post.getTitle();
         this.nickname = post.getMember().getNickname();
         this.createdAt = TimeConverter.convertTime(post.getCreatedAt());
         this.modifiedAt = TimeConverter.convertTime(post.getModifiedAt());
+        this.memberId = post.getMember().getId();
+        this.nickname =post.getMember().getNickname();
+        this.avatarUrl = avatarUrl;
         this.category = post.getCategory();
+        this.options = post.getOpt();
         this.images = images;
         this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
-        this.comments = post.getComments();
+        this.options = options;
         this.isLike = isLike;
         this.likeCnt = likeCnt;
 
