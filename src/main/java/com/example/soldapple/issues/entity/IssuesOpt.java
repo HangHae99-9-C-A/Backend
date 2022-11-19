@@ -19,12 +19,11 @@ public class IssuesOpt {
     private Long optionId;
 
     private String category;
-    private String years;
+    private Integer years;
     private String model;
     private String options;
-    private String batteryState;
-    private String displayState;
-    private String scratchState;
+    private Integer batteryState;
+    private String state;
     private String careOX;
     private String careDate;
     private Integer getPrice;
@@ -46,6 +45,7 @@ public class IssuesOpt {
         this.keyboard = macbookOption.getKeyboard();
         this.storage = macbookOption.getStorage();
         this.batteryState = macbookOption.getBatteryState();
+        this.state = macbookOption.getMacbookState();
         this.careOX = macbookOption.getCareOX();
         this.careDate = macbookOption.getCareDate();
         this.getPrice = macbookOption.getGetPrice();
@@ -58,8 +58,7 @@ public class IssuesOpt {
         this.model=iphoneOption.getModel();
         this.options=iphoneOption.getOption();
         this.batteryState = iphoneOption.getBatteryState();
-        this.displayState = iphoneOption.getDisplayState();
-        this.scratchState= iphoneOption.getScratchState();
+        this.state = iphoneOption.getIphoneState();
         this.careOX = iphoneOption.getCareOX();
         this.careDate = iphoneOption.getCareDate();
         this.getPrice = iphoneOption.getGetPrice();

@@ -110,7 +110,10 @@ public class CreatePriceService {
         }else{
             option = "c";
         }
-        int price = macbookRepository.findByProductYearAndModelAndCpuAndInchAndKeyboardAndRamAndStorageAndOpt(getMacbookPriceReqDto.getYear(),model,cpu,getMacbookPriceReqDto.getOption(),getMacbookPriceReqDto.getKeyboard(),getMacbookPriceReqDto.getRam(),getMacbookPriceReqDto.getStorage(),option).getPrice();
+        int inch = Integer.parseInt(getMacbookPriceReqDto.getOption());
+        System.out.println(inch);
+        System.out.println(getMacbookPriceReqDto.getOption());
+        int price = macbookRepository.findByProductYearAndModelAndCpuAndInchAndKeyboardAndRamAndStorageAndOpt(getMacbookPriceReqDto.getYear(),model,cpu, inch,getMacbookPriceReqDto.getKeyboard(),getMacbookPriceReqDto.getRam(),getMacbookPriceReqDto.getStorage(),option).getPrice();
 
         return new GetMacbookPriceResDto(getMacbookPriceReqDto, price);
     }

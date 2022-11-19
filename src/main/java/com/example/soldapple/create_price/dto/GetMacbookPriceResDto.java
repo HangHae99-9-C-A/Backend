@@ -12,7 +12,7 @@ public class GetMacbookPriceResDto {
     private String category;
     private Integer year;
     private String model; //model-cpu
-    private Integer option; //inch
+    private String option; //inch
     private String macbookState;
     private String ram;
     private String keyboard;
