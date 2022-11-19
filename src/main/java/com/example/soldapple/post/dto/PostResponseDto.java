@@ -43,23 +43,19 @@ public class PostResponseDto {
         this.postId = post.getPostId();
         this.title = post.getTitle();
         this.nickname = post.getMember().getNickname();
+        this.memberId = post.getMember().getId();
+        this.avatarUrl = avatarUrl;
         this.createdAt = TimeConverter.convertTime(post.getCreatedAt());
         this.modifiedAt = TimeConverter.convertTime(post.getModifiedAt());
-        this.memberId = post.getMember().getId();
-        this.nickname =post.getMember().getNickname();
-        this.avatarUrl = avatarUrl;
         this.category = post.getCategory();
-        this.options = post.getOpt();
+        this.options = options;
         this.images = images;
         this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
-        this.options = options;
+        this.comments = post.getComments();
         this.isLike = isLike;
         this.likeCnt = likeCnt;
-
-        //프론트 요청
-        this.memberId = post.getMember().getId();
     }
 
     //myinfo
