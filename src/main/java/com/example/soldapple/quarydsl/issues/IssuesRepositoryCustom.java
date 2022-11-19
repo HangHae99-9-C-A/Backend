@@ -8,8 +8,10 @@ public interface IssuesRepositoryCustom {
 
 
 
-    Page<IssuesResponseDto> findMyQuery(Pageable pageable);
+    Page<IssuesResponseDto> findAllMyIssues(Pageable pageable);
+    Page<IssuesResponseDto> findAllMyIssuesWithSearch(Pageable pageable, String string);
 
     //issues - category 정렬 + 내가 한 좋아요
     Page<IssuesResponseDto> findAllIssuesWithCategory(Pageable pageable, String category);
+   Page<?> findAllIssuesWithCategoryWithSearch(Pageable pageable, String category, String search);
 }

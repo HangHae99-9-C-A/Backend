@@ -48,65 +48,95 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetch();
     }
 
+    //전체글 + 정렬
     @Override
-    public Page<PostResponseDto> findMyQuery(Pageable pageable) {
+    public Page<PostResponseDto> findAllMyPost(Pageable pageable) {
 
         QPost qPost = post;
 
-        List<PostResponseDto> postList = queryFactory
+        JPAQuery<PostResponseDto> query = queryFactory
                 .select(new QPostResponseDto(post))
                 .from(post)
-                .orderBy(post.postId.desc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+                .limit(pageable.getPageSize());
+
 
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post);
 
+        // sorting
+        for (Sort.Order o : pageable.getSort()) {
+            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
+                    pathBuilder.get(o.getProperty())));
+        }
+
+
+        List<PostResponseDto> list = query.fetch();
 
         //       return new PageImpl<>(postList, pageable, 0);
-        return PageableExecutionUtils.getPage(postList, pageable, countQuery::fetchOne);
+        return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
 
-
+    //전체글 + 검색 + 정렬
     @Override
-    public Page<?> findAllPostWithCategory(Pageable pageable, String categoryReceived, Member mem) {
-        List<Tuple> list = queryFactory.
-                select(post, like.likeId)
+    public Page<PostResponseDto> findAllMyPostWithSearch(Pageable pageable, String searchReceived) {
+
+        QPost qPost = post;
+
+        JPAQuery<PostResponseDto> query = queryFactory
+                .select(new QPostResponseDto(post))
                 .from(post)
-                .where(post.category.eq(categoryReceived))
-                .leftJoin(post.likes, like).on(like.member.eq(mem))
-                .orderBy(post.postId.desc())
+                .where(post.title.contains(searchReceived).or(post.content.contains(searchReceived)))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+                .limit(pageable.getPageSize());
 
-
-        //제 1안
-//        List<PostResponseDto> collect = list.stream().map(r -> new PostResponseDto(r.get(post)) {
-//                    public Long myLong = r.get(like.likeId);
-//                }
-//        ).collect(Collectors.toList());
-
-        //제 2안
-//        List<PostResponseDto> collect = list.stream().map(r -> new PostResponseDto(r.get(post))).collect(Collectors.toList());
-//        list.stream().map(r-> {return (r.get(like.likeId)==null) ? false: true;}).collect(Collectors.toList());
-
-        //제 3안
-        List<PostResponseDto> collect = list.stream().map(r -> new PostResponseDto(r.get(post)) {
-            public Boolean myLikeCheck = r.get(like.likeId) != null;
-        }).collect(Collectors.toList());
-//        list.stream().map(r-> {return r.get(like.likeId) != null;}).collect(Collectors.toList());
 
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post);
 
-        return PageableExecutionUtils.getPage(collect, pageable, countQuery::fetchOne);
+        // sorting
+        Sort sort = pageable.getSort();
+        for (Sort.Order o : pageable.getSort()) {
+            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
+                    pathBuilder.get(o.getProperty())));
+        }
+
+
+        List<PostResponseDto> list = query.fetch();
+
+        //       return new PageImpl<>(postList, pageable, 0);
+        return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
 
+    //카테고리 + 정렬
+    @Override
+    public Page<?> findAllPostWithCategory(Pageable pageable, String categoryReceived) {
+        JPAQuery<PostResponseDto> query = queryFactory.
+                select(new QPostResponseDto(post))
+                .from(post)
+                .where(post.category.eq(categoryReceived))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        // sorting
+        for (Sort.Order o : pageable.getSort()) {
+            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
+                    pathBuilder.get(o.getProperty())));
+        }
+        List<PostResponseDto> list = query.fetch();
+        JPAQuery<Long> countQuery = queryFactory
+                .select(post.count())
+                .from(post);
+
+        return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
+    }
+
+    //카테고리 + 검색 + 정렬
     @Override
     public Page<?> findAllPostWithCategoryWithSearch(Pageable pageable, String categoryReceived, String searchReceived) {
 
@@ -114,18 +144,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .select(new QPostResponseDto(post))
                 .from(post)
                 .where(post.category.eq(categoryReceived)
-                        .and(post.title.contains(searchReceived))
-                        .or(post.content.contains(searchReceived)))
-//                .sor(pageable.getSort())
-                .orderBy()
+                        .and(post.title.contains(searchReceived)).or(post.content.contains(searchReceived)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
-
-
-
         // sorting
-        Sort sort = pageable.getSort();
         for (Sort.Order o : pageable.getSort()) {
             PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
             query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
@@ -139,4 +162,41 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
+
+
+//    @Override
+//    public Page<?> findAllPostWithCategory(Pageable pageable, String categoryReceived, Member mem) {
+//        List<Tuple> list = queryFactory.
+//                select(post, like.likeId)
+//                .from(post)
+//                .where(post.category.eq(categoryReceived))
+//                .leftJoin(post.likes, like).on(like.member.eq(mem))
+//                .orderBy(post.postId.desc())
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+//                .fetch();
+//
+//
+//        //제 1안
+////        List<PostResponseDto> collect = list.stream().map(r -> new PostResponseDto(r.get(post)) {
+////                    public Long myLong = r.get(like.likeId);
+////                }
+////        ).collect(Collectors.toList());
+//
+//        //제 2안
+////        List<PostResponseDto> collect = list.stream().map(r -> new PostResponseDto(r.get(post))).collect(Collectors.toList());
+////        list.stream().map(r-> {return (r.get(like.likeId)==null) ? false: true;}).collect(Collectors.toList());
+//
+//        //제 3안
+//        List<PostResponseDto> collect = list.stream().map(r -> new PostResponseDto(r.get(post)) {
+//            public Boolean myLikeCheck = r.get(like.likeId) != null;
+//        }).collect(Collectors.toList());
+////        list.stream().map(r-> {return r.get(like.likeId) != null;}).collect(Collectors.toList());
+//
+//        JPAQuery<Long> countQuery = queryFactory
+//                .select(post.count())
+//                .from(post);
+//
+//        return PageableExecutionUtils.getPage(collect, pageable, countQuery::fetchOne);
+//    }
 }

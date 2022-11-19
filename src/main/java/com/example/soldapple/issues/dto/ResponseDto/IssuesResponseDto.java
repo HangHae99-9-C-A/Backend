@@ -68,5 +68,6 @@ public class IssuesResponseDto {
         this.createdAt = TimeConverter.convertTime(issues.getCreatedAt());
         this.modifiedAt = TimeConverter.convertTime(issues.getModifiedAt());
         this.memberId = issues.getMember().getId();
+        this.likeCnt = issues.getIssuesLikeCnt();
     }
 }

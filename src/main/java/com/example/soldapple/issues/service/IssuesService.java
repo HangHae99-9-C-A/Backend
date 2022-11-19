@@ -13,18 +13,12 @@ import com.example.soldapple.issues.repository.IssuesOptRepository;
 import com.example.soldapple.issues.repository.IssuesRepository;
 import com.example.soldapple.like.repository.IssuesLikeRepository;
 import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.post.dto.PostResponseDto;
-import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -153,13 +147,24 @@ public class IssuesService {
         String avatarUrl = member.getAvatarUrl();
         return new IssuesResponseDto(issues, avatarUrl, imgList, isLike, issues.getIssuesLikeCnt(), issues.getIssuesOpt());
     }
+
     //이의글 전체 조회 무한스크롤
     public Page<IssuesResponseDto> getAllIssues(Pageable pageable) {
-        return issuesRepository.findMyQuery(pageable);
+        return issuesRepository.findAllMyIssues(pageable);
+    }
+    //이의글 전체 조회 +검색 무한스크롤
+    public Page<IssuesResponseDto> getAllIssuesWithSearch(Pageable pageable,String search) {
+        return issuesRepository.findAllMyIssuesWithSearch(pageable,search);
     }
     //category + 내 좋아요 무한스크롤
     public Page<IssuesResponseDto> getAllIssuesWithCategory(Pageable pageable, String category) {
         Page<IssuesResponseDto> allPostWithCategory = issuesRepository.findAllIssuesWithCategory(pageable, category);
         return allPostWithCategory;
     }
+    //category + 검색 + 정렬
+    public Page<?> getAllIssuesWithCategoryWithSearch(Pageable pageable, String category,String search) {
+        Page<?> allIssuesWithCategoryWithSearch = issuesRepository.findAllIssuesWithCategoryWithSearch(pageable, category,search);
+        return allIssuesWithCategoryWithSearch;
+    }
+
 }
