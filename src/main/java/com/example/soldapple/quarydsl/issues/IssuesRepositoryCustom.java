@@ -12,4 +12,5 @@ public interface IssuesRepositoryCustom {
 
     //issues - category 정렬 + 내가 한 좋아요
     Page<IssuesResponseDto> findAllIssuesWithCategory(Pageable pageable, String category);
+   Page<?> findAllIssuesWithCategoryWithSearch(Pageable pageable, String category, String search);
 }

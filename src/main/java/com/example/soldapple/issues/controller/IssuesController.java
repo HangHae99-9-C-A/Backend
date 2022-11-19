@@ -37,6 +37,15 @@ public class IssuesController {
     public Page<IssuesResponseDto> getAllPostWithCategory(
             Pageable pageable, @PathVariable(name = "category") String category) {
         return issuesService.getAllIssuesWithCategory(pageable, category);
+
+    }
+    // 카테고리 + 검색 + sort
+    @GetMapping("/{category}/{search}") // category = all
+    public Page<?> getAllIssuesWithCategoryWithSearch(
+            Pageable pageable,
+            @PathVariable(name = "category") String category,
+            @PathVariable(name = "search") String search) {
+        return issuesService.getAllIssuesWithCategoryWithSearch(pageable, category, search);
     }
 
     @PostMapping
