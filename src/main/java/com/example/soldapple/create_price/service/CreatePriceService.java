@@ -31,8 +31,8 @@ public class CreatePriceService {
     }
 
     public List<String> iphoneThird(Integer year, String model) {
-        List<String> sotrageList = iPhoneRepository.findAllByProductYearAndModelOrderByStorage(year,model).stream().map(IPhone::getStorage).distinct().collect(Collectors.toList());
-        return sotrageList;
+        List<String> storageList = iPhoneRepository.findAllByProductYearAndModelOrderByStorage(year,model).stream().map(IPhone::getStorage).distinct().collect(Collectors.toList());
+        return storageList;
     }
 
     public List<Integer> macbookFirst() {
@@ -59,10 +59,59 @@ public class CreatePriceService {
     }
 
     public GetIPhonePriceResDto getIPhonePrice(GetIPhonePriceReqDto getIPhonePriceReqDto) {
-        return new GetIPhonePriceResDto(getIPhonePriceReqDto);
+        int battery = getIPhonePriceReqDto.getBatteryState()/2;
+        int state;
+        String option;
+        if(getIPhonePriceReqDto.getIphoneState().equals("s")){
+            state=50;
+        }else if(getIPhonePriceReqDto.getIphoneState().equals("a")) {
+            state=40;
+        }else if (getIPhonePriceReqDto.getIphoneState().equals("b")) {
+            state=30;
+        }else {
+            state=20;
+        }
+
+        if(battery+state>=90){
+            option = "s";
+        }else if(battery+state>=70){
+            option = "a";
+        }else if(battery+state>=40){
+            option = "b";
+        }else{
+            option = "c";
+        }
+        int price = iPhoneRepository.findByProductYearAndModelAndStorageAndOpt(getIPhonePriceReqDto.getYear(), getIPhonePriceReqDto.getModel(), getIPhonePriceReqDto.getOption(), option).getPrice();
+        return new GetIPhonePriceResDto(getIPhonePriceReqDto, price);
     }
 
     public GetMacbookPriceResDto getMacbookPrice(GetMacbookPriceReqDto getMacbookPriceReqDto) {
-        return new GetMacbookPriceResDto(getMacbookPriceReqDto);
+        String model = getMacbookPriceReqDto.getModel().split("-")[0];
+        String cpu = getMacbookPriceReqDto.getModel().split("-")[1];
+        int battery = getMacbookPriceReqDto.getBatteryState()/2;
+        int state;
+        String option;
+        if(getMacbookPriceReqDto.getMacbookState().equals("s")){
+            state=50;
+        }else if(getMacbookPriceReqDto.getMacbookState().equals("a")) {
+            state=40;
+        }else if (getMacbookPriceReqDto.getMacbookState().equals("b")) {
+            state=30;
+        }else {
+            state=20;
+        }
+
+        if(battery+state>=90){
+            option = "s";
+        }else if(battery+state>=70){
+            option = "a";
+        }else if(battery+state>=40){
+            option = "b";
+        }else{
+            option = "c";
+        }
+        int price = macbookRepository.findByProductYearAndModelAndCpuAndInchAndKeyboardAndRamAndStorageAndOpt(getMacbookPriceReqDto.getYear(),model,cpu,getMacbookPriceReqDto.getOption(),getMacbookPriceReqDto.getKeyboard(),getMacbookPriceReqDto.getRam(),getMacbookPriceReqDto.getStorage(),option).getPrice();
+
+        return new GetMacbookPriceResDto(getMacbookPriceReqDto, price);
     }
 }

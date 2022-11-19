@@ -18,10 +18,14 @@ public class IPhone {
     private Integer productYear;
     private String model;
     private String storage;
+    private String opt;
+    private Integer price;
 
-    public IPhone(CreateIPhoneReqDto createTableReqDto){
-        this.productYear = createTableReqDto.getYear();
-        this.model = createTableReqDto.getModel();
-        this.storage = createTableReqDto.getStorage();
+    public IPhone(CreateIPhoneReqDto createIPhoneReqDto){
+        this.productYear = createIPhoneReqDto.getYear();
+        this.model = createIPhoneReqDto.getModel();
+        this.storage = createIPhoneReqDto.getStorage();
+        this.opt = createIPhoneReqDto.getOpt();
+        this.price = createIPhoneReqDto.getPrice();
     }
 }

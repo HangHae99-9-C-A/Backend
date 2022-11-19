@@ -22,4 +22,8 @@ public class CreateMacbookReqDto {
     private String ram;
     @NotBlank
     private String storage;
+    @NotBlank
+    private String macbookOption;
+    @NotBlank
+    private Integer price;
 }

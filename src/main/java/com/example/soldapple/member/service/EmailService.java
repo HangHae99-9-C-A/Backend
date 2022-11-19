@@ -3,8 +3,6 @@ package com.example.soldapple.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -17,7 +15,6 @@ public class EmailService {
     //의존성 주입을 통해서 필요한 객체를 가져온다.
     private final JavaMailSender emailSender;
     // 타임리프를사용하기 위한 객체를 의존성 주입으로 가져온다
-    private final SpringTemplateEngine templateEngine;
     private String authNum; //랜덤 인증 코드
 
     //랜덤 인증 코드 생성
@@ -30,10 +27,10 @@ public class EmailService {
 
             switch (index) {
                 case 0 :
-                    key.append((char) ((int)random.nextInt(26) + 97));
+                    key.append((char) (random.nextInt(26) + 97));
                     break;
                 case 1:
-                    key.append((char) ((int)random.nextInt(26) + 65));
+                    key.append((char) (random.nextInt(26) + 65));
                     break;
                 case 2:
                     key.append(random.nextInt(9));

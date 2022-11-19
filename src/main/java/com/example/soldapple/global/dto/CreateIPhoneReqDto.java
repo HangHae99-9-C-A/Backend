@@ -14,4 +14,8 @@ public class CreateIPhoneReqDto {
     private String model;
     @NotBlank
     private String storage;
+    @NotBlank
+    private String opt;
+    @NotBlank
+    private Integer price;
 }
