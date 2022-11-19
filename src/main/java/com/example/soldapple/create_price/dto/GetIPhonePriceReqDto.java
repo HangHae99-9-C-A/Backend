@@ -11,11 +11,9 @@ public class GetIPhonePriceReqDto {
     private String category;
     private Integer year;
     private String model;
-    private String storage;
-    private String option;
+    private String option; //storage
     private Integer batteryState;
-    private String displayState;
-    private String scratchState;
+    private String iphoneState;
     private String careOX;
     private String careDate;
 }

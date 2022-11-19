@@ -13,11 +13,9 @@ public class GetIPhonePriceResDto {
     private String category;
     private Integer year;
     private String model;
-    private String storage;
-    private String option;
+    private String option; //storage
     private Integer batteryState;
-    private String displayState;
-    private String scratchState;
+    private String iphoneState;
     private String careOX;
     private String careDate;
     private Integer getPrice;
@@ -26,11 +24,9 @@ public class GetIPhonePriceResDto {
         this.category = getIPhonePriceReqDto.getCategory();
         this.year = getIPhonePriceReqDto.getYear();
         this.model = getIPhonePriceReqDto.getModel();
-        this.storage = getIPhonePriceReqDto.getStorage();
         this.option = getIPhonePriceReqDto.getOption();
         this.batteryState = getIPhonePriceReqDto.getBatteryState();
-        this.displayState = getIPhonePriceReqDto.getDisplayState();
-        this.scratchState = getIPhonePriceReqDto.getScratchState();
+        this.iphoneState = getIPhonePriceReqDto.getIphoneState();
         this.careOX = getIPhonePriceReqDto.getCareOX();
         this.careDate = getIPhonePriceReqDto.getCareDate();
         this.getPrice = price;

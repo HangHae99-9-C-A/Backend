@@ -10,13 +10,12 @@ import java.util.Date;
 public class GetMacbookPriceReqDto {
     private String category;
     private Integer year;
-    private String cpu;
-    private Integer inch;
-    private String model;
-    private String option;
+    private String model; //model-cpu
+    private Integer option; //inch
     private String ram;
     private String keyboard;
     private String storage;
+    private String macbookState;
     private Integer batteryState;
     private String careOX;
     private String careDate;

@@ -11,10 +11,9 @@ import java.util.Date;
 public class GetMacbookPriceResDto {
     private String category;
     private Integer year;
-    private String model;
-    private String cpu;
-    private Integer inch;
-    private String option;
+    private String model; //model-cpu
+    private Integer option; //inch
+    private String macbookState;
     private String ram;
     private String keyboard;
     private String storage;
@@ -35,7 +34,6 @@ public class GetMacbookPriceResDto {
         this.careOX = getMacbookPriceReqDto.getCareOX();
         this.careDate = getMacbookPriceReqDto.getCareDate();
         this.getPrice = price;
-        this.cpu = getMacbookPriceReqDto.getCpu();
-        this.inch = getMacbookPriceReqDto.getInch();
+        this.macbookState = getMacbookPriceReqDto.getMacbookState();
     }
 }
