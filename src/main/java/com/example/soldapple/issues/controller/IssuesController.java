@@ -25,22 +25,31 @@ public class IssuesController {
 
     //무한스크롤 적용입니다
     // 모든 이의제기글 읽어오기
-    @GetMapping
+    @GetMapping("/all")
     public Page<IssuesResponseDto> getAllIssues(Pageable pageable) {
         return issuesService.getAllIssues(pageable);
 
     }
 
+    // 모든 이의제기글 읽어오기
+    @GetMapping("/all/{search}")
+    public Page<IssuesResponseDto> getAllIssuesWithSearch(Pageable pageable,
+                                                          @PathVariable(name = "search", required = false) String search) {
+        return issuesService.getAllIssuesWithSearch(pageable, search);
+
+    }
+
     // 카테고리별 + 내 좋아요 한 포스트 읽어오기
     // api/post/{카테고리명}
-    @GetMapping("/{category}")
+    @GetMapping("category/{category}")
     public Page<IssuesResponseDto> getAllPostWithCategory(
             Pageable pageable, @PathVariable(name = "category") String category) {
         return issuesService.getAllIssuesWithCategory(pageable, category);
 
     }
+
     // 카테고리 + 검색 + sort
-    @GetMapping("/{category}/{search}") // category = all
+    @GetMapping("category/{category}/{search}") // category = all
     public Page<?> getAllIssuesWithCategoryWithSearch(
             Pageable pageable,
             @PathVariable(name = "category") String category,

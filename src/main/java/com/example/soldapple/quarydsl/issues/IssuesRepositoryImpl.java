@@ -32,37 +32,76 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    //전체 이의제기글 + 정렬
     @Override
-    public Page<IssuesResponseDto> findMyQuery(Pageable pageable) {
+    public Page<IssuesResponseDto> findAllMyIssues(Pageable pageable) {
         QIssues qIssues = issues;
 
-        List<IssuesResponseDto> postList = queryFactory
+        JPAQuery<IssuesResponseDto> query = queryFactory
                 .select(new QIssuesResponseDto(issues))
                 .from(issues)
-                .orderBy(issues.issuesId.desc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+                .limit(pageable.getPageSize());
+
 
         JPAQuery<Long> countQuery = queryFactory
                 .select(issues.count())
                 .from(issues);
 
-        return PageableExecutionUtils.getPage(postList, pageable, countQuery::fetchOne);
+        // sorting
+        for (Sort.Order o : pageable.getSort()) {
+            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
+                    pathBuilder.get(o.getProperty())));
+        }
+        List<IssuesResponseDto> list = query.fetch();
+        return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
 
-    //카테고리별 이의제기글 get
+    //전체 이의제기글 + 검색 + 정렬
+    @Override
+    public Page<IssuesResponseDto> findAllMyIssuesWithSearch(Pageable pageable, String searchReceived) {
+
+
+        JPAQuery<IssuesResponseDto> query = queryFactory
+                .select(new QIssuesResponseDto(issues))
+                .from(issues)
+                .where(issues.issuesTitle.contains(searchReceived).or(issues.issuesContent.contains(searchReceived)))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(issues.count())
+                .from(issues);
+
+        // sorting
+        for (Sort.Order o : pageable.getSort()) {
+            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
+                    pathBuilder.get(o.getProperty())));
+        }
+        List<IssuesResponseDto> list = query.fetch();
+        return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
+    }
+
+    //카테고리별 이의제기글 + 정렬
     @Override
     public Page<IssuesResponseDto> findAllIssuesWithCategory(Pageable pageable, String categoryReceived) {
-        List<IssuesResponseDto> list = queryFactory.
+        JPAQuery<IssuesResponseDto> query = queryFactory.
                 select(new QIssuesResponseDto(issues))
                 .from(issues)
                 .where(issues.category.eq(categoryReceived))
                 .orderBy(issues.issuesId.desc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
+                .limit(pageable.getPageSize());
+// sorting
+        for (Sort.Order o : pageable.getSort()) {
+            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
+                    pathBuilder.get(o.getProperty())));
+        }
+        List<IssuesResponseDto> list = query.fetch();
         JPAQuery<Long> countQuery = queryFactory
                 .select(issues.count())
                 .from(issues);
@@ -72,7 +111,8 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
 
     //카테고리 + 검색 + 정렬
     @Override
-    public Page<?> findAllIssuesWithCategoryWithSearch(Pageable pageable, String categoryReceived, String searchReceived) {
+    public Page<?> findAllIssuesWithCategoryWithSearch(Pageable pageable, String categoryReceived, String
+            searchReceived) {
 
         JPAQuery<IssuesResponseDto> query = queryFactory
                 .select(new QIssuesResponseDto(issues))
@@ -98,6 +138,6 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
                 .from(post);
 
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
-        
+
     }
 }

@@ -150,7 +150,11 @@ public class IssuesService {
 
     //이의글 전체 조회 무한스크롤
     public Page<IssuesResponseDto> getAllIssues(Pageable pageable) {
-        return issuesRepository.findMyQuery(pageable);
+        return issuesRepository.findAllMyIssues(pageable);
+    }
+    //이의글 전체 조회 +검색 무한스크롤
+    public Page<IssuesResponseDto> getAllIssuesWithSearch(Pageable pageable,String search) {
+        return issuesRepository.findAllMyIssuesWithSearch(pageable,search);
     }
     //category + 내 좋아요 무한스크롤
     public Page<IssuesResponseDto> getAllIssuesWithCategory(Pageable pageable, String category) {
