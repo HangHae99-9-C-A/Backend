@@ -22,6 +22,8 @@ public class Macbook {
     private String keyboard;
     private String ram;
     private String storage;
+    private String opt;
+    private Integer price;
 
     public Macbook(CreateMacbookReqDto createMacbookReqDto){
         this.productYear = createMacbookReqDto.getYear();
@@ -31,5 +33,7 @@ public class Macbook {
         this.keyboard = createMacbookReqDto.getKeyboard();
         this.ram = createMacbookReqDto.getRam();
         this.storage = createMacbookReqDto.getStorage();
+        this.opt = createMacbookReqDto.getMacbookOption();
+        this.price = createMacbookReqDto.getPrice();
     }
 }

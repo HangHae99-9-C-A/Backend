@@ -4,22 +4,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @NoArgsConstructor
 public class GetMacbookPriceResDto {
     private String category;
-    private String year;
+    private Integer year;
     private String model;
+    private String cpu;
+    private Integer inch;
     private String option;
     private String ram;
     private String keyboard;
     private String storage;
-    private String batteryState;
+    private Integer batteryState;
     private String careOX;
     private String careDate;
     private Integer getPrice;
 
-    public GetMacbookPriceResDto(GetMacbookPriceReqDto getMacbookPriceReqDto){
+    public GetMacbookPriceResDto(GetMacbookPriceReqDto getMacbookPriceReqDto, Integer price){
         this.category = getMacbookPriceReqDto.getCategory();
         this.year = getMacbookPriceReqDto.getYear();
         this.model = getMacbookPriceReqDto.getModel();
@@ -30,6 +34,8 @@ public class GetMacbookPriceResDto {
         this.batteryState = getMacbookPriceReqDto.getBatteryState();
         this.careOX = getMacbookPriceReqDto.getCareOX();
         this.careDate = getMacbookPriceReqDto.getCareDate();
-        this.getPrice = 10000;
+        this.getPrice = price;
+        this.cpu = getMacbookPriceReqDto.getCpu();
+        this.inch = getMacbookPriceReqDto.getInch();
     }
 }
