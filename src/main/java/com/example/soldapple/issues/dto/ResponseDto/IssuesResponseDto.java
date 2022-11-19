@@ -4,10 +4,9 @@ import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.entity.IssuesComment;
 import com.example.soldapple.issues.entity.IssuesImage;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.querydsl.core.annotations.QueryProjection;
 import com.example.soldapple.issues.entity.IssuesOpt;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,8 +39,8 @@ public class IssuesResponseDto {
         this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
-        this.avatarUrl = avatarUrl;
         this.memberId = issues.getMember().getId();
+        this.avatarUrl = avatarUrl;
         this.createdAt = TimeConverter.convertTime ( issues.getCreatedAt () );
         this.modifiedAt = TimeConverter.convertTime ( issues.getModifiedAt () );
         this.category = issues.getCategory();
@@ -53,7 +52,6 @@ public class IssuesResponseDto {
         this.comments = issues.getIssuesComments();
         this.isLike = isLike;
         this.likeCnt = likeCnt;
-        this.memberId = issues.getMember().getId();
     }
 
     @QueryProjection
