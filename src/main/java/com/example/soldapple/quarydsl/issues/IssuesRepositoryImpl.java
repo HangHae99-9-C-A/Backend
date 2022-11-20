@@ -50,7 +50,7 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
 
         // sorting
         for (Sort.Order o : pageable.getSort()) {
-            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            PathBuilder pathBuilder = new PathBuilder(issues.getType(), issues.getMetadata());
             query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
                     pathBuilder.get(o.getProperty())));
         }
@@ -77,7 +77,7 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
 
         // sorting
         for (Sort.Order o : pageable.getSort()) {
-            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            PathBuilder pathBuilder = new PathBuilder(issues.getType(), issues.getMetadata());
             query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
                     pathBuilder.get(o.getProperty())));
         }
@@ -97,7 +97,7 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
                 .limit(pageable.getPageSize());
 // sorting
         for (Sort.Order o : pageable.getSort()) {
-            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            PathBuilder pathBuilder = new PathBuilder(issues.getType(), issues.getMetadata());
             query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
                     pathBuilder.get(o.getProperty())));
         }
@@ -127,15 +127,15 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
         // sorting
         Sort sort = pageable.getSort();
         for (Sort.Order o : pageable.getSort()) {
-            PathBuilder pathBuilder = new PathBuilder(post.getType(), post.getMetadata());
+            PathBuilder pathBuilder = new PathBuilder(issues.getType(), issues.getMetadata());
             query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
                     pathBuilder.get(o.getProperty())));
         }
 
         List<IssuesResponseDto> list = query.fetch();
         JPAQuery<Long> countQuery = queryFactory
-                .select(post.count())
-                .from(post);
+                .select(issues.count())
+                .from(issues);
 
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
 
