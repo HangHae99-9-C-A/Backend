@@ -36,30 +36,6 @@ public class IssuesService {
     private final IssuesOptRepository issuesOptRepository;
 
     //이의제기글 작성
-    //이의제기글 수정
-    //이의제기글 삭제
-    //이의제기글 하나 조회
-////반복되는 로직 메소드
-    //이미지 저장
-    public IssuesResponseDto imgSave(List<MultipartFile> multipartFiles, Issues issues, Member member, IssuesOpt options) throws IOException {
-        List<IssuesImage> imageList = new ArrayList<>();
-
-        if(!(multipartFiles.size()==0)){
-            System.out.println(multipartFiles.get(0).getOriginalFilename());
-            for(MultipartFile imgFile : multipartFiles){
-                Map<String, String> img = s3UploadUtil.upload(imgFile, "test");
-                IssuesImage issuesImage = new IssuesImage(img, issues);
-                imageList.add(issuesImage);
-                issuesimageRepository.save(issuesImage);
-            }
-        }
-        issues.setIssuesImages(imageList);
-        issues.setIssuesOpt(options);
-        Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, isLike);
-    }
-
-
     public IssuesResponseDto createIssue(List<MultipartFile> multipartFiles,
                                          IssuesRequestDto issuesRequestDto,
                                          GetIPhonePriceResDto iphoneOption,
@@ -81,6 +57,26 @@ public class IssuesService {
         }
     }
 
+    //이미지 저장
+    public IssuesResponseDto imgSave(List<MultipartFile> multipartFiles, Issues issues, Member member, IssuesOpt options) throws IOException {
+        List<IssuesImage> imageList = new ArrayList<>();
+
+        if(!(multipartFiles.size()==0)){
+            System.out.println(multipartFiles.get(0).getOriginalFilename());
+            for(MultipartFile imgFile : multipartFiles){
+                Map<String, String> img = s3UploadUtil.upload(imgFile, "test");
+                IssuesImage issuesImage = new IssuesImage(img, issues);
+                imageList.add(issuesImage);
+                issuesimageRepository.save(issuesImage);
+            }
+        }
+        issues.setIssuesImages(imageList);
+        issues.setIssuesOpt(options);
+        Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
+        return new IssuesResponseDto(issues, isLike);
+    }
+
+    //이의제기글 수정
     public IssuesResponseDto updateIssue(Long issuesId,IssuesRequestDto issuesRequestDto, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
                 ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 수정 권한이 없습니다.")
@@ -91,6 +87,7 @@ public class IssuesService {
         return new IssuesResponseDto(issues,isLike);
     }
 
+    //이의제기글 삭제
     public String deleteIssue(Long issuesId, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
                 ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 삭제 권한이 없습니다.")
@@ -103,6 +100,7 @@ public class IssuesService {
         return "이의제기글 삭제 완료";
     }
 
+    //이의제기글 하나 조회
     public IssuesResponseDto oneIssue(Long issuesId, Member member) {
         Issues issue = issuesRepository.findByIssuesId(issuesId).orElseThrow(
                 () -> new IllegalArgumentException("해당 이의제기 글이 존재하지 않습니다.")
