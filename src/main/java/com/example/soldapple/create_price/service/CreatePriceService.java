@@ -88,7 +88,10 @@ public class CreatePriceService {
     public GetMacbookPriceResDto getMacbookPrice(GetMacbookPriceReqDto getMacbookPriceReqDto) {
         String model = getMacbookPriceReqDto.getModel().split("-")[0];
         String cpu = getMacbookPriceReqDto.getModel().split("-")[1];
-        int battery = getMacbookPriceReqDto.getBatteryState()/2;
+        int battery;
+        if(getMacbookPriceReqDto.getBatteryState()>1000){
+            battery = 0;
+        }else { battery = 50 - getMacbookPriceReqDto.getBatteryState()/20;}
         int state;
         String option;
         if(getMacbookPriceReqDto.getMacbookState().equals("s")){
