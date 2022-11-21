@@ -35,23 +35,23 @@ public class IssuesResponseDto {
     private Long likeCnt;
     private Long memberId;
 
-    public IssuesResponseDto(Issues issues, String avatarUrl, List<IssuesImage> issuesImages, Boolean isLike, Long likeCnt, IssuesOpt options){
+    public IssuesResponseDto(Issues issues, Boolean isLike){
         this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
         this.memberId = issues.getMember().getId();
-        this.avatarUrl = avatarUrl;
+        this.avatarUrl = issues.getMember().getAvatarUrl();
         this.createdAt = TimeConverter.convertTime ( issues.getCreatedAt () );
         this.modifiedAt = TimeConverter.convertTime ( issues.getModifiedAt () );
         this.category = issues.getCategory();
-        this.options = options;
-        this.images = issuesImages;
+        this.options = issues.getIssuesOpt();
+        this.images = issues.getIssuesImages();
         this.expectPrice = issues.getExpectPrice();
         this.userPrice = issues.getIssuesUserPrice();
         this.content = issues.getIssuesContent();
         this.comments = issues.getIssuesComments();
         this.isLike = isLike;
-        this.likeCnt = likeCnt;
+        this.likeCnt = issues.getIssuesLikeCnt();
     }
 
     @QueryProjection

@@ -122,9 +122,9 @@ public class PostService {
                 imageList.add(image);
             }
         }
-        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         post.setImages(imageList);
         post.setOpt(options);
+        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         return new PostResponseDto(post, isLike);
     }
 
