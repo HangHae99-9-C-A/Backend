@@ -48,18 +48,26 @@ public class PostService {
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
 
+        imgSave(multipartFiles, post);
+
         /*옵션항목들 저장*/
-        //맥북일 때
         if (iphoneOption == null) {
+            //맥북일 때
             Opt options = new Opt(macbookOption, post);
             optionRepository.save(options);
-            return imgSave(multipartFiles, post, member, options);
+            post.setOpt(options);
+
         } else {
             //아이폰일 때
             Opt options = new Opt(iphoneOption, post);
             optionRepository.save(options);
-            return imgSave(multipartFiles, post, member, options);
+            post.setOpt(options);
         }
+
+        String avatarUrl = checkAvatar(post);
+
+        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
+        return new PostResponseDto(post, isLike, avatarUrl);
     }
 //    public void postTest(){
 //        System.out.println("테스트성공");
@@ -71,10 +79,17 @@ public class PostService {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글이 존재하지 않거나 수정 권한이 없습니다.")
         );
-
-        deleteImg(post);
+        //내용 업데이트
         post.update(postReqDto);
-        return imgSave(multipartFiles, post, member, post.getOpt());
+        //기존 이미지 삭제
+        deleteImg(post);
+        //이미지 저장
+        imgSave(multipartFiles, post);
+        //이 게시글을 현재 사용자가 좋아요를 눌렀는지
+        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
+
+        String avatarUrl = checkAvatar(post);
+        return new PostResponseDto(post, isLike, avatarUrl);
     }
 
     //게시글 삭제
@@ -115,11 +130,12 @@ public class PostService {
                 ()->new RuntimeException("해당 게시글이 존재하지 않습니다.")
         );
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, isLike);
+        String avatarUrl = checkAvatar(post);
+        return new PostResponseDto(post, isLike, avatarUrl);
     }
 
     //이미지 저장
-    public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member, Opt options) throws IOException {
+    public void imgSave(List<MultipartFile> multipartFiles, Post post) throws IOException {
         List<Image> imageList = new ArrayList<>();
 
         if(!(multipartFiles.size()==0)){
@@ -133,9 +149,6 @@ public class PostService {
             }
         }
         post.setImages(imageList);
-        post.setOpt(options);
-        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, isLike);
     }
 
     //기존 사진 삭제
@@ -144,6 +157,15 @@ public class PostService {
         for (Image image : imageList) {
             s3UploadUtil.delete(image.getImgKey());
             imageRepository.delete(image);
+        }
+    }
+
+    private String checkAvatar(Post post) {
+        if (post.getMember().getAvatarUrl()==null) {
+            return "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+        }
+        else{
+            return post.getMember().getAvatarUrl();
         }
     }
 }

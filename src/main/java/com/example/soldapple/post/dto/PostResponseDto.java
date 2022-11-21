@@ -39,19 +39,12 @@ public class PostResponseDto {
     private Long memberId;
 
 
-    public PostResponseDto(Post post, Boolean isLike){
+    public PostResponseDto(Post post, Boolean isLike, String avatarUrl){
         this.postId = post.getPostId();
         this.title = post.getTitle();
         this.nickname = post.getMember().getNickname();
         this.memberId = post.getMember().getId();
-        //재욱님 요청으로 일단 수정해놓음
-        // 이 부분 고쳐 주세요 파라미터 없애서
-        if (avatarUrl==null) {
-            avatarUrl="https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
-
-        }
-        else{
-        this.avatarUrl = avatarUrl;}
+        this.avatarUrl = avatarUrl;
         this.createdAt = TimeConverter.convertTime(post.getCreatedAt());
         this.modifiedAt = TimeConverter.convertTime(post.getModifiedAt());
         this.category = post.getCategory();
