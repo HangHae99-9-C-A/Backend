@@ -35,12 +35,12 @@ public class IssuesResponseDto {
     private Long likeCnt;
     private Long memberId;
 
-    public IssuesResponseDto(Issues issues, Boolean isLike){
+    public IssuesResponseDto(Issues issues, Boolean isLike, String avatarUrl){
         this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
         this.memberId = issues.getMember().getId();
-        this.avatarUrl = issues.getMember().getAvatarUrl();
+        this.avatarUrl = avatarUrl;
         this.createdAt = TimeConverter.convertTime ( issues.getCreatedAt () );
         this.modifiedAt = TimeConverter.convertTime ( issues.getModifiedAt () );
         this.category = issues.getCategory();

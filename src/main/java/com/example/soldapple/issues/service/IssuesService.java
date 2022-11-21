@@ -44,23 +44,8 @@ public class IssuesService {
         Issues issues = new Issues(issuesRequestDto, member);
         issuesRepository.save(issues);
 
-        //맥북일 때
-        if (iphoneOption==null){
-            IssuesOpt options = new IssuesOpt(macbookOption, issues);
-            issuesOptRepository.save(options);
-            return imgSave(multipartFiles, issues, member,options);
-        } else{
-            //아이폰일 때
-            IssuesOpt options = new IssuesOpt(iphoneOption, issues);
-            issuesOptRepository.save(options);
-            return imgSave(multipartFiles, issues, member,options);
-        }
-    }
-
-    //이미지 저장
-    public IssuesResponseDto imgSave(List<MultipartFile> multipartFiles, Issues issues, Member member, IssuesOpt options) throws IOException {
+        //이미지 저장
         List<IssuesImage> imageList = new ArrayList<>();
-
         if(!(multipartFiles.size()==0)){
             System.out.println(multipartFiles.get(0).getOriginalFilename());
             for(MultipartFile imgFile : multipartFiles){
@@ -71,9 +56,24 @@ public class IssuesService {
             }
         }
         issues.setIssuesImages(imageList);
-        issues.setIssuesOpt(options);
+
+        /*옵션항목들 저장*/
+        if (iphoneOption==null){
+            //맥북일 때
+            IssuesOpt options = new IssuesOpt(macbookOption, issues);
+            issuesOptRepository.save(options);
+            issues.setIssuesOpt(options);
+        } else{
+            //아이폰일 때
+            IssuesOpt options = new IssuesOpt(iphoneOption, issues);
+            issuesOptRepository.save(options);
+            issues.setIssuesOpt(options);
+        }
+        String avatarUrl = checkAvatar(issues);
+
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, isLike);
+
+        return new IssuesResponseDto(issues, isLike, avatarUrl);
     }
 
     //이의제기글 수정
@@ -84,7 +84,8 @@ public class IssuesService {
         issues.update(issuesRequestDto);
         issuesRepository.save(issues);
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues,member);
-        return new IssuesResponseDto(issues,isLike);
+        String avatarUrl = checkAvatar(issues);
+        return new IssuesResponseDto(issues,isLike,avatarUrl);
     }
 
     //이의제기글 삭제
@@ -102,11 +103,22 @@ public class IssuesService {
 
     //이의제기글 하나 조회
     public IssuesResponseDto oneIssue(Long issuesId, Member member) {
-        Issues issue = issuesRepository.findByIssuesId(issuesId).orElseThrow(
+        Issues issues = issuesRepository.findByIssuesId(issuesId).orElseThrow(
                 () -> new IllegalArgumentException("해당 이의제기 글이 존재하지 않습니다.")
         );
-        Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issue, member);
-        return new IssuesResponseDto(issue, isLike);
+        Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
+        String avatarUrl = checkAvatar(issues);
+        return new IssuesResponseDto(issues, isLike, avatarUrl);
+    }
+
+    //프로필사진 있는지 확인
+    private String checkAvatar(Issues issues) {
+        if (issues.getMember().getAvatarUrl()==null) {
+            return "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+        }
+        else{
+            return issues.getMember().getAvatarUrl();
+        }
     }
 
     //이의글 전체 조회 무한스크롤

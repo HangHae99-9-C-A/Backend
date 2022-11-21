@@ -67,6 +67,7 @@ public class PostService {
         String avatarUrl = checkAvatar(post);
 
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
+
         return new PostResponseDto(post, isLike, avatarUrl);
     }
 //    public void postTest(){
@@ -160,6 +161,7 @@ public class PostService {
         }
     }
 
+    //프로필사진 있는지 확인
     private String checkAvatar(Post post) {
         if (post.getMember().getAvatarUrl()==null) {
             return "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
