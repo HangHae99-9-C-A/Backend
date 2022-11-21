@@ -39,7 +39,7 @@ public class PostResponseDto {
     private Long memberId;
 
 
-    public PostResponseDto(Post post,String avatarUrl, List<Image> images, Boolean isLike, Long likeCnt, Opt options){
+    public PostResponseDto(Post post, Boolean isLike){
         this.postId = post.getPostId();
         this.title = post.getTitle();
         this.nickname = post.getMember().getNickname();
@@ -55,15 +55,14 @@ public class PostResponseDto {
         this.createdAt = TimeConverter.convertTime(post.getCreatedAt());
         this.modifiedAt = TimeConverter.convertTime(post.getModifiedAt());
         this.category = post.getCategory();
-        this.options = options;
-        this.images = images;
+        this.options = post.getOpt();
+        this.images = post.getImages();
         this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
         this.comments = post.getComments();
         this.isLike = isLike;
-        this.likeCnt = likeCnt;
-
+        this.likeCnt = post.getPostLikeCnt();
     }
 
     //myinfo

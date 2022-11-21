@@ -91,7 +91,7 @@ public class PostController {
 //    }
 
     @PatchMapping("/{postId}")
-    public PostResponseDto postEdit(@RequestPart List<MultipartFile> multipartFiles,
+    public PostResponseDto postEdit(@RequestPart(required = false) List<MultipartFile> multipartFiles,
                                     @RequestPart PostReqDto postReqDto,
                                     @PathVariable Long postId,
                                     @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {

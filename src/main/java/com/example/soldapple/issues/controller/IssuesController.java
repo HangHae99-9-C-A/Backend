@@ -67,12 +67,6 @@ public class IssuesController {
         return issuesService.createIssue(multipartFiles, issuesRequestDto, iphoneOption, macbookOption, userDetails.getMember());
     }
 
-//    @GetMapping
-//    public List<IssuesResponseDto> allIssues(@AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) {
-//        System.out.println("==========컨트롤러 지나는중==========");
-//        return issuesService.allIssues(userDetails.getMember());
-//    }
-
     @GetMapping("/detail/{issuesId}")
     public IssuesResponseDto oneIssue(@PathVariable Long issuesId,
                                       @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) {

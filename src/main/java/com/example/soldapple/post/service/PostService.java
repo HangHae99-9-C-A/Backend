@@ -79,8 +79,8 @@ public class PostService {
 
     //게시글 삭제
     @Transactional
-    public String postDelete(Long postId, Member member) {
-        Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
+    public String postDelete(Long postId, Member member){
+        Post post = postRepository.findByPostIdAndMember(postId,member).orElseThrow(
                 () -> new RuntimeException("해당 게시글이 존재하지 않거나 삭제 권한이 없습니다.")
         );
         deleteImg(post);
@@ -90,11 +90,7 @@ public class PostService {
 
     //게시글 전체 조회 무한스크롤
     public Page<PostResponseDto> getAllPost(Pageable pageable) {
-        return postRepository.findAllMyPost(pageable);
-    }
-    //게시글 전체 조회 + 검색 무한스크롤
-    public Page<PostResponseDto> getAllPostWithSearch(Pageable pageable, String search) {
-        return postRepository.findAllMyPostWithSearch(pageable, search);
+        return postRepository.findMyQuery(pageable);
     }
 
     //category + 내 좋아요 무한스크롤
@@ -112,50 +108,38 @@ public class PostService {
     //게시글 하나 조회
     public PostResponseDto onePost(Long postId, Member member) {
         Post post = postRepository.findByPostId(postId).orElseThrow(
-                () -> new RuntimeException("해당 게시글이 존재하지 않습니다.")
+                ()->new RuntimeException("해당 게시글이 존재하지 않습니다.")
         );
-        return putImgsAndLikeToDto(post, member);
+        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
+        return new PostResponseDto(post, isLike);
     }
 
-
-    ////반복되는 로직 메소드
     //이미지 저장
-    public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member, Opt opt) throws IOException {
+    public PostResponseDto imgSave(List<MultipartFile> multipartFiles, Post post, Member member, Opt options) throws IOException {
         List<Image> imageList = new ArrayList<>();
 
-        if (!(multipartFiles.size() == 0)) {
+        if(!(multipartFiles.size()==0)){
             System.out.println(multipartFiles.get(0).getOriginalFilename());
-            for (MultipartFile imgFile : multipartFiles) {
+            for(MultipartFile imgFile : multipartFiles){
                 Map<String, String> img = s3UploadUtil.upload(imgFile, "test");
                 Image image = new Image(img, post);
+                imageRepository.save(image);
                 imageList.add(image);
                 imageRepository.save(image);
             }
         }
+        post.setImages(imageList);
+        post.setOpt(options);
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        String avatarUrl = member.getAvatarUrl();
-        return new PostResponseDto(post, avatarUrl, imageList, isLike, post.getPostLikeCnt(), opt);
+        return new PostResponseDto(post, isLike);
     }
 
     //기존 사진 삭제
-    public void deleteImg(Post post) {
+    public void deleteImg(Post post){
         List<Image> imageList = post.getImages();
         for (Image image : imageList) {
-            imageRepository.delete(image);
             s3UploadUtil.delete(image.getImgKey());
+            imageRepository.delete(image);
         }
     }
-
-    //반복되는 조회리스트 로직
-    public PostResponseDto putImgsAndLikeToDto(Post post, Member member) {
-        List<Image> imgList = new ArrayList<>();
-        for (Image img : post.getImages()) {
-            imgList.add(img);
-        }
-        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        String avatarUrl = member.getAvatarUrl();
-        return new PostResponseDto(post, avatarUrl, imgList, isLike, post.getPostLikeCnt(), post.getOpt());
-    }
-
-
 }
