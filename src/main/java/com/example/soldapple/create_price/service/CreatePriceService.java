@@ -62,11 +62,11 @@ public class CreatePriceService {
         int battery = getIPhonePriceReqDto.getBatteryState()/2;
         int state;
         String option;
-        if(getIPhonePriceReqDto.getIphoneState().equals("s")){
+        if(getIPhonePriceReqDto.getIphoneState().equals("S급")){
             state=50;
-        }else if(getIPhonePriceReqDto.getIphoneState().equals("a")) {
+        }else if(getIPhonePriceReqDto.getIphoneState().equals("A급")) {
             state=40;
-        }else if (getIPhonePriceReqDto.getIphoneState().equals("b")) {
+        }else if (getIPhonePriceReqDto.getIphoneState().equals("B급")) {
             state=30;
         }else {
             state=20;
@@ -88,14 +88,17 @@ public class CreatePriceService {
     public GetMacbookPriceResDto getMacbookPrice(GetMacbookPriceReqDto getMacbookPriceReqDto) {
         String model = getMacbookPriceReqDto.getModel().split("-")[0];
         String cpu = getMacbookPriceReqDto.getModel().split("-")[1];
-        int battery = getMacbookPriceReqDto.getBatteryState()/2;
+        int battery;
+        if(getMacbookPriceReqDto.getBatteryState()>1000){
+            battery = 0;
+        }else { battery = 50 - getMacbookPriceReqDto.getBatteryState()/20;}
         int state;
         String option;
-        if(getMacbookPriceReqDto.getMacbookState().equals("s")){
+        if(getMacbookPriceReqDto.getMacbookState().equals("S급")){
             state=50;
-        }else if(getMacbookPriceReqDto.getMacbookState().equals("a")) {
+        }else if(getMacbookPriceReqDto.getMacbookState().equals("A급")) {
             state=40;
-        }else if (getMacbookPriceReqDto.getMacbookState().equals("b")) {
+        }else if (getMacbookPriceReqDto.getMacbookState().equals("B급")) {
             state=30;
         }else {
             state=20;
