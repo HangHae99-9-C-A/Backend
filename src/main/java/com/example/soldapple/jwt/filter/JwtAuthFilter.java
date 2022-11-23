@@ -1,5 +1,6 @@
 package com.example.soldapple.jwt.filter;
 
+import com.example.soldapple.error.CustomException;
 import com.example.soldapple.global.dto.GlobalResDto;
 import com.example.soldapple.jwt.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.example.soldapple.error.ErrorCode.REFRESH_TOKEN_IS_EXPIRED;
+import static com.example.soldapple.error.ErrorCode.TOKEN_IS_EXPIRED;
+
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -28,21 +32,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String accessToken = jwtUtil.getHeaderToken(request, "Access");
         String refreshToken = jwtUtil.getHeaderToken(request, "Refresh");
 
-        if(accessToken != null) {
-            if(!jwtUtil.tokenValidation(accessToken)){
-                jwtExceptionHandler(response, "AccessToken Expired", HttpStatus.BAD_REQUEST);
-                return;
+        if (accessToken != null) {
+            if (!jwtUtil.tokenValidation(accessToken)) {
+                throw new CustomException(TOKEN_IS_EXPIRED);
             }
             setAuthentication(jwtUtil.getEmailFromToken(accessToken));
-        }else if(refreshToken != null) {
-            if(!jwtUtil.refreshTokenValidation(refreshToken)){
-                jwtExceptionHandler(response, "RefreshToken Expired", HttpStatus.BAD_REQUEST);
-                return;
+        } else if (refreshToken != null) {
+            if (!jwtUtil.refreshTokenValidation(refreshToken)) {
+                throw new CustomException(REFRESH_TOKEN_IS_EXPIRED);
             }
             setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
         }
 
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     public void setAuthentication(String email) {

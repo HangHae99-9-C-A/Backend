@@ -1,6 +1,7 @@
 package com.example.soldapple.personal;
 
 import com.example.soldapple.aws_s3.S3UploadUtil;
+import com.example.soldapple.error.CustomException;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.repository.IssuesRepository;
@@ -24,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.soldapple.error.ErrorCode.NOT_FOUND_USER;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true) // default = false, but intuitive
@@ -110,7 +113,7 @@ public class PersonalService {
 
     //내 likes한 post 가져오기
     public PersonalResponseDto getMyLikes(Member member) {
-        Member myMember = memberRepository.findById(member.getId()).orElseThrow(RuntimeException::new);
+        Member myMember = memberRepository.findById(member.getId()).orElseThrow(()-> new CustomException(NOT_FOUND_USER));
         List<Post> myLikesList = postRepository.findAllMyLikes(member);
         PersonalResponseDto personalResponseDto = PersonalResponseDto.builder()
                 .myLikesList(myLikesList.stream().map(PostResponseDto::new).collect(Collectors.toList()))
@@ -156,7 +159,7 @@ public class PersonalService {
 
     //Methods
     public void memberCheck(Member member) {
-        memberRepository.findById(member.getId()).orElseThrow(RuntimeException::new);
+        memberRepository.findById(member.getId()).orElseThrow(()->new CustomException(NOT_FOUND_USER));
     }
 
     public void memberNicknameCheck(String nickname) {

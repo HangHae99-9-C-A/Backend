@@ -4,6 +4,7 @@ package com.example.soldapple.post.service;
 import com.example.soldapple.aws_s3.S3UploadUtil;
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
+import com.example.soldapple.error.CustomException;
 import com.example.soldapple.like.repository.LikeRepository;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.dto.CommentResponseDto;
@@ -28,6 +29,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.soldapple.error.ErrorCode.CANNOT_FIND_POST_NOT_EXIST;
 
 @Service
 @Transactional
@@ -83,7 +86,7 @@ public class PostService {
     @Transactional
     public PostResponseDto updatePost(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member) throws IOException {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
-                () -> new IllegalArgumentException("해당 게시글이 존재하지 않거나 수정 권한이 없습니다.")
+                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
         //내용 업데이트
         post.update(postReqDto);
@@ -102,7 +105,7 @@ public class PostService {
     @Transactional
     public String postDelete(Long postId, Member member){
         Post post = postRepository.findByPostIdAndMember(postId,member).orElseThrow(
-                () -> new RuntimeException("해당 게시글이 존재하지 않거나 삭제 권한이 없습니다.")
+                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
         deleteImg(post);
         postRepository.deleteById(postId);
@@ -130,10 +133,21 @@ public class PostService {
         return allPostWithCategoryWithSearch;
     }
 
-    //게시글 하나 조회
+//    //게시글 하나 조회
+//    public PostResponseDto onePost(Long postId, Member member) {
+//        Post post = postRepository.findByPostId(postId).orElseThrow(
+//                ()->new RuntimeException("해당 게시글이 존재하지 않습니다.")
+//        );
+//
+//        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
+//        String avatarUrl = checkAvatar(post);
+//
+//        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
+//    }
+    //게시글 하나 조회 에러 익셉션 확인
     public PostResponseDto onePost(Long postId, Member member) {
         Post post = postRepository.findByPostId(postId).orElseThrow(
-                ()->new RuntimeException("해당 게시글이 존재하지 않습니다.")
+                ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
 
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);

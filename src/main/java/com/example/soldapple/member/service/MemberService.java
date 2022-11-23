@@ -1,5 +1,6 @@
 package com.example.soldapple.member.service;
 
+import com.example.soldapple.error.CustomException;
 import com.example.soldapple.jwt.dto.TokenDto;
 import com.example.soldapple.jwt.util.JwtUtil;
 import com.example.soldapple.member.dto.KakaoUserInfoDto;
@@ -25,6 +26,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
+
+import static com.example.soldapple.error.ErrorCode.NOT_FOUND_USER;
+import static com.example.soldapple.error.ErrorCode.NOT_MATCHED_PASSWORD;
 
 @Service
 @RequiredArgsConstructor
@@ -53,11 +57,11 @@ public class MemberService {
     public TokenDto login(LoginReqDto loginReqDto) {
 
         Member member = memberRepository.findByEmail(loginReqDto.getEmail()).orElseThrow(
-                () -> new RuntimeException("Not found Account")
+                () -> new CustomException(NOT_FOUND_USER)
         );
 
         if(!passwordEncoder.matches(loginReqDto.getPassword(), member.getPassword())) {
-            throw new RuntimeException("Not matches Password");
+            throw new CustomException(NOT_MATCHED_PASSWORD);
         }
 
         TokenDto tokenDto = jwtUtil.createAllToken(loginReqDto.getEmail());
