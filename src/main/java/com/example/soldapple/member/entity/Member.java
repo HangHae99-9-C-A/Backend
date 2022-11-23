@@ -53,7 +53,7 @@ public class Member {
         this.nickname = nickname;
         this.password = null;
         this.domain = domain;
-        this.avatarUrl = avatarUrl;
+        this.avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
     }
 
     //myinfo 를 위해 생성하였습니다.
