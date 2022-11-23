@@ -2,11 +2,13 @@ package com.example.soldapple.like.controller;
 
 import com.example.soldapple.like.service.LikeService;
 import com.example.soldapple.security.user.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+@Tag(name = "like-controller", description = "좋아요 API")
 @RestController
 @RequestMapping("/post/likes")
 @RequiredArgsConstructor

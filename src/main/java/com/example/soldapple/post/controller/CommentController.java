@@ -5,6 +5,7 @@ import com.example.soldapple.post.dto.CommentResponseDto;
 import com.example.soldapple.post.repository.CommentRepository;
 import com.example.soldapple.post.service.CommentService;
 import com.example.soldapple.security.user.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
+@Tag(name = "comment-controller", description = "댓글 API")
 @RestController
 @RequestMapping("/post/comment")
 @RequiredArgsConstructor

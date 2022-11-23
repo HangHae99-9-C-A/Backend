@@ -7,6 +7,7 @@ import com.example.soldapple.post.dto.PostReqDto;
 import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.service.PostService;
 import com.example.soldapple.security.user.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.io.IOException;
 import java.util.List;
 
+@Tag(name = "post-controller", description = "게시물 API")
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor

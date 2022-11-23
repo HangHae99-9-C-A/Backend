@@ -3,9 +3,11 @@ package com.example.soldapple.global.controller;
 import com.example.soldapple.global.dto.CreateIPhoneReqDto;
 import com.example.soldapple.global.dto.CreateMacbookReqDto;
 import com.example.soldapple.global.service.CreateTableService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "create-table-controller", description = "테이블 생성 API")
 @RestController
 @RequestMapping("/create")
 @RequiredArgsConstructor

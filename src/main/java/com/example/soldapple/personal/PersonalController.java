@@ -2,6 +2,7 @@ package com.example.soldapple.personal;
 
 
 import com.example.soldapple.security.user.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
 
+@Tag(name = "personal-controller", description = "My page API")
 @RestController
 @RequestMapping("/myinfo")
 @RequiredArgsConstructor

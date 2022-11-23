@@ -11,6 +11,7 @@ import com.example.soldapple.global.dto.GlobalResDto;
 import com.example.soldapple.jwt.util.JwtUtil;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 
+@Tag(name = "member-controller", description = "회원정보 API")
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor

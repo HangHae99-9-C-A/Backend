@@ -2,11 +2,13 @@ package com.example.soldapple.create_price.controller;
 
 import com.example.soldapple.create_price.dto.*;
 import com.example.soldapple.create_price.service.CreatePriceService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "create-price-controller", description = "가격생성 API")
 @RestController
 @RequestMapping("/price")
 @RequiredArgsConstructor

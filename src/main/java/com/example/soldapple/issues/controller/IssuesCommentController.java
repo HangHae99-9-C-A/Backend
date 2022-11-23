@@ -4,11 +4,13 @@ import com.example.soldapple.issues.dto.RequestDto.IssuesCommentRequestDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesCommentResponseDto;
 import com.example.soldapple.issues.service.IssuesCommentService;
 import com.example.soldapple.security.user.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+@Tag(name = "issues-comment-controller", description = "이의제기 댓글 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/issue/comment")

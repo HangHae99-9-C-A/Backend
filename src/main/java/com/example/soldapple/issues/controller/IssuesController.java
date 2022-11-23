@@ -6,6 +6,7 @@ import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.service.IssuesService;
 import com.example.soldapple.security.user.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.io.IOException;
 import java.util.List;
 
+@Tag(name = "issues-controller", description = "이의제기 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/issue")

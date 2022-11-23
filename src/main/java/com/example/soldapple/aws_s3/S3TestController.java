@@ -1,12 +1,14 @@
 package com.example.soldapple.aws_s3;
 
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Tag(name = "s-3-test-controller", description = "S3 test API")
 @RequiredArgsConstructor
 @RequestMapping(value = "aws-s3")
 @RestController
