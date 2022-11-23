@@ -12,14 +12,15 @@ import lombok.NoArgsConstructor;
 public class IssuesCommentResponseDto {
     private Long commentId;
     private String nickname;
+    private String avatarUrl;
     private String comment;
     private String createdAt;
-
     private String modifiedAt;
 
     public IssuesCommentResponseDto(IssuesComment issuesComment){
         this.commentId = issuesComment.getIssuesCommentId();
         this.nickname = issuesComment.getMember().getNickname();
+        this.avatarUrl = issuesComment.getMember().getAvatarUrl();
         this.comment = issuesComment.getIssuesComment();
         this.createdAt = TimeConverter.convertTime ( issuesComment.getCreatedAt () );
         this.modifiedAt = TimeConverter.convertTime ( issuesComment.getModifiedAt () );

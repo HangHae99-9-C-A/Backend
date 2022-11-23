@@ -13,6 +13,7 @@ public class CommentResponseDto {
 
     private Long commentId;
     private String nickname;
+    private String avatarUrl;
     private String comment;
     private String createdAt;
     private String modifiedAt;
@@ -20,6 +21,7 @@ public class CommentResponseDto {
     public CommentResponseDto(Comment comment){
         this.commentId = comment.getId();
         this.nickname = comment.getMember().getNickname();
+        this.avatarUrl = comment.getMember().getAvatarUrl();
         this.comment = comment.getComment();
         this.createdAt= TimeConverter.convertTime ( comment.getCreatedAt() );
         this.modifiedAt = TimeConverter.convertTime ( comment.getModifiedAt () );

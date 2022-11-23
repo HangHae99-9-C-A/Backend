@@ -4,10 +4,13 @@ import com.example.soldapple.aws_s3.S3UploadUtil;
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
+import com.example.soldapple.issues.dto.ResponseDto.IssuesCommentResponseDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.entity.Issues;
+import com.example.soldapple.issues.entity.IssuesComment;
 import com.example.soldapple.issues.entity.IssuesImage;
 import com.example.soldapple.issues.entity.IssuesOpt;
+import com.example.soldapple.issues.repository.IssuesCommentRepository;
 import com.example.soldapple.issues.repository.IssuesImageRepository;
 import com.example.soldapple.issues.repository.IssuesOptRepository;
 import com.example.soldapple.issues.repository.IssuesRepository;
@@ -34,6 +37,7 @@ public class IssuesService {
     private final IssuesImageRepository issuesimageRepository;
     private final IssuesLikeRepository issuesLikeRepository;
     private final IssuesOptRepository issuesOptRepository;
+    private final IssuesCommentRepository issuesCommentRepository;
 
     //이의제기글 작성
     public IssuesResponseDto createIssue(List<MultipartFile> multipartFiles,
@@ -55,6 +59,7 @@ public class IssuesService {
                 issuesimageRepository.save(issuesImage);
             }
         }
+
         issues.setIssuesImages(imageList);
 
         /*옵션항목들 저장*/
@@ -69,12 +74,13 @@ public class IssuesService {
             issuesOptRepository.save(options);
             issues.setIssuesOpt(options);
         }
+
         String avatarUrl = checkAvatar(issues);
-
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
+        return new IssuesResponseDto(issues, isLike, avatarUrl, commentDtos(issues));
 
-        return new IssuesResponseDto(issues, isLike, avatarUrl);
     }
+
 
     //이의제기글 수정
     public IssuesResponseDto updateIssue(Long issuesId,IssuesRequestDto issuesRequestDto, Member member) {
@@ -85,7 +91,8 @@ public class IssuesService {
         issuesRepository.save(issues);
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues,member);
         String avatarUrl = checkAvatar(issues);
-        return new IssuesResponseDto(issues,isLike,avatarUrl);
+
+        return new IssuesResponseDto(issues,isLike,avatarUrl, commentDtos(issues));
     }
 
     //이의제기글 삭제
@@ -108,7 +115,20 @@ public class IssuesService {
         );
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
         String avatarUrl = checkAvatar(issues);
-        return new IssuesResponseDto(issues, isLike, avatarUrl);
+
+        return new IssuesResponseDto(issues, isLike, avatarUrl, commentDtos(issues));
+    }
+
+    //댓글목록 dto 넣기
+    private List<IssuesCommentResponseDto> commentDtos(Issues issues) {
+        List<IssuesComment> issuesComments = issues.getIssuesComments();
+        List<IssuesCommentResponseDto> issuesCommentResponseDtos = new ArrayList<>();
+        if(!(issuesComments==null)) {
+            for (IssuesComment issuesComment : issuesComments) {
+                issuesCommentResponseDtos.add(new IssuesCommentResponseDto());
+            }
+        }
+        return issuesCommentResponseDtos;
     }
 
     //프로필사진 있는지 확인

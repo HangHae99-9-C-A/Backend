@@ -6,11 +6,14 @@ import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.like.repository.LikeRepository;
 import com.example.soldapple.member.entity.Member;
+import com.example.soldapple.post.dto.CommentResponseDto;
 import com.example.soldapple.post.dto.PostReqDto;
 import com.example.soldapple.post.dto.PostResponseDto;
+import com.example.soldapple.post.entity.Comment;
 import com.example.soldapple.post.entity.Image;
 import com.example.soldapple.post.entity.Opt;
 import com.example.soldapple.post.entity.Post;
+import com.example.soldapple.post.repository.CommentRepository;
 import com.example.soldapple.post.repository.ImageRepository;
 import com.example.soldapple.post.repository.OptionRepository;
 import com.example.soldapple.post.repository.PostRepository;
@@ -35,6 +38,7 @@ public class PostService {
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
     private final OptionRepository optionRepository;
+    private final CommentRepository commentRepository;
 
 
     //게시글 작성
@@ -48,6 +52,7 @@ public class PostService {
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
 
+        //이미지 저장
         imgSave(multipartFiles, post);
 
         /*옵션항목들 저장*/
@@ -63,14 +68,14 @@ public class PostService {
             optionRepository.save(options);
             post.setOpt(options);
         }
-
+        //작성자가 프로필사진이 있는지 확인
         String avatarUrl = checkAvatar(post);
-
+        //사용자가 해당 글에 좋아요 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-
-        return new PostResponseDto(post, isLike, avatarUrl);
+        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
     }
-//    public void postTest(){
+
+//   public void postTest(){
 //        System.out.println("테스트성공");
 //    }
 
@@ -86,11 +91,11 @@ public class PostService {
         deleteImg(post);
         //이미지 저장
         imgSave(multipartFiles, post);
+
         //이 게시글을 현재 사용자가 좋아요를 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-
         String avatarUrl = checkAvatar(post);
-        return new PostResponseDto(post, isLike, avatarUrl);
+        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
     }
 
     //게시글 삭제
@@ -130,9 +135,11 @@ public class PostService {
         Post post = postRepository.findByPostId(postId).orElseThrow(
                 ()->new RuntimeException("해당 게시글이 존재하지 않습니다.")
         );
+
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         String avatarUrl = checkAvatar(post);
-        return new PostResponseDto(post, isLike, avatarUrl);
+
+        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
     }
 
     //이미지 저장
@@ -150,6 +157,18 @@ public class PostService {
             }
         }
         post.setImages(imageList);
+    }
+
+    //댓글목록 dto 넣기
+    private List<CommentResponseDto> commentDtos(Post post) {
+        List<Comment> comments = post.getComments();
+        List<CommentResponseDto> commentResponseDtos = new ArrayList<CommentResponseDto>();
+        if(!(comments==null)){
+            for (Comment comment : comments) {
+                commentResponseDtos.add(new CommentResponseDto(comment));
+            }
+        }
+        return commentResponseDtos;
     }
 
     //기존 사진 삭제
