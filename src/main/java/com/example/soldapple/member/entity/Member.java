@@ -48,12 +48,20 @@ public class Member {
         this.avatarUrl = null;
     }
 
-    public Member(String email, String nickname, String domain, String avatarUrl) {
+    public Member(String email, String nickname, String domain) {
         this.email = email;
         this.nickname = nickname;
         this.password = null;
         this.domain = domain;
         this.avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+    }
+
+    public Member(String email, String nickname, String domain, String avatarUrl) {
+        this.email = email;
+        this.nickname = nickname;
+        this.password = null;
+        this.domain = domain;
+        this.avatarUrl = avatarUrl;
     }
 
     //myinfo 를 위해 생성하였습니다.
