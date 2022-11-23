@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class IssuesCommentResponseDto {
     private Long commentId;
     private String nickname;
+    private Long memberId;
     private String avatarUrl;
     private String comment;
     private String createdAt;
@@ -20,6 +21,7 @@ public class IssuesCommentResponseDto {
     public IssuesCommentResponseDto(IssuesComment issuesComment, String avatarUrl){
         this.commentId = issuesComment.getIssuesCommentId();
         this.nickname = issuesComment.getMember().getNickname();
+        this.memberId = issuesComment.getMember().getId();
         this.avatarUrl = avatarUrl;
         this.comment = issuesComment.getIssuesComment();
         this.createdAt = TimeConverter.convertTime ( issuesComment.getCreatedAt () );

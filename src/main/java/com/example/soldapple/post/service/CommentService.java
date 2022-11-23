@@ -19,6 +19,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
+    //게시글 댓글 작성
     @Transactional
     public CommentResponseDto commentCreate(Long postId, CommentReqDto commentReqDto, UserDetailsImpl userDetails) {
 
@@ -31,17 +32,24 @@ public class CommentService {
 
         commentRepository.save(comment);
 
-        return new CommentResponseDto(comment);
+        String avatarUrl;
+        if(comment.getMember().getAvatarUrl()==null) {
+            avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+        } else{
+            avatarUrl = comment.getMember().getAvatarUrl();
+        }
 
-
+        return new CommentResponseDto(comment, avatarUrl);
     }
 
+    //게시글 댓글 삭제
     @Transactional
     public String commentDelete(Long commentId, Member member) {
         commentRepository.deleteByIdAndMember(commentId, member);
         return "Success";
     }
 
+    //게시글 댓글 수정
     @Transactional
     public CommentResponseDto commentEdit(Long commentId, CommentReqDto commentReqDto, Member member){
         Comment comment = commentRepository.findByIdAndMember(commentId, member).orElseThrow(
@@ -49,6 +57,12 @@ public class CommentService {
 
         );
         comment.CommentEdit(commentReqDto);
-        return new CommentResponseDto(comment);
+        String avatarUrl;
+        if(comment.getMember().getAvatarUrl()==null) {
+            avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+        } else{
+            avatarUrl = comment.getMember().getAvatarUrl();
+        }
+        return new CommentResponseDto(comment, avatarUrl);
     }
 }
