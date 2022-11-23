@@ -17,10 +17,18 @@ public class IssuesCommentResponseDto {
     private String createdAt;
     private String modifiedAt;
 
+    public IssuesCommentResponseDto(IssuesComment issuesComment, String avatarUrl){
+        this.commentId = issuesComment.getIssuesCommentId();
+        this.nickname = issuesComment.getMember().getNickname();
+        this.avatarUrl = avatarUrl;
+        this.comment = issuesComment.getIssuesComment();
+        this.createdAt = TimeConverter.convertTime ( issuesComment.getCreatedAt () );
+        this.modifiedAt = TimeConverter.convertTime ( issuesComment.getModifiedAt () );
+    }
+
     public IssuesCommentResponseDto(IssuesComment issuesComment){
         this.commentId = issuesComment.getIssuesCommentId();
         this.nickname = issuesComment.getMember().getNickname();
-        this.avatarUrl = issuesComment.getMember().getAvatarUrl();
         this.comment = issuesComment.getIssuesComment();
         this.createdAt = TimeConverter.convertTime ( issuesComment.getCreatedAt () );
         this.modifiedAt = TimeConverter.convertTime ( issuesComment.getModifiedAt () );

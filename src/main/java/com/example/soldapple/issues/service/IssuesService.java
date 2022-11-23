@@ -123,9 +123,15 @@ public class IssuesService {
     private List<IssuesCommentResponseDto> commentDtos(Issues issues) {
         List<IssuesComment> issuesComments = issues.getIssuesComments();
         List<IssuesCommentResponseDto> issuesCommentResponseDtos = new ArrayList<>();
+        String avatarUrl;
         if(!(issuesComments==null)) {
             for (IssuesComment issuesComment : issuesComments) {
-                issuesCommentResponseDtos.add(new IssuesCommentResponseDto());
+                if(issuesComment.getMember().getAvatarUrl()==null) {
+                    avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+                } else{
+                    avatarUrl = issuesComment.getMember().getAvatarUrl();
+                }
+                issuesCommentResponseDtos.add(new IssuesCommentResponseDto(issuesComment, avatarUrl));
             }
         }
         return issuesCommentResponseDtos;

@@ -163,9 +163,15 @@ public class PostService {
     private List<CommentResponseDto> commentDtos(Post post) {
         List<Comment> comments = post.getComments();
         List<CommentResponseDto> commentResponseDtos = new ArrayList<CommentResponseDto>();
+        String avatarUrl;
         if(!(comments==null)){
             for (Comment comment : comments) {
-                commentResponseDtos.add(new CommentResponseDto(comment));
+                if (comment.getMember().getAvatarUrl()==null) {
+                    avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+                } else{
+                    avatarUrl = comment.getMember().getAvatarUrl();
+                }
+                commentResponseDtos.add(new CommentResponseDto(comment, avatarUrl));
             }
         }
         return commentResponseDtos;

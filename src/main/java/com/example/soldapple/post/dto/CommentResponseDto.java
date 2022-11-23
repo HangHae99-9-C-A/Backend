@@ -18,10 +18,18 @@ public class CommentResponseDto {
     private String createdAt;
     private String modifiedAt;
 
+    public CommentResponseDto(Comment comment, String avatarUrl){
+        this.commentId = comment.getId();
+        this.nickname = comment.getMember().getNickname();
+        this.avatarUrl = avatarUrl;
+        this.comment = comment.getComment();
+        this.createdAt= TimeConverter.convertTime ( comment.getCreatedAt() );
+        this.modifiedAt = TimeConverter.convertTime ( comment.getModifiedAt () );
+    }
+
     public CommentResponseDto(Comment comment){
         this.commentId = comment.getId();
         this.nickname = comment.getMember().getNickname();
-        this.avatarUrl = comment.getMember().getAvatarUrl();
         this.comment = comment.getComment();
         this.createdAt= TimeConverter.convertTime ( comment.getCreatedAt() );
         this.modifiedAt = TimeConverter.convertTime ( comment.getModifiedAt () );
