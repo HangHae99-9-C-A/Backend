@@ -49,6 +49,9 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
     compileOnly 'org.projectlombok:lombok'
 
+    //slack 로그
+    implementation 'com.github.maricn:logback-slack-appender:1.6.1'
+
 //    testCompileOnly 'org.projectlombok:lombok'
 //    testAnnotationProcessor 'org.projectlombok:lombok'
 //    testImplementation('org.springframework.boot:spring-boot-starter-test') {

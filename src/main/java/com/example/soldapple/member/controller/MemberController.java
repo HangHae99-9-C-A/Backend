@@ -13,6 +13,7 @@ import com.example.soldapple.security.user.UserDetailsImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
     private final EmailService emailService;
     private final JwtUtil jwtUtil;
@@ -56,6 +58,14 @@ public class MemberController {
     public GlobalResDto issuedToken(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response){
         response.addHeader(JwtUtil.ACCESS_TOKEN, jwtUtil.createToken(userDetails.getMember().getEmail(), "Access"));
         return new GlobalResDto("Success IssuedToken", HttpStatus.OK.value());
+    }
+
+    @GetMapping("error")
+    public String test() {
+        log.error("error 나오나");
+        log.info("ddd");
+        log.debug("asd");
+        return "test";
     }
 
 }
