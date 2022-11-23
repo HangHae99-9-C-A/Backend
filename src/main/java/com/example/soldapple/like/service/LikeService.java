@@ -1,5 +1,6 @@
 package com.example.soldapple.like.service;
 
+import com.example.soldapple.error.CustomException;
 import com.example.soldapple.like.entity.Like;
 import com.example.soldapple.like.repository.LikeRepository;
 import com.example.soldapple.member.entity.Member;
@@ -11,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.soldapple.error.ErrorCode.CANNOT_FIND_POST_NOT_EXIST;
+import static com.example.soldapple.error.ErrorCode.NOT_FOUND_USER;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,10 +25,10 @@ public class LikeService {
 
     public String addLike(Long postId, UserDetailsImpl userDetails){
         Member member = memberRepository.findById(userDetails.getMember().getId()).orElseThrow(
-                () -> new IllegalArgumentException("member is not exist")
+                () -> new CustomException(NOT_FOUND_USER)
         );
         Post post = postRepository.findByPostIdAndMemberNot(postId, member).orElseThrow(
-                () -> new IllegalArgumentException("it's your post OR post is not exist")
+                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
 
         Long likeCnt = post.getPostLikeCnt();
@@ -36,10 +40,10 @@ public class LikeService {
 
     public String deleteLike(Long postId, UserDetailsImpl userDetails){
         Member member = memberRepository.findById(userDetails.getMember().getId()).orElseThrow(
-                () -> new IllegalArgumentException("member is not exist")
+                () -> new CustomException(NOT_FOUND_USER)
         );
         Post post = postRepository.findByPostIdAndMemberNot(postId, member).orElseThrow(
-                () -> new IllegalArgumentException("it's your post OR post is not exist")
+                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
         likeRepository.deleteByPostAndMember(post, member);
         Long likeCnt = post.getPostLikeCnt();

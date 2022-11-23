@@ -3,6 +3,7 @@ package com.example.soldapple.issues.service;
 import com.example.soldapple.aws_s3.S3UploadUtil;
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
+import com.example.soldapple.error.CustomException;
 import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesCommentResponseDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
@@ -27,6 +28,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.soldapple.error.ErrorCode.CANNOT_DELETE_NOT_EXIST_POST;
+import static com.example.soldapple.error.ErrorCode.CANNOT_FIND_POST_NOT_EXIST;
 
 @Service
 @RequiredArgsConstructor
@@ -85,7 +89,7 @@ public class IssuesService {
     //이의제기글 수정
     public IssuesResponseDto updateIssue(Long issuesId,IssuesRequestDto issuesRequestDto, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
-                ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 수정 권한이 없습니다.")
+                ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
         issues.update(issuesRequestDto);
         issuesRepository.save(issues);
@@ -98,7 +102,7 @@ public class IssuesService {
     //이의제기글 삭제
     public String deleteIssue(Long issuesId, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
-                ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 삭제 권한이 없습니다.")
+                ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
         List<IssuesImage> imageList = issues.getIssuesImages();
         for (IssuesImage issuesImage : imageList) {
@@ -111,7 +115,7 @@ public class IssuesService {
     //이의제기글 하나 조회
     public IssuesResponseDto oneIssue(Long issuesId, Member member) {
         Issues issues = issuesRepository.findByIssuesId(issuesId).orElseThrow(
-                () -> new IllegalArgumentException("해당 이의제기 글이 존재하지 않습니다.")
+                () -> new CustomException(CANNOT_DELETE_NOT_EXIST_POST)
         );
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
         String avatarUrl = checkAvatar(issues);

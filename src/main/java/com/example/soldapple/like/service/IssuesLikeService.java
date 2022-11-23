@@ -1,5 +1,6 @@
 package com.example.soldapple.like.service;
 
+import com.example.soldapple.error.CustomException;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.repository.IssuesRepository;
 import com.example.soldapple.like.entity.IssuesLike;
@@ -11,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.soldapple.error.ErrorCode.CANNOT_FIND_POST_NOT_EXIST;
+import static com.example.soldapple.error.ErrorCode.NOT_FOUND_USER;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,10 +25,10 @@ public class IssuesLikeService {
 
     public String addLike(Long issuesId, UserDetailsImpl userDetails){
         Member member = memberRepository.findById(userDetails.getMember().getId()).orElseThrow(
-                () -> new IllegalArgumentException("회원이 아닙니다.")
+                () -> new CustomException(NOT_FOUND_USER)
         );
         Issues issues = issuesRepository.findByIssuesIdAndMemberNot(issuesId,member).orElseThrow(
-                () -> new IllegalArgumentException("본인이 작성한 이의제기 글이거나 글이 존재하지 않습니다.")
+                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
         Long likeCnt = issues.getIssuesLikeCnt();
         IssuesLike issueslike = new IssuesLike(issues, member);
@@ -35,10 +39,10 @@ public class IssuesLikeService {
 
     public String deleteLike(Long issuesId, UserDetailsImpl userDetails){
         Member member = memberRepository.findById(userDetails.getMember().getId()).orElseThrow(
-                () -> new IllegalArgumentException("회원이 아닙니다.")
+                () -> new CustomException(NOT_FOUND_USER)
         );
         Issues issues = issuesRepository.findByIssuesIdAndMemberNot(issuesId,member).orElseThrow(
-                () -> new IllegalArgumentException("본인이 작성한 이의제기 글이거나 글이 존재하지 않습니다.")
+                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
         issueslikeRepository.deleteByIssuesAndMember(issues, member);
         Long likeCnt = issues.getIssuesLikeCnt();
