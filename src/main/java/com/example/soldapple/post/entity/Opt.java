@@ -40,9 +40,9 @@ public class Opt {
 
     public Opt(GetMacbookPriceResDto macbookOption, Post post) {
         this.category = macbookOption.getCategory();
-        this.years = macbookOption.getYear();
+        this.years = macbookOption.getYears();
         this.model = macbookOption.getModel();
-        this.options = macbookOption.getOption();
+        this.options = macbookOption.getOptions();
         this.ram = macbookOption.getRam();
         this.keyboard = macbookOption.getKeyboard();
         this.storage = macbookOption.getStorage();
@@ -56,9 +56,9 @@ public class Opt {
 
     public Opt(GetIPhonePriceResDto iphoneOption, Post post) {
         this.category=iphoneOption.getCategory();
-        this.years=iphoneOption.getYear();
+        this.years=iphoneOption.getYears();
         this.model=iphoneOption.getModel();
-        this.options=iphoneOption.getOption();
+        this.options=iphoneOption.getOptions();
         this.batteryState = iphoneOption.getBatteryState();
         this.state = iphoneOption.getIphoneState();
         this.careOX = iphoneOption.getCareOX();
