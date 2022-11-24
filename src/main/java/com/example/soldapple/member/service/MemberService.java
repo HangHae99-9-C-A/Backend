@@ -93,7 +93,7 @@ public class MemberService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
         body.add("client_id", "d2c795c61c767b9c2bc94eb5cb045230");
-        body.add("redirect_uri", "http://localhost:3000/KAKAO");
+        body.add("redirect_uri", "https://frontend-inky-delta.vercel.app/KAKAO");
         body.add("code", code);
 
         // HTTP 요청 보내기

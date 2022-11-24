@@ -60,12 +60,5 @@ public class MemberController {
         return new GlobalResDto("Success IssuedToken", HttpStatus.OK.value());
     }
 
-    @GetMapping("error")
-    public String test() {
-        log.error("error 나오나");
-        log.info("ddd");
-        log.debug("asd");
-        return "test";
-    }
 
 }

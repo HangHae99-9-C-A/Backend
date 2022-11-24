@@ -3,6 +3,7 @@ package com.example.soldapple.member.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Getter
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 public class MemberReqDto {
 
     @NotBlank
+    @Email
     private String email;
     @NotBlank
     private String nickname;

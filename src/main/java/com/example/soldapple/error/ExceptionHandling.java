@@ -1,11 +1,13 @@
 package com.example.soldapple.error;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Slf4j
 public class ExceptionHandling{
 
     @ExceptionHandler(value = { CustomException.class })
@@ -19,7 +21,7 @@ public class ExceptionHandling{
                 .getAllErrors()
                 .get(0)
                 .getDefaultMessage();
-
+        log.error(errorMessage);
         return ResponseEntity.badRequest().body(errorMessage);
     }
 }
