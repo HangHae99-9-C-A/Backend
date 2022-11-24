@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 public class EmailReqDto {
-    @NotEmpty(message = "이메일을 입력해주세요")
     @Email
     public String email;
 }
