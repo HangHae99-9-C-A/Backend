@@ -12,10 +12,21 @@ import lombok.NoArgsConstructor;
 public class IssuesCommentResponseDto {
     private Long commentId;
     private String nickname;
+    private Long memberId;
+    private String avatarUrl;
     private String comment;
     private String createdAt;
-
     private String modifiedAt;
+
+    public IssuesCommentResponseDto(IssuesComment issuesComment, String avatarUrl){
+        this.commentId = issuesComment.getIssuesCommentId();
+        this.nickname = issuesComment.getMember().getNickname();
+        this.memberId = issuesComment.getMember().getId();
+        this.avatarUrl = avatarUrl;
+        this.comment = issuesComment.getIssuesComment();
+        this.createdAt = TimeConverter.convertTime ( issuesComment.getCreatedAt () );
+        this.modifiedAt = TimeConverter.convertTime ( issuesComment.getModifiedAt () );
+    }
 
     public IssuesCommentResponseDto(IssuesComment issuesComment){
         this.commentId = issuesComment.getIssuesCommentId();

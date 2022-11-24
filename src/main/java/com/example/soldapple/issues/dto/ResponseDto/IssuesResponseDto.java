@@ -2,7 +2,6 @@ package com.example.soldapple.issues.dto.ResponseDto;
 
 import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.issues.entity.Issues;
-import com.example.soldapple.issues.entity.IssuesComment;
 import com.example.soldapple.issues.entity.IssuesImage;
 import com.example.soldapple.issues.entity.IssuesOpt;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -30,12 +29,12 @@ public class IssuesResponseDto {
     private Long userPrice;
     private String content;
 
-    private List<IssuesComment> comments;
+    private List<IssuesCommentResponseDto> comments;
     private Boolean isLike;
     private Long likeCnt;
     private Long memberId;
 
-    public IssuesResponseDto(Issues issues, Boolean isLike, String avatarUrl){
+    public IssuesResponseDto(Issues issues, Boolean isLike, String avatarUrl, List<IssuesCommentResponseDto> issuesCommentResponseDto){
         this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
@@ -49,7 +48,7 @@ public class IssuesResponseDto {
         this.expectPrice = issues.getExpectPrice();
         this.userPrice = issues.getIssuesUserPrice();
         this.content = issues.getIssuesContent();
-        this.comments = issues.getIssuesComments();
+        this.comments = issuesCommentResponseDto;
         this.isLike = isLike;
         this.likeCnt = issues.getIssuesLikeCnt();
     }
@@ -64,7 +63,6 @@ public class IssuesResponseDto {
         this.userPrice = issues.getIssuesUserPrice();
         this.content = issues.getIssuesContent();
         //   this.comments = issues.getIssuesComments();
-
         this.images = issues.getIssuesImages();
         this.createdAt = TimeConverter.convertTime(issues.getCreatedAt());
         this.modifiedAt = TimeConverter.convertTime(issues.getModifiedAt());

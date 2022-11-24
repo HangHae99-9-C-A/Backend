@@ -3,11 +3,15 @@ package com.example.soldapple.issues.service;
 import com.example.soldapple.aws_s3.S3UploadUtil;
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
+import com.example.soldapple.error.CustomException;
 import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
+import com.example.soldapple.issues.dto.ResponseDto.IssuesCommentResponseDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.entity.Issues;
+import com.example.soldapple.issues.entity.IssuesComment;
 import com.example.soldapple.issues.entity.IssuesImage;
 import com.example.soldapple.issues.entity.IssuesOpt;
+import com.example.soldapple.issues.repository.IssuesCommentRepository;
 import com.example.soldapple.issues.repository.IssuesImageRepository;
 import com.example.soldapple.issues.repository.IssuesOptRepository;
 import com.example.soldapple.issues.repository.IssuesRepository;
@@ -25,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.soldapple.error.ErrorCode.CANNOT_DELETE_NOT_EXIST_POST;
+import static com.example.soldapple.error.ErrorCode.CANNOT_FIND_POST_NOT_EXIST;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -34,6 +41,7 @@ public class IssuesService {
     private final IssuesImageRepository issuesimageRepository;
     private final IssuesLikeRepository issuesLikeRepository;
     private final IssuesOptRepository issuesOptRepository;
+    private final IssuesCommentRepository issuesCommentRepository;
 
     //이의제기글 작성
     public IssuesResponseDto createIssue(List<MultipartFile> multipartFiles,
@@ -55,6 +63,7 @@ public class IssuesService {
                 issuesimageRepository.save(issuesImage);
             }
         }
+
         issues.setIssuesImages(imageList);
 
         /*옵션항목들 저장*/
@@ -69,29 +78,31 @@ public class IssuesService {
             issuesOptRepository.save(options);
             issues.setIssuesOpt(options);
         }
+
         String avatarUrl = checkAvatar(issues);
-
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
+        return new IssuesResponseDto(issues, isLike, avatarUrl, commentDtos(issues));
 
-        return new IssuesResponseDto(issues, isLike, avatarUrl);
     }
+
 
     //이의제기글 수정
     public IssuesResponseDto updateIssue(Long issuesId,IssuesRequestDto issuesRequestDto, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
-                ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 수정 권한이 없습니다.")
+                ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
         issues.update(issuesRequestDto);
         issuesRepository.save(issues);
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues,member);
         String avatarUrl = checkAvatar(issues);
-        return new IssuesResponseDto(issues,isLike,avatarUrl);
+
+        return new IssuesResponseDto(issues,isLike,avatarUrl, commentDtos(issues));
     }
 
     //이의제기글 삭제
     public String deleteIssue(Long issuesId, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
-                ()->new IllegalArgumentException("해당 이의제기 글이 존재하지 않거나 삭제 권한이 없습니다.")
+                ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
         List<IssuesImage> imageList = issues.getIssuesImages();
         for (IssuesImage issuesImage : imageList) {
@@ -104,11 +115,30 @@ public class IssuesService {
     //이의제기글 하나 조회
     public IssuesResponseDto oneIssue(Long issuesId, Member member) {
         Issues issues = issuesRepository.findByIssuesId(issuesId).orElseThrow(
-                () -> new IllegalArgumentException("해당 이의제기 글이 존재하지 않습니다.")
+                () -> new CustomException(CANNOT_DELETE_NOT_EXIST_POST)
         );
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
         String avatarUrl = checkAvatar(issues);
-        return new IssuesResponseDto(issues, isLike, avatarUrl);
+
+        return new IssuesResponseDto(issues, isLike, avatarUrl, commentDtos(issues));
+    }
+
+    //댓글목록 dto 넣기
+    private List<IssuesCommentResponseDto> commentDtos(Issues issues) {
+        List<IssuesComment> issuesComments = issues.getIssuesComments();
+        List<IssuesCommentResponseDto> issuesCommentResponseDtos = new ArrayList<>();
+        String avatarUrl;
+        if(!(issuesComments==null)) {
+            for (IssuesComment issuesComment : issuesComments) {
+                if(issuesComment.getMember().getAvatarUrl()==null) {
+                    avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+                } else{
+                    avatarUrl = issuesComment.getMember().getAvatarUrl();
+                }
+                issuesCommentResponseDtos.add(new IssuesCommentResponseDto(issuesComment, avatarUrl));
+            }
+        }
+        return issuesCommentResponseDtos;
     }
 
     //프로필사진 있는지 확인

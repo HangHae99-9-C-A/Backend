@@ -1,7 +1,6 @@
 package com.example.soldapple.post.dto;
 
 import com.example.soldapple.global.TimeConverter;
-import com.example.soldapple.post.entity.Comment;
 import com.example.soldapple.post.entity.Image;
 import com.example.soldapple.post.entity.Opt;
 import com.example.soldapple.post.entity.Post;
@@ -31,7 +30,7 @@ public class PostResponseDto {
     private Long userPrice;
     private String content;
 
-    private List<Comment> comments;
+    private List<CommentResponseDto> comments;
     private Boolean isLike;
     private Long likeCnt;
 
@@ -39,7 +38,7 @@ public class PostResponseDto {
     private Long memberId;
 
 
-    public PostResponseDto(Post post, Boolean isLike, String avatarUrl){
+    public PostResponseDto(Post post, Boolean isLike, String avatarUrl, List<CommentResponseDto> commentResponseDtos){
         this.postId = post.getPostId();
         this.title = post.getTitle();
         this.nickname = post.getMember().getNickname();
@@ -53,7 +52,7 @@ public class PostResponseDto {
         this.expectPrice = post.getExpectPrice();
         this.userPrice = post.getUserPrice();
         this.content = post.getContent();
-        this.comments = post.getComments();
+        this.comments = commentResponseDtos;
         this.isLike = isLike;
         this.likeCnt = post.getPostLikeCnt();
     }

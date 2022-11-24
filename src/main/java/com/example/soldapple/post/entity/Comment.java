@@ -32,6 +32,7 @@ public class Comment extends TimeStamped {
     @JsonIgnore
     @JoinColumn
     private Member member;
+
     private String nickname;
 
     public Comment(CommentReqDto commentReqDto, Post post, Member member){
