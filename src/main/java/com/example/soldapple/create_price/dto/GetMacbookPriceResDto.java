@@ -2,17 +2,14 @@ package com.example.soldapple.create_price.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.Date;
 
 @Getter
 @NoArgsConstructor
 public class GetMacbookPriceResDto {
     private String category;
-    private Integer year;
+    private Integer years;
     private String model; //model-cpu
-    private String option; //inch
+    private String options; //inch
     private String macbookState;
     private String ram;
     private String keyboard;
@@ -24,9 +21,9 @@ public class GetMacbookPriceResDto {
 
     public GetMacbookPriceResDto(GetMacbookPriceReqDto getMacbookPriceReqDto, Integer price){
         this.category = getMacbookPriceReqDto.getCategory();
-        this.year = getMacbookPriceReqDto.getYear();
+        this.years = getMacbookPriceReqDto.getYear();
         this.model = getMacbookPriceReqDto.getModel();
-        this.option = getMacbookPriceReqDto.getOption();
+        this.options = getMacbookPriceReqDto.getOption();
         this.ram = getMacbookPriceReqDto.getRam();
         this.keyboard = getMacbookPriceReqDto.getKeyboard();
         this.storage = getMacbookPriceReqDto.getStorage();

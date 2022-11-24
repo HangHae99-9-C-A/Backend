@@ -4,16 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @NoArgsConstructor
 public class GetIPhonePriceResDto {
     private String category;
-    private Integer year;
+    private Integer years;
     private String model;
-    private String option; //storage
+    private String options; //storage
     private Integer batteryState;
     private String iphoneState;
     private String careOX;
@@ -22,9 +20,9 @@ public class GetIPhonePriceResDto {
 
     public GetIPhonePriceResDto(GetIPhonePriceReqDto getIPhonePriceReqDto, Integer price){
         this.category = getIPhonePriceReqDto.getCategory();
-        this.year = getIPhonePriceReqDto.getYear();
+        this.years = getIPhonePriceReqDto.getYear();
         this.model = getIPhonePriceReqDto.getModel();
-        this.option = getIPhonePriceReqDto.getOption();
+        this.options = getIPhonePriceReqDto.getOption();
         this.batteryState = getIPhonePriceReqDto.getBatteryState();
         this.iphoneState = getIPhonePriceReqDto.getIphoneState();
         this.careOX = getIPhonePriceReqDto.getCareOX();

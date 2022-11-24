@@ -59,6 +59,7 @@ public class PostController {
         return postService.getAllPostWithCategoryWithSearch(pageable, category, search);
     }
 
+    //게시글 작성
     @PostMapping
     public PostResponseDto postCreate(@RequestPart(required = false) List<MultipartFile> multipartFiles,
                                       @RequestPart(required = false) PostReqDto postReqDto,
@@ -70,12 +71,7 @@ public class PostController {
 //        postService.postTest();
     }
 
-//    @GetMapping("/category/all")
-//    public List<PostResponseDto> allPosts(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        System.out.println("==========컨트롤러 지나는중==========");
-//        return postService.allPosts(userDetails.getMember());
-//    }
-
+    //게시글 하나 상세조회
     @GetMapping("/detail/{postId}")
     public PostResponseDto onePost(@PathVariable Long postId,
                                    @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -83,13 +79,7 @@ public class PostController {
         return postService.onePost(postId, userDetails.getMember());
     }
 
-//    @GetMapping("/category/{category}")
-//    public List<PostResponseDto> categoryPost(@PathVariable String category,
-//                                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        System.out.println("==========컨트롤러 지나는중==========");
-//        return postService.categoryPost(category, userDetails.getMember());
-//    }
-
+    //게시글 수정
     @PatchMapping("/{postId}")
     public PostResponseDto postEdit(@RequestPart(required = false) List<MultipartFile> multipartFiles,
                                     @RequestPart PostReqDto postReqDto,
@@ -99,6 +89,7 @@ public class PostController {
         return postService.updatePost(multipartFiles, postId, postReqDto, userDetails.getMember());
     }
 
+    //게시글 삭제
     @DeleteMapping("/{postId}")
     public String postDelete(@PathVariable Long postId,
                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {

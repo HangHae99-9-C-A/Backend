@@ -57,6 +57,7 @@ public class IssuesController {
         return issuesService.getAllIssuesWithCategoryWithSearch(pageable, category, search);
     }
 
+    //게시글 작성
     @PostMapping
     public IssuesResponseDto createIssue(@RequestPart(required = false) List<MultipartFile> multipartFiles,
                                          @RequestPart(required = false) IssuesRequestDto issuesRequestDto,
@@ -67,6 +68,7 @@ public class IssuesController {
         return issuesService.createIssue(multipartFiles, issuesRequestDto, iphoneOption, macbookOption, userDetails.getMember());
     }
 
+    //게시글 하나 상세조회
     @GetMapping("/detail/{issuesId}")
     public IssuesResponseDto oneIssue(@PathVariable Long issuesId,
                                       @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) {
@@ -74,6 +76,7 @@ public class IssuesController {
         return issuesService.oneIssue(issuesId, userDetails.getMember());
     }
 
+    //게시글 수정
     @PatchMapping("/{issuesId}")
     public IssuesResponseDto updateIssue(@PathVariable Long issuesId,
                                          @RequestPart IssuesRequestDto issuesRequestDto,
@@ -82,6 +85,7 @@ public class IssuesController {
         return issuesService.updateIssue(issuesId, issuesRequestDto, userDetails.getMember());
     }
 
+    //게시글 삭제
     @DeleteMapping("/{issuesId}")
     public String deleteIssue(@PathVariable Long issuesId,
                               @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) {
