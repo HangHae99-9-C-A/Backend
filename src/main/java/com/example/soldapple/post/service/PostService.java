@@ -78,9 +78,6 @@ public class PostService {
         return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
     }
 
-//   public void postTest(){
-//        System.out.println("테스트성공");
-//    }
 
     //게시글 수정
     @Transactional
@@ -103,8 +100,8 @@ public class PostService {
 
     //게시글 삭제
     @Transactional
-    public String postDelete(Long postId, Member member){
-        Post post = postRepository.findByPostIdAndMember(postId,member).orElseThrow(
+    public String postDelete(Long postId, Member member) {
+        Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
         deleteImg(post);
@@ -116,6 +113,7 @@ public class PostService {
     public Page<PostResponseDto> getAllPost(Pageable pageable) {
         return postRepository.findAllMyPost(pageable);
     }
+
     //게시글 전체 조회 + 검색 무한스크롤
     public Page<PostResponseDto> getAllPostWithSearch(Pageable pageable, String search) {
         return postRepository.findAllMyPostWithSearch(pageable, search);
@@ -133,21 +131,11 @@ public class PostService {
         return allPostWithCategoryWithSearch;
     }
 
-//    //게시글 하나 조회
-//    public PostResponseDto onePost(Long postId, Member member) {
-//        Post post = postRepository.findByPostId(postId).orElseThrow(
-//                ()->new RuntimeException("해당 게시글이 존재하지 않습니다.")
-//        );
-//
-//        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-//        String avatarUrl = checkAvatar(post);
-//
-//        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
-//    }
-    //게시글 하나 조회 에러 익셉션 확인
+
+    //게시글 하나 조회 에러
     public PostResponseDto onePost(Long postId, Member member) {
         Post post = postRepository.findByPostId(postId).orElseThrow(
-                ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
 
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
@@ -160,10 +148,10 @@ public class PostService {
     public void imgSave(List<MultipartFile> multipartFiles, Post post) throws IOException {
         List<Image> imageList = new ArrayList<>();
 
-        if(!(multipartFiles.size()==0)){
+        if (!(multipartFiles.size() == 0)) {
             System.out.println(multipartFiles.get(0).getOriginalFilename());
-            for(MultipartFile imgFile : multipartFiles){
-                Map<String, String> img = s3UploadUtil.upload(imgFile, "test");
+            for (MultipartFile imgFile : multipartFiles) {
+                Map<String, String> img = s3UploadUtil.upload(imgFile, "post-img");
                 Image image = new Image(img, post);
                 imageRepository.save(image);
                 imageList.add(image);
@@ -178,11 +166,11 @@ public class PostService {
         List<Comment> comments = post.getComments();
         List<CommentResponseDto> commentResponseDtos = new ArrayList<CommentResponseDto>();
         String avatarUrl;
-        if(!(comments==null)){
+        if (!(comments == null)) {
             for (Comment comment : comments) {
-                if (comment.getMember().getAvatarUrl()==null) {
+                if (comment.getMember().getAvatarUrl() == null) {
                     avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
-                } else{
+                } else {
                     avatarUrl = comment.getMember().getAvatarUrl();
                 }
                 commentResponseDtos.add(new CommentResponseDto(comment, avatarUrl));
@@ -192,7 +180,7 @@ public class PostService {
     }
 
     //기존 사진 삭제
-    public void deleteImg(Post post){
+    public void deleteImg(Post post) {
         List<Image> imageList = post.getImages();
         for (Image image : imageList) {
             s3UploadUtil.delete(image.getImgKey());
@@ -202,10 +190,9 @@ public class PostService {
 
     //프로필사진 있는지 확인
     private String checkAvatar(Post post) {
-        if (post.getMember().getAvatarUrl()==null) {
-            return "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
-        }
-        else{
+        if (post.getMember().getAvatarUrl() == null) {
+            return "https://querybuckets.s3.ap-northeast-2.amazonaws.com/default/photoimg.png";
+        } else {
             return post.getMember().getAvatarUrl();
         }
     }

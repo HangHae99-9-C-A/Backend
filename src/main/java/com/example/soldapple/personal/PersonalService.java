@@ -67,17 +67,13 @@ public class PersonalService {
     //내 페이지 수정하기
     @Transactional(readOnly = false)
     public void editMyPage(MyInfoRequestDto myInfoRequestDto, Member member, MultipartFile imgFile) throws IOException {
-        Member editMyMember = memberRepository.findById(member.getId()).orElseThrow(RuntimeException::new);
+        Member editMyMember = memberRepository.findById(member.getId()).orElseThrow(()->new CustomException(NOT_FOUND_USER));
         if (!(imgFile == null)) {
-            var r = s3UploadUtil.upload(imgFile, "test");
+            var r = s3UploadUtil.upload(imgFile, "profile-img");
             editMyMember.update(myInfoRequestDto, r);
         } else {
             editMyMember.update(myInfoRequestDto);
-//            return new PostResponseDto(post);
         }
-
-        //memberResponse 필요합니다. 다른분 개발 부탁
-
     }
 
     public PersonalResponseDto getMyPost(Member member) {

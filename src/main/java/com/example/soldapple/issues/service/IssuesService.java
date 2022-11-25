@@ -57,7 +57,7 @@ public class IssuesService {
         if(!(multipartFiles.size()==0)){
             System.out.println(multipartFiles.get(0).getOriginalFilename());
             for(MultipartFile imgFile : multipartFiles){
-                Map<String, String> img = s3UploadUtil.upload(imgFile, "test");
+                Map<String, String> img = s3UploadUtil.upload(imgFile, "issue-img");
                 IssuesImage issuesImage = new IssuesImage(img, issues);
                 imageList.add(issuesImage);
                 issuesimageRepository.save(issuesImage);
@@ -131,7 +131,7 @@ public class IssuesService {
         if(!(issuesComments==null)) {
             for (IssuesComment issuesComment : issuesComments) {
                 if(issuesComment.getMember().getAvatarUrl()==null) {
-                    avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+                    avatarUrl = "https://querybuckets.s3.ap-northeast-2.amazonaws.com/default/photoimg.png";
                 } else{
                     avatarUrl = issuesComment.getMember().getAvatarUrl();
                 }
@@ -144,7 +144,7 @@ public class IssuesService {
     //프로필사진 있는지 확인
     private String checkAvatar(Issues issues) {
         if (issues.getMember().getAvatarUrl()==null) {
-            return "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+            return "https://querybuckets.s3.ap-northeast-2.amazonaws.com/default/photoimg.png";
         }
         else{
             return issues.getMember().getAvatarUrl();

@@ -49,7 +49,7 @@ public class PersonalController {
     // 내 페이지 변경
     @PatchMapping("/edit")
     public void editMyPage(@RequestPart(name = "myInfoRequestDto", required = false) MyInfoRequestDto myInfoRequestDto,
-                           @RequestPart MultipartFile image,
+                           @RequestPart(name = "image", required = false) MultipartFile image,
                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         personalService.editMyPage(myInfoRequestDto, userDetails.getMember(), image);
 

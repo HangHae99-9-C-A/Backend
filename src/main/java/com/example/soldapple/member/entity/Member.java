@@ -53,7 +53,7 @@ public class Member {
         this.nickname = nickname;
         this.password = null;
         this.domain = domain;
-        this.avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
+        this.avatarUrl = "https://querybuckets.s3.ap-northeast-2.amazonaws.com/default/photoimg.png";
     }
 
     public Member(String email, String nickname, String domain, String avatarUrl) {
@@ -66,15 +66,13 @@ public class Member {
 
     //myinfo 를 위해 생성하였습니다.
     public void update(MyInfoRequestDto myInfoRequestDto) {
-        //   this.email = memberReqDto.getEmail();
         this.nickname = myInfoRequestDto.getNickname();
-        //     this.password = memberReqDto.getPassword();
     }
 
     public void update(MyInfoRequestDto myInfoRequestDto, Map<String, String> imgUrl) {
-//        this.email = myInfoRequestDto.getEmail();
-        this.nickname = myInfoRequestDto.getNickname();
-//        this.password = myInfoRequestDto.getPassword();
+
+        this.nickname =
+                (myInfoRequestDto.getNickname().isBlank()) ? this.getNickname() : myInfoRequestDto.getNickname();
         this.avatarUrl = imgUrl.get("url");
         this.avatarUrlKey = imgUrl.get("key");
     }
