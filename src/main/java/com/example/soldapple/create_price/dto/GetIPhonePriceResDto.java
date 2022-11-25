@@ -20,9 +20,9 @@ public class GetIPhonePriceResDto {
 
     public GetIPhonePriceResDto(GetIPhonePriceReqDto getIPhonePriceReqDto, Integer price){
         this.category = getIPhonePriceReqDto.getCategory();
-        this.years = getIPhonePriceReqDto.getYear();
+        this.years = getIPhonePriceReqDto.getYears();
         this.model = getIPhonePriceReqDto.getModel();
-        this.options = getIPhonePriceReqDto.getOption();
+        this.options = getIPhonePriceReqDto.getOptions();
         this.batteryState = getIPhonePriceReqDto.getBatteryState();
         this.iphoneState = getIPhonePriceReqDto.getIphoneState();
         this.careOX = getIPhonePriceReqDto.getCareOX();

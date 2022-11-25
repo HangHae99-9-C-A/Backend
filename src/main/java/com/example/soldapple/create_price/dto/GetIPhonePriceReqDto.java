@@ -9,9 +9,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class GetIPhonePriceReqDto {
     private String category;
-    private Integer year;
+    private Integer years;
     private String model;
-    private String option; //storage
+    private String options; //storage
     private Integer batteryState;
     private String iphoneState;
     private String careOX;

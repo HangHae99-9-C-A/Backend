@@ -81,7 +81,7 @@ public class CreatePriceService {
         }else{
             option = "c";
         }
-        int price = iPhoneRepository.findByProductYearAndModelAndStorageAndOpt(getIPhonePriceReqDto.getYear(), getIPhonePriceReqDto.getModel(), getIPhonePriceReqDto.getOption(), option).getPrice();
+        int price = iPhoneRepository.findByProductYearAndModelAndStorageAndOpt(getIPhonePriceReqDto.getYears(), getIPhonePriceReqDto.getModel(), getIPhonePriceReqDto.getOptions(), option).getPrice();
         return new GetIPhonePriceResDto(getIPhonePriceReqDto, price);
     }
 
@@ -113,10 +113,10 @@ public class CreatePriceService {
         }else{
             option = "c";
         }
-        int inch = Integer.parseInt(getMacbookPriceReqDto.getOption());
+        int inch = Integer.parseInt(getMacbookPriceReqDto.getOptions());
         System.out.println(inch);
-        System.out.println(getMacbookPriceReqDto.getOption());
-        int price = macbookRepository.findByProductYearAndModelAndCpuAndInchAndKeyboardAndRamAndStorageAndOpt(getMacbookPriceReqDto.getYear(),model,cpu, inch,getMacbookPriceReqDto.getKeyboard(),getMacbookPriceReqDto.getRam(),getMacbookPriceReqDto.getStorage(),option).getPrice();
+        System.out.println(getMacbookPriceReqDto.getOptions());
+        int price = macbookRepository.findByProductYearAndModelAndCpuAndInchAndKeyboardAndRamAndStorageAndOpt(getMacbookPriceReqDto.getYears(),model,cpu, inch,getMacbookPriceReqDto.getKeyboard(),getMacbookPriceReqDto.getRam(),getMacbookPriceReqDto.getStorage(),option).getPrice();
 
         return new GetMacbookPriceResDto(getMacbookPriceReqDto, price);
     }

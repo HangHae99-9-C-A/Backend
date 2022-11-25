@@ -9,9 +9,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class GetMacbookPriceReqDto {
     private String category;
-    private Integer year;
+    private Integer years;
     private String model; //model-cpu
-    private String option; //inch
+    private String options; //inch
     private String ram;
     private String keyboard;
     private String storage;

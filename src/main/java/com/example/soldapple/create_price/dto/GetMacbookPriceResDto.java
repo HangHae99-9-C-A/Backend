@@ -21,9 +21,9 @@ public class GetMacbookPriceResDto {
 
     public GetMacbookPriceResDto(GetMacbookPriceReqDto getMacbookPriceReqDto, Integer price){
         this.category = getMacbookPriceReqDto.getCategory();
-        this.years = getMacbookPriceReqDto.getYear();
+        this.years = getMacbookPriceReqDto.getYears();
         this.model = getMacbookPriceReqDto.getModel();
-        this.options = getMacbookPriceReqDto.getOption();
+        this.options = getMacbookPriceReqDto.getOptions();
         this.ram = getMacbookPriceReqDto.getRam();
         this.keyboard = getMacbookPriceReqDto.getKeyboard();
         this.storage = getMacbookPriceReqDto.getStorage();
