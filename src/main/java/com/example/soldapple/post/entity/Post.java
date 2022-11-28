@@ -68,4 +68,8 @@ public class Post extends TimeStamped {
     public void likeUpdate(Long likeCnt) {
         this.postLikeCnt = likeCnt;
     }
+
+    public void soldOut(PostReqDto postReqDto) {
+        this.salesStatus = postReqDto.getSalesStatus();
+    }
 }
