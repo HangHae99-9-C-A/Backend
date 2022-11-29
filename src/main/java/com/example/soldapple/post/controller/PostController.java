@@ -81,13 +81,21 @@ public class PostController {
 
     //게시글 수정
     @PatchMapping("/{postId}")
-    public PostResponseDto postEdit(@RequestPart(required = false) List<MultipartFile> multipartFiles,
-                                    @RequestPart PostReqDto postReqDto,
+    public PostResponseDto updatePost(@RequestPart(required = false) List<MultipartFile> multipartFiles,
+                                    @RequestPart(required = false) PostReqDto postReqDto,
                                     @PathVariable Long postId,
                                     @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         System.out.println("==========컨트롤러 지나는중==========");
         return postService.updatePost(multipartFiles, postId, postReqDto, userDetails.getMember());
     }
+
+    @PatchMapping("/status/{postId}")
+    public PostResponseDto updateStatus(@RequestBody PostReqDto postReqDto,
+                                        @PathVariable Long postId,
+                                        @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.updateStatus(postReqDto, postId, userDetails.getMember());
+    }
+
 
     //게시글 삭제
     @DeleteMapping("/{postId}")

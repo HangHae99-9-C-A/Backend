@@ -1,5 +1,6 @@
 package com.example.soldapple.post.dto;
 
+import com.example.soldapple.post.entity.SalesStatus;
 import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.post.entity.Image;
 import com.example.soldapple.post.entity.Opt;
@@ -18,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PostResponseDto {
     private Long postId;
+    private SalesStatus salesStatus;
     private String title;
     private String nickname;
     private String createdAt;
@@ -40,6 +42,7 @@ public class PostResponseDto {
 
     public PostResponseDto(Post post, Boolean isLike, String avatarUrl, List<CommentResponseDto> commentResponseDtos){
         this.postId = post.getPostId();
+        this.salesStatus = post.getSalesStatus();
         this.title = post.getTitle();
         this.nickname = post.getMember().getNickname();
         this.memberId = post.getMember().getId();
@@ -61,6 +64,7 @@ public class PostResponseDto {
     @QueryProjection
     public PostResponseDto(Post post) {
         this.postId = post.getPostId();
+        this.salesStatus = post.getSalesStatus();
         this.title = post.getTitle();
         this.nickname = post.getMember().getNickname();
         this.category = post.getCategory();

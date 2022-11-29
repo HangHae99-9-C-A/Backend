@@ -20,11 +20,12 @@ public class Post extends TimeStamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
-
+    private SalesStatus salesStatus;
     @ManyToOne
     @JoinColumn
     private Member member;
     private String title;
+
     private String category;
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
@@ -47,6 +48,7 @@ public class Post extends TimeStamped {
     private Opt opt;
 
     public Post(PostReqDto postReqDto, Member member) {
+        this.salesStatus = postReqDto.getSalesStatus();
         this.member = member;
         this.title = postReqDto.getTitle();
         this.category = postReqDto.getCategory();
@@ -65,5 +67,9 @@ public class Post extends TimeStamped {
 
     public void likeUpdate(Long likeCnt) {
         this.postLikeCnt = likeCnt;
+    }
+
+    public void soldOut(PostReqDto postReqDto) {
+        this.salesStatus = postReqDto.getSalesStatus();
     }
 }
