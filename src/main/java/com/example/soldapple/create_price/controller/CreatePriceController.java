@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/price")
+@RequestMapping("/api/price")
 @RequiredArgsConstructor
 public class CreatePriceController {
     private final CreatePriceService createPriceService;

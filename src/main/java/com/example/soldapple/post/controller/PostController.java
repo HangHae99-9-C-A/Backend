@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/api/post")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;

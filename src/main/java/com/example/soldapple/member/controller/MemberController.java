@@ -25,7 +25,7 @@ import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/api/member")
 @RequiredArgsConstructor
 public class MemberController {
     private final EmailService emailService;

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@RequestMapping("/post/likes")
+@RequestMapping("/api/post/likes")
 @RequiredArgsConstructor
 public class LikeController {
     private final LikeService likeService;

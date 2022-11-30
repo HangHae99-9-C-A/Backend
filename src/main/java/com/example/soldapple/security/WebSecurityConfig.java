@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -45,8 +46,9 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("POST","GET","DELETE","PUT","PATCH"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("*","POST","GET","DELETE","PUT","PATCH"));
+        configuration.setAllowedHeaders(Arrays.asList("*","Accept","Access_Token","Cache-Control","Referer","Refresh_Token","User-Agent"));
         configuration.setAllowCredentials(true);
         configuration.addExposedHeader("*");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -73,6 +75,7 @@ public class WebSecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/test/**").permitAll()
                 .antMatchers("/member/**").permitAll()
                 .antMatchers("/post/**").permitAll()
@@ -81,6 +84,7 @@ public class WebSecurityConfig {
                 .antMatchers("/comment/**").permitAll()
                 .antMatchers("/create/**").permitAll()
                 .antMatchers("/price/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .antMatchers ( PERMIT_URL_ARRAY ).permitAll ()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
