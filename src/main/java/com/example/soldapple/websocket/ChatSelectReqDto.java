@@ -8,6 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatSelectReqDto {
-    private Long postId;
     private Long roomId;
 }

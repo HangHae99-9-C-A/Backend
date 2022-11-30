@@ -1,5 +1,6 @@
 package com.example.soldapple.websocket;
 
+import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.Getter;
 import lombok.Setter;
 

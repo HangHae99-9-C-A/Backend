@@ -9,6 +9,4 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RoomReqDto {
     private Long postId;
-    private String postUserNickname;
-    private String postTitle;
 }

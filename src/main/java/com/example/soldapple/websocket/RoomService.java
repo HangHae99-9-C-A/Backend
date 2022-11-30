@@ -20,51 +20,44 @@ public class RoomService {
     private final PostRepository postRepository;
 
     public RoomResDto joinRoom(ChatSelectReqDto chatSelectReqDto, UserDetailsImpl userDetails) {
-        if(chatSelectReqDto.getRoomId() == 1){
+        Room room = roomRepository.findRoomByIdAndPostMemberId(chatSelectReqDto.getRoomId(), userDetails.getMember().getId())
+                .orElseGet( () ->roomRepository.findRoomByIdAndJoinUserId(chatSelectReqDto.getRoomId(), userDetails.getMember().getId()).orElseThrow(
+                                () -> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST) // 고쳐야함
+                        ));
+        RoomResDto roomResponseDto = new RoomResDto(room, userDetails.getMember().getNickname());
+        return roomResponseDto;
 
-            Room room = roomRepository.findRoomByPostPostIdAndJoinUserNickname(chatSelectReqDto.getPostId(), userDetails.getMember().getNickname()).orElseThrow(
-                    ()-> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST)
-            );
-            RoomResDto roomResponseDto = new RoomResDto(room);
-            return roomResponseDto;
-        }else{
-            Room room = roomRepository.findById(chatSelectReqDto.getRoomId()).orElseThrow(
-                    ()-> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST)
-            );
-            RoomResDto roomResponseDto = new RoomResDto(room);
-            return roomResponseDto;
-        }
     }
 
     public RoomResDto createRoom(RoomReqDto roomReqDto, UserDetailsImpl userDetails) {
         Post post = postRepository.findById(roomReqDto.getPostId()).orElseThrow(
-                ()-> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(ErrorCode.CANNOT_DELETE_NOT_EXIST_POST)
         );
-//        if(post.getMember().getId().equals(userDetails.getMember().getId())){
-//            throw new CustomException(ErrorCode.SameUser);
-//        }
+        if(post.getMember().equals(userDetails.getMember())){
+            throw new CustomException(ErrorCode.CANNOT_MAKE_ROOM_ALONE);
+        }
         //이미 만든방이 있다면 room에 저장후 리턴
-        Room room = roomRepository.findRoomByJoinUserIdAndPostUserIdAndPostPostId(userDetails.getMember().getId(), post.getMember().getId(), roomReqDto.getPostId())
+        Room room = roomRepository.findRoomByJoinUserIdAndPostMemberIdAndPostPostId(userDetails.getMember().getId(), post.getMember().getId(), roomReqDto.getPostId())
                 //만들어진 방이 없다면 새로 만들어서 리턴
-                .orElse(new Room(post.getMember().getId(), roomReqDto,userDetails, post));
+                .orElseGet(() ->new Room(userDetails, post));
 
         roomRepository.save(room);
-        RoomResDto roomResDto = new RoomResDto(room);
+        RoomResDto roomResDto = new RoomResDto(room, userDetails.getMember().getNickname());
         return roomResDto;
     }
 
     public List<RoomResDto> roomList(UserDetailsImpl userDetails) {
-        List<Room> roomList = roomRepository.findAllByJoinUserIdOrPostUserIdOrderByIdDesc(userDetails.getMember().getId(),userDetails.getMember().getId());
+        List<Room> roomList = roomRepository.findAllByJoinUserIdOrPostMemberIdOrderByIdDesc(userDetails.getMember().getId(), userDetails.getMember().getId());
 
         List<RoomResDto> roomResDtos = new ArrayList<>();
 
-        for(Room room : roomList ){
-            roomResDtos.add(new RoomResDto(room));
+        for (Room room : roomList) {
+            roomResDtos.add(new RoomResDto(room, userDetails.getMember().getNickname()));
         }
 
-        if(roomList.isEmpty()){
+        if (roomList.isEmpty()) {
             return roomResDtos;
-        }else{
+        } else {
             return roomResDtos;
         }
     }

@@ -5,6 +5,7 @@ package com.example.soldapple.websocket;
 //import com.example.soldapple.security.user.UserDetailsImpl;
 //import io.swagger.annotations.ApiOperation;
 
+import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.MessagingException;
@@ -14,6 +15,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 //import org.springframework.security.access.method.P;
 //import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 //import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.RequestHeader;
@@ -63,12 +65,12 @@ public class ChattingController {
 //        Thread.sleep(500);
 //        return new ChatMessageDto(messageDto.getMessage());
 //    }
-    @MessageMapping(value = "1")
-    @SendTo("/sub/1")
-    public void message(@Valid ChatReqDto message) throws MessagingException {
-        Chat chat = chatService.createChat(1L,message);
+    @MessageMapping(value = "{roomId}")
+    @SendTo("/sub/{roomId}")
+    public void message(@DestinationVariable Long roomId, @Valid ChatReqDto message) throws MessagingException {
+        Chat chat = chatService.createChat(roomId,message);
 
         ChatResDto chatResDto = new ChatResDto(message,chat.getSendDate());
-        template.convertAndSend("/sub/"+1L,chatResDto);
+        template.convertAndSend("/sub/"+roomId,chatResDto);
     }
 }

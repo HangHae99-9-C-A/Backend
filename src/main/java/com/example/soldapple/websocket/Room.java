@@ -20,10 +20,6 @@ public class Room {
     @Column(name = "room_id")
     private Long id;
 
-    private String title;
-
-    private String state;
-
     @JsonManagedReference
     @OneToMany(mappedBy = "room", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Chat> chats;
@@ -33,17 +29,11 @@ public class Room {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    private Long postUserId;
-    private String postUserNickname;
 
     private Long joinUserId;
     private String joinUserNickname;
 
-    public Room(Long postUserId, RoomReqDto roomReqDto, UserDetailsImpl userDetails, Post post){
-        this.title = roomReqDto.getPostTitle();
-        this.postUserId = postUserId;
-        this.state = post.getCategory(); //상태 추가해야함
-        this.postUserNickname = roomReqDto.getPostUserNickname();
+    public Room(UserDetailsImpl userDetails, Post post){
         this.joinUserId = userDetails.getMember().getId();
         this.joinUserNickname = userDetails.getMember().getNickname();
         this.post = post;
