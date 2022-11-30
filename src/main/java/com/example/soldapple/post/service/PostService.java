@@ -98,11 +98,11 @@ public class PostService {
         return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
     }
 
-    public PostResponseDto updateStatus( PostReqDto postReqDto, Long postId,Member member) {
+    public PostResponseDto updateStatus(Long postId,Member member) {
         Post post = postRepository.findByPostId(postId).orElseThrow(
                 ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
-        post.soldOut(postReqDto);
+        post.soldOut();
         //이 게시글을 현재 사용자가 좋아요를 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         String avatarUrl = checkAvatar(post);
