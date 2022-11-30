@@ -20,7 +20,7 @@ public class Post extends TimeStamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
-    private SalesStatus salesStatus;
+    private SalesStatus salesStatus = SalesStatus.판매중;
     @ManyToOne
     @JoinColumn
     private Member member;
@@ -48,7 +48,6 @@ public class Post extends TimeStamped {
     private Opt opt;
 
     public Post(PostReqDto postReqDto, Member member) {
-        this.salesStatus = postReqDto.getSalesStatus();
         this.member = member;
         this.title = postReqDto.getTitle();
         this.category = postReqDto.getCategory();
@@ -69,7 +68,7 @@ public class Post extends TimeStamped {
         this.postLikeCnt = likeCnt;
     }
 
-    public void soldOut(PostReqDto postReqDto) {
-        this.salesStatus = postReqDto.getSalesStatus();
+    public void soldOut() {
+        this.salesStatus = SalesStatus.판매완료;
     }
 }
