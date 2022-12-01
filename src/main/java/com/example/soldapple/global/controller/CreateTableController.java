@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/create")
+@RequestMapping("/create")
 @RequiredArgsConstructor
 public class CreateTableController {
     private final CreateTableService createTableService;

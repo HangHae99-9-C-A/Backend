@@ -13,7 +13,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/post/comment")
+@RequestMapping("/post/comment")
 @RequiredArgsConstructor
 public class CommentController {
 
