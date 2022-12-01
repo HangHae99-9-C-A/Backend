@@ -1,6 +1,7 @@
 package com.example.soldapple.websocket;
 
 import com.example.soldapple.post.entity.Image;
+import com.example.soldapple.post.entity.SalesStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,7 @@ public class RoomResDto {
 
     private Long price;
 
-    private String state;
+    private SalesStatus state;
     private List<Chat> chatList;
 
     private LocalDateTime lastChatTime;
@@ -40,7 +41,7 @@ public class RoomResDto {
 //        this.postImg = room.getPost().getImage().get(0).getImage();
         this.price = room.getPost().getUserPrice();
         this.chatList = room.getChats();
-        this.state = room.getPost().getCategory();
+        this.state = room.getPost().getSalesStatus();
 //        this.lastCHatTime = room.getChats().get(chatList.size()).getSendDate(); 삼항연산자... 성우님
         this.postUserId = room.getPost().getMember().getId();
         this.postUserNickname = room.getPost().getMember().getNickname();
@@ -57,7 +58,7 @@ public class RoomResDto {
 //        this.postImg = room.getPost().getImage().get(0).getImage();
         this.price = room.getPost().getUserPrice();
         this.chatList = room.getChats();
-        this.state = room.getPost().getCategory();
+        this.state = room.getPost().getSalesStatus();
 //        this.lastCHatTime = room.getChats().get(chatList.size()).getSendDate(); 삼항연산자... 성우님
         this.postUserId = room.getPost().getMember().getId();
         this.postUserNickname = room.getPost().getMember().getNickname();
