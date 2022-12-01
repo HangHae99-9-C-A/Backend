@@ -30,23 +30,23 @@ public class Chat {
     @Column(columnDefinition = "TEXT")
     private String message;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime sendDate;
+    @Column(columnDefinition = "TEXT")
+    private String sendDate;
 
     @Builder
-    public Chat(Room room, String sender, String message){
+    public Chat(Room room, String sender, String message, String sendDate){
         this.room = room;
         this.sender = sender;
         this.message = message;
-        this.sendDate = LocalDateTime.now();
+        this.sendDate = sendDate;
     }
 
-    public static Chat createChat(Room room, String sender, String message){
+    public static Chat createChat(Room room, String sender, String message,String sendDate){
         return Chat.builder()
                 .room(room)
                 .sender(sender)
                 .message(message)
+                .sendDate(sendDate)
                 .build();
     }
 }

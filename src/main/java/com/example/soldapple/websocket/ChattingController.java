@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -68,7 +70,8 @@ public class ChattingController {
     @MessageMapping(value = "{roomId}")
     @SendTo("/sub/{roomId}")
     public void message(@DestinationVariable Long roomId, @Valid ChatReqDto message) throws MessagingException {
-        Chat chat = chatService.createChat(roomId,message);
+        String sendDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분"));
+        Chat chat = chatService.createChat(roomId,message,sendDate);
 
         ChatResDto chatResDto = new ChatResDto(message,chat.getSendDate());
         template.convertAndSend("/sub/"+roomId,chatResDto);

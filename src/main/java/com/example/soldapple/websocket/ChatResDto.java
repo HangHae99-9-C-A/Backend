@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 public class ChatResDto {
     private String sender;
     private String message;
-    private LocalDateTime createdAt;
+    private String sendDate;
 
-    public ChatResDto(ChatReqDto chatReqDto, LocalDateTime localDateTime){
+    public ChatResDto(ChatReqDto chatReqDto, String sendDate){
         this.sender = chatReqDto.getSender();
         this.message = chatReqDto.getMessage();
-        this.createdAt = localDateTime;
+        this.sendDate = sendDate;
     }
 }

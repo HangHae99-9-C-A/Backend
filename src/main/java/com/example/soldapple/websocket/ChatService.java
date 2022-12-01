@@ -15,7 +15,7 @@ public class ChatService {
     private final RoomRepository roomRepository;
     private final ChatRepository chatRepository;
 
-    public Chat createChat(Long roomId, ChatReqDto chatReqDto){
+    public Chat createChat(Long roomId, ChatReqDto chatReqDto,String sendDate){
         Room room = roomRepository.findById(roomId).orElseThrow(
                 () -> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST) //예외처리해야함
         );
@@ -23,6 +23,7 @@ public class ChatService {
                 .room(room)
                 .sender(chatReqDto.getSender())
                 .message(chatReqDto.getMessage())
+                .sendDate(sendDate)
                 .build();
         chatRepository.save(chat);
         return chat;
