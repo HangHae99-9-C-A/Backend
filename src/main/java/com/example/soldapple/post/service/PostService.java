@@ -98,6 +98,17 @@ public class PostService {
         return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
     }
 
+    public PostResponseDto updateStatus(Long postId,Member member) {
+        Post post = postRepository.findByPostId(postId).orElseThrow(
+                ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+        );
+        post.soldOut();
+        //이 게시글을 현재 사용자가 좋아요를 눌렀는지
+        Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
+        String avatarUrl = checkAvatar(post);
+        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
+    }
+
     //게시글 삭제
     @Transactional
     public String postDelete(Long postId, Member member) {
@@ -162,7 +173,7 @@ public class PostService {
     }
 
     //댓글목록 dto 넣기
-    private List<CommentResponseDto> commentDtos(Post post) {
+    public List<CommentResponseDto> commentDtos(Post post) {
         List<Comment> comments = post.getComments();
         List<CommentResponseDto> commentResponseDtos = new ArrayList<CommentResponseDto>();
         String avatarUrl;
@@ -189,7 +200,7 @@ public class PostService {
     }
 
     //프로필사진 있는지 확인
-    private String checkAvatar(Post post) {
+    public String checkAvatar(Post post) {
         if (post.getMember().getAvatarUrl() == null) {
             return "https://querybuckets.s3.ap-northeast-2.amazonaws.com/default/photoimg.png";
         } else {

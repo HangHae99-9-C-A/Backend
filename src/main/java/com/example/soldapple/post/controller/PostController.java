@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/posts")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
@@ -32,10 +32,11 @@ public class PostController {
         return postService.getAllPost(pageable);
 
     }
+
     // 모든 포스트 + 검색 읽어오기
     @GetMapping("/all/{search}")
     public Page<PostResponseDto> getAllPostWithSearch(Pageable pageable,
-                                                      @PathVariable(name = "search",required = false) String search) {
+                                                      @PathVariable(name = "search", required = false) String search) {
         return postService.getAllPostWithSearch(pageable, search);
 
     }
@@ -44,8 +45,8 @@ public class PostController {
     // api/post/{카테고리명}
     @GetMapping("category/{category}") // category = all
     public Page<?> getAllPostWithCategory(
-            Pageable pageable, @PathVariable(name = "category",required = false) String category
-            ) {
+            Pageable pageable, @PathVariable(name = "category", required = false) String category
+    ) {
         return postService.getAllPostWithCategory(pageable, category);
     }
 
@@ -54,8 +55,8 @@ public class PostController {
     @GetMapping("category/{category}/{search}") // category = all
     public Page<?> getAllPostWithCategoryWithSearch(
             Pageable pageable,
-            @PathVariable(name = "category",required = false) String category,
-            @PathVariable(name = "search",required = false) String search) {
+            @PathVariable(name = "category", required = false) String category,
+            @PathVariable(name = "search", required = false) String search) {
         return postService.getAllPostWithCategoryWithSearch(pageable, category, search);
     }
 
@@ -81,13 +82,20 @@ public class PostController {
 
     //게시글 수정
     @PatchMapping("/{postId}")
-    public PostResponseDto postEdit(@RequestPart(required = false) List<MultipartFile> multipartFiles,
-                                    @RequestPart PostReqDto postReqDto,
-                                    @PathVariable Long postId,
-                                    @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+    public PostResponseDto updatePost(@RequestPart(required = false) List<MultipartFile> multipartFiles,
+                                      @RequestPart(required = false) PostReqDto postReqDto,
+                                      @PathVariable Long postId,
+                                      @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         System.out.println("==========컨트롤러 지나는중==========");
         return postService.updatePost(multipartFiles, postId, postReqDto, userDetails.getMember());
     }
+
+    @PatchMapping("/status/{postId}")
+    public PostResponseDto updateStatus(@PathVariable Long postId,
+                                        @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.updateStatus(postId, userDetails.getMember());
+    }
+
 
     //게시글 삭제
     @DeleteMapping("/{postId}")

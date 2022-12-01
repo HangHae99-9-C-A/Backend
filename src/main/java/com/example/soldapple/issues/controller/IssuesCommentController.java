@@ -11,7 +11,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/issue/comment")
+@RequestMapping("/issues/comment")
 public class IssuesCommentController {
     private final IssuesCommentService issuesCommentService;
 
