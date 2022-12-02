@@ -33,9 +33,12 @@ public class Room {
     private Long joinUserId;
     private String joinUserNickname;
 
+    private String joinUserAvatarUrl;
+
     public Room(UserDetailsImpl userDetails, Post post){
         this.joinUserId = userDetails.getMember().getId();
         this.joinUserNickname = userDetails.getMember().getNickname();
+        this.joinUserAvatarUrl = userDetails.getMember().getAvatarUrl();
         this.post = post;
     }
 }

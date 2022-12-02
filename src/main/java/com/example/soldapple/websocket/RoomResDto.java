@@ -27,27 +27,14 @@ public class RoomResDto {
     private Long postUserId;
     private String postUserNickname;
 
+    private String postUserAvatarUrl;
+
     private Long joinUserId;
     private String joinUserNickname;
 
+    private String joinUserAvatarUrl;
+
     private String nickname;
-
-    public RoomResDto(Room room){
-
-        this.postId = room.getPost().getPostId();
-        this.roomId = room.getId();
-        this.title = room.getPost().getTitle();
-
-//        this.postImg = room.getPost().getImage().get(0).getImage();
-        this.price = room.getPost().getUserPrice();
-        this.chatList = room.getChats();
-        this.state = room.getPost().getSalesStatus();
-//        this.lastCHatTime = room.getChats().get(chatList.size()).getSendDate(); 삼항연산자... 성우님
-        this.postUserId = room.getPost().getMember().getId();
-        this.postUserNickname = room.getPost().getMember().getNickname();
-        this.joinUserId = room.getJoinUserId();
-        this.joinUserNickname = room.getJoinUserNickname();
-    }
 
     public RoomResDto(Room room, String nickname){
 
@@ -62,8 +49,10 @@ public class RoomResDto {
 //        this.lastCHatTime = room.getChats().get(chatList.size()).getSendDate(); 삼항연산자... 성우님
         this.postUserId = room.getPost().getMember().getId();
         this.postUserNickname = room.getPost().getMember().getNickname();
+        this.postUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
         this.joinUserId = room.getJoinUserId();
         this.joinUserNickname = room.getJoinUserNickname();
+        this.joinUserAvatarUrl = room.getJoinUserAvatarUrl();
         this.nickname = nickname;
     }
 }
