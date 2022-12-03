@@ -174,7 +174,6 @@ public class PostService {
                 Image image = new Image(img, post);
                 imageRepository.save(image);
                 imageList.add(image);
-                imageRepository.save(image);
             }
         }
         post.setImages(imageList);
