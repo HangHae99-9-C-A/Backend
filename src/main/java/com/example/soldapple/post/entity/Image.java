@@ -19,6 +19,7 @@ public class Image {
 
     @Lob
     private String imgUrl;
+    @Lob
     private String imgKey;
 
     @JsonIgnore

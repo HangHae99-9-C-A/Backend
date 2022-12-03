@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -29,7 +30,7 @@ public class Post extends TimeStamped {
     private String category;
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    private List<Image> images;
+    private List<Image> images = new ArrayList<>();
 
     private Long expectPrice;
     private Long userPrice;

@@ -45,7 +45,7 @@ public class PostService {
 
 
     //게시글 작성
-    @Transactional
+
     public PostResponseDto postCreate(List<MultipartFile> multipartFiles,
                                       PostReqDto postReqDto,
                                       GetIPhonePriceResDto iphoneOption,
@@ -82,7 +82,6 @@ public class PostService {
 
 
     //게시글 수정
-    @Transactional
     public PostResponseDto updatePost(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member) throws IOException {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
@@ -116,7 +115,6 @@ public class PostService {
     }
 
     //게시글 삭제
-    @Transactional
     public String postDelete(Long postId, Member member) {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
@@ -127,22 +125,26 @@ public class PostService {
     }
 
     //게시글 전체 조회 무한스크롤
+    @Transactional(readOnly = true)
     public Page<PostResponseDto> getAllPost(Pageable pageable) {
         return postRepository.findAllMyPost(pageable);
     }
 
     //게시글 전체 조회 + 검색 무한스크롤
+    @Transactional(readOnly = true)
     public Page<PostResponseDto> getAllPostWithSearch(Pageable pageable, String search) {
         return postRepository.findAllMyPostWithSearch(pageable, search);
     }
 
     //category + 내 좋아요 무한스크롤
+    @Transactional(readOnly = true)
     public Page<?> getAllPostWithCategory(Pageable pageable, String category) {
         Page<?> allPostWithCategory = postRepository.findAllPostWithCategory(pageable, category);
         return allPostWithCategory;
     }
 
     //category + 검색 정렬
+    @Transactional(readOnly = true)
     public Page<?> getAllPostWithCategoryWithSearch(Pageable pageable, String category, String search) {
         Page<?> allPostWithCategoryWithSearch = postRepository.findAllPostWithCategoryWithSearch(pageable, category, search);
         return allPostWithCategoryWithSearch;
