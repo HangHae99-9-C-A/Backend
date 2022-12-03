@@ -24,6 +24,8 @@ public class IssuesCommentService {
                 ()-> new IllegalArgumentException("해당 이의제기 글이 존재하지 않습니다.")
         );
         IssuesComment issuesComment = new IssuesComment(issues, userDetails.getMember(),  issuesCommentRequestDto.getIssuesComment());
+        Boolean myComment;
+        myComment = issuesComment.getMember().getId().equals(userDetails.getMember().getId());
         issuesCommentRepository.save(issuesComment);
         String avatarUrl;
         if(issuesComment.getMember().getAvatarUrl()==null) {
@@ -31,7 +33,7 @@ public class IssuesCommentService {
         } else{
             avatarUrl = issuesComment.getMember().getAvatarUrl();
         }
-        return new IssuesCommentResponseDto(issuesComment, avatarUrl);
+        return new IssuesCommentResponseDto(issuesComment, avatarUrl, myComment);
     }
 
     //이의제기 댓글 삭제
@@ -50,6 +52,8 @@ public class IssuesCommentService {
         IssuesComment issuesComment =issuesCommentRepository.findByIssuesCommentIdAndMember(issuesCommentId, member).orElseThrow(
                 ()->new RuntimeException("해당 댓글이 없거나 수정 권한이 없습니다.")
         );
+        Boolean myComment;
+        myComment = issuesComment.getMember().getId().equals(member.getId());
         issuesComment.setIssuesComment(issuesCommentRequestDto.getIssuesComment());
         issuesCommentRepository.save(issuesComment);
         String avatarUrl;
@@ -58,6 +62,6 @@ public class IssuesCommentService {
         } else{
             avatarUrl = issuesComment.getMember().getAvatarUrl();
         }
-        return new IssuesCommentResponseDto(issuesComment, avatarUrl);
+        return new IssuesCommentResponseDto(issuesComment, avatarUrl, myComment);
     }
 }

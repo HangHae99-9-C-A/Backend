@@ -54,6 +54,8 @@ public class PostService {
         //게시글 저장
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
+        Boolean myPost;
+        myPost = post.getMember().getId().equals(member.getId());
 
         //이미지 저장
         imgSave(multipartFiles, post);
@@ -75,7 +77,7 @@ public class PostService {
         String avatarUrl = checkAvatar(post);
         //사용자가 해당 글에 좋아요 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
+        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post,member.getId()), myPost);
     }
 
 
@@ -85,6 +87,8 @@ public class PostService {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
+        Boolean myPost;
+        myPost = post.getMember().getId().equals(member.getId());
         //내용 업데이트
         post.update(postReqDto);
         //기존 이미지 삭제
@@ -95,18 +99,20 @@ public class PostService {
         //이 게시글을 현재 사용자가 좋아요를 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         String avatarUrl = checkAvatar(post);
-        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
+        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post,member.getId()), myPost);
     }
 
     public PostResponseDto updateStatus(Long postId,Member member) {
         Post post = postRepository.findByPostId(postId).orElseThrow(
                 ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
+        Boolean myPost;
+        myPost = post.getMember().getId().equals(member.getId());
         post.soldOut();
         //이 게시글을 현재 사용자가 좋아요를 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         String avatarUrl = checkAvatar(post);
-        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
+        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post,member.getId()), myPost);
     }
 
     //게시글 삭제
@@ -148,11 +154,13 @@ public class PostService {
         Post post = postRepository.findByPostId(postId).orElseThrow(
                 () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
+        Boolean myPost;
+        myPost = post.getMember().getId().equals(member.getId());
 
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         String avatarUrl = checkAvatar(post);
 
-        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post));
+        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post,member.getId()), myPost);
     }
 
     //이미지 저장
@@ -173,18 +181,21 @@ public class PostService {
     }
 
     //댓글목록 dto 넣기
-    public List<CommentResponseDto> commentDtos(Post post) {
+    public List<CommentResponseDto> commentDtos(Post post, Long memberId) {
         List<Comment> comments = post.getComments();
         List<CommentResponseDto> commentResponseDtos = new ArrayList<CommentResponseDto>();
         String avatarUrl;
+        Boolean myComment;
         if (!(comments == null)) {
             for (Comment comment : comments) {
+                myComment = comment.getMember().getId().equals(memberId);
+
                 if (comment.getMember().getAvatarUrl() == null) {
                     avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
                 } else {
                     avatarUrl = comment.getMember().getAvatarUrl();
                 }
-                commentResponseDtos.add(new CommentResponseDto(comment, avatarUrl));
+                commentResponseDtos.add(new CommentResponseDto(comment, avatarUrl, myComment));
             }
         }
         return commentResponseDtos;

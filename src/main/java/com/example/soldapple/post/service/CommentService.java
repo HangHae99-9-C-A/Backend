@@ -56,6 +56,8 @@ public class CommentService {
                 () -> new IllegalArgumentException("comment not exist")
 
         );
+        Boolean myComment;
+        myComment = comment.getMember().getId().equals(member.getId());
         comment.CommentEdit(commentReqDto);
         String avatarUrl;
         if(comment.getMember().getAvatarUrl()==null) {
@@ -63,6 +65,6 @@ public class CommentService {
         } else{
             avatarUrl = comment.getMember().getAvatarUrl();
         }
-        return new CommentResponseDto(comment, avatarUrl);
+        return new CommentResponseDto(comment, avatarUrl, myComment);
     }
 }

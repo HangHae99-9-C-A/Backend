@@ -34,7 +34,9 @@ public class IssuesResponseDto {
     private Long likeCnt;
     private Long memberId;
 
-    public IssuesResponseDto(Issues issues, Boolean isLike, String avatarUrl, List<IssuesCommentResponseDto> issuesCommentResponseDto){
+    private Boolean myIssue;
+
+    public IssuesResponseDto(Issues issues, Boolean isLike, String avatarUrl, List<IssuesCommentResponseDto> issuesCommentResponseDto, Boolean myIssue){
         this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
@@ -51,6 +53,7 @@ public class IssuesResponseDto {
         this.comments = issuesCommentResponseDto;
         this.isLike = isLike;
         this.likeCnt = issues.getIssuesLikeCnt();
+        this.myIssue = myIssue;
     }
 
     @QueryProjection

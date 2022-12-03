@@ -18,6 +18,18 @@ public class CommentResponseDto {
     private String comment;
     private String createdAt;
     private String modifiedAt;
+    private Boolean myComment;
+
+    public CommentResponseDto(Comment comment, String avatarUrl, Boolean myComment){
+        this.commentId = comment.getId();
+        this.nickname = comment.getMember().getNickname();
+        this.memberId = comment.getMember().getId();
+        this.avatarUrl = avatarUrl;
+        this.comment = comment.getComment();
+        this.createdAt= TimeConverter.convertTime ( comment.getCreatedAt() );
+        this.modifiedAt = TimeConverter.convertTime ( comment.getModifiedAt () );
+        this.myComment = myComment;
+    }
 
     public CommentResponseDto(Comment comment, String avatarUrl){
         this.commentId = comment.getId();

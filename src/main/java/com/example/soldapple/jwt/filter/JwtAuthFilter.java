@@ -34,7 +34,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (accessToken != null) {
             if (!jwtUtil.tokenValidation(accessToken)) {
-                throw new CustomException(TOKEN_IS_EXPIRED);
+//                request.getRequestDispatcher("https://frontend-inky-delta.vercel.app/signin").forward(request,response);
+                response.sendRedirect("https://frontend-inky-delta.vercel.app/signin");
+                return;
             }
             setAuthentication(jwtUtil.getEmailFromToken(accessToken));
         } else if (refreshToken != null) {

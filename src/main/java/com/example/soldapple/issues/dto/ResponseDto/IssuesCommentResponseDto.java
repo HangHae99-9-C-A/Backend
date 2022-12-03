@@ -18,7 +18,9 @@ public class IssuesCommentResponseDto {
     private String createdAt;
     private String modifiedAt;
 
-    public IssuesCommentResponseDto(IssuesComment issuesComment, String avatarUrl){
+    private Boolean myComment;
+
+    public IssuesCommentResponseDto(IssuesComment issuesComment, String avatarUrl, Boolean myComment){
         this.commentId = issuesComment.getIssuesCommentId();
         this.nickname = issuesComment.getMember().getNickname();
         this.memberId = issuesComment.getMember().getId();
@@ -26,6 +28,7 @@ public class IssuesCommentResponseDto {
         this.comment = issuesComment.getIssuesComment();
         this.createdAt = TimeConverter.convertTime ( issuesComment.getCreatedAt () );
         this.modifiedAt = TimeConverter.convertTime ( issuesComment.getModifiedAt () );
+        this.myComment = myComment;
     }
 
     public IssuesCommentResponseDto(IssuesComment issuesComment){

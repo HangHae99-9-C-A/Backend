@@ -31,6 +31,7 @@ public class PostResponseDto {
     private Long expectPrice;
     private Long userPrice;
     private String content;
+    private Boolean myPost;
 
     private List<CommentResponseDto> comments;
     private Boolean isLike;
@@ -40,7 +41,7 @@ public class PostResponseDto {
     private Long memberId;
 
 
-    public PostResponseDto(Post post, Boolean isLike, String avatarUrl, List<CommentResponseDto> commentResponseDtos){
+    public PostResponseDto(Post post, Boolean isLike, String avatarUrl, List<CommentResponseDto> commentResponseDtos, Boolean myPost){
         this.postId = post.getPostId();
         this.salesStatus = post.getSalesStatus();
         this.title = post.getTitle();
@@ -58,6 +59,7 @@ public class PostResponseDto {
         this.comments = commentResponseDtos;
         this.isLike = isLike;
         this.likeCnt = post.getPostLikeCnt();
+        this.myPost = myPost;
     }
 
     //myinfo

@@ -8,6 +8,7 @@ import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.service.PostService;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/posts")
 @RequiredArgsConstructor
+@Slf4j
 public class PostController {
     private final PostService postService;
 
@@ -68,6 +70,10 @@ public class PostController {
                                       @RequestPart(required = false) GetMacbookPriceResDto macbookOption,
                                       @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         System.out.println("==========컨트롤러 지나는중==========");
+        String iphone = String.valueOf(iphoneOption);
+        String post = String.valueOf(postReqDto);
+        log.info("아이폰 옵션" + iphone);
+        log.info("포스트 옵션" + post);
         return postService.postCreate(multipartFiles, postReqDto, iphoneOption, macbookOption, userDetails.getMember());
 //        postService.postTest();
     }

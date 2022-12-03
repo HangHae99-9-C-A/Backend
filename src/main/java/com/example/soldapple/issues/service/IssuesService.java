@@ -51,6 +51,8 @@ public class IssuesService {
                                          Member member) throws IOException{
         Issues issues = new Issues(issuesRequestDto, member);
         issuesRepository.save(issues);
+        Boolean myIssue;
+        myIssue = issues.getMember().getId().equals(member.getId());
 
         //이미지 저장
         List<IssuesImage> imageList = new ArrayList<>();
@@ -81,7 +83,7 @@ public class IssuesService {
 
         String avatarUrl = checkAvatar(issues);
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, isLike, avatarUrl, commentDtos(issues));
+        return new IssuesResponseDto(issues, isLike, avatarUrl, commentDtos(issues, member.getId()), myIssue);
 
     }
 
@@ -91,12 +93,14 @@ public class IssuesService {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
                 ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
+        Boolean myIssue;
+        myIssue = issues.getMember().getId().equals(member.getId());
         issues.update(issuesRequestDto);
         issuesRepository.save(issues);
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues,member);
         String avatarUrl = checkAvatar(issues);
 
-        return new IssuesResponseDto(issues,isLike,avatarUrl, commentDtos(issues));
+        return new IssuesResponseDto(issues,isLike,avatarUrl, commentDtos(issues, member.getId()), myIssue);
     }
 
     //이의제기글 삭제
@@ -117,25 +121,29 @@ public class IssuesService {
         Issues issues = issuesRepository.findByIssuesId(issuesId).orElseThrow(
                 () -> new CustomException(CANNOT_DELETE_NOT_EXIST_POST)
         );
+        Boolean myIssue;
+        myIssue = issues.getMember().getId().equals(member.getId());
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
         String avatarUrl = checkAvatar(issues);
 
-        return new IssuesResponseDto(issues, isLike, avatarUrl, commentDtos(issues));
+        return new IssuesResponseDto(issues, isLike, avatarUrl, commentDtos(issues, member.getId()), myIssue);
     }
 
     //댓글목록 dto 넣기
-    private List<IssuesCommentResponseDto> commentDtos(Issues issues) {
+    private List<IssuesCommentResponseDto> commentDtos(Issues issues, Long memberId) {
         List<IssuesComment> issuesComments = issues.getIssuesComments();
         List<IssuesCommentResponseDto> issuesCommentResponseDtos = new ArrayList<>();
         String avatarUrl;
+        Boolean myComment;
         if(!(issuesComments==null)) {
             for (IssuesComment issuesComment : issuesComments) {
+                myComment = issuesComment.getMember().getId().equals(memberId);
                 if(issuesComment.getMember().getAvatarUrl()==null) {
                     avatarUrl = "https://querybuckets.s3.ap-northeast-2.amazonaws.com/default/photoimg.png";
                 } else{
                     avatarUrl = issuesComment.getMember().getAvatarUrl();
                 }
-                issuesCommentResponseDtos.add(new IssuesCommentResponseDto(issuesComment, avatarUrl));
+                issuesCommentResponseDtos.add(new IssuesCommentResponseDto(issuesComment, avatarUrl, myComment));
             }
         }
         return issuesCommentResponseDtos;
