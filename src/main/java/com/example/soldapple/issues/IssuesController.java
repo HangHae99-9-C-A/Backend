@@ -1,10 +1,11 @@
-package com.example.soldapple.issues.controller;
+package com.example.soldapple.issues;
 
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
+import com.example.soldapple.issues.dto.RequestDto.IssuesCommentRequestDto;
 import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
+import com.example.soldapple.issues.dto.ResponseDto.IssuesCommentResponseDto;
 import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
-import com.example.soldapple.issues.service.IssuesService;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -57,8 +58,7 @@ public class IssuesController {
         return issuesService.getAllIssuesWithCategoryWithSearch(pageable, category, search);
     }
 
-    //게시글 작성
-    @PostMapping
+    @PostMapping //이의제기 작성
     public IssuesResponseDto createIssue(@RequestPart(required = false) List<MultipartFile> multipartFiles,
                                          @RequestPart(required = false) IssuesRequestDto issuesRequestDto,
                                          @RequestPart(required = false) GetIPhonePriceResDto iphoneOption,
@@ -68,16 +68,14 @@ public class IssuesController {
         return issuesService.createIssue(multipartFiles, issuesRequestDto, iphoneOption, macbookOption, userDetails.getMember());
     }
 
-    //게시글 하나 상세조회
-    @GetMapping("/detail/{issuesId}")
+    @GetMapping("/detail/{issuesId}") //이의제기 하나 상세조회
     public IssuesResponseDto oneIssue(@PathVariable Long issuesId,
                                       @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) {
         System.out.println("==========컨트롤러 지나는중==========");
         return issuesService.oneIssue(issuesId, userDetails.getMember());
     }
 
-    //게시글 수정
-    @PatchMapping("/{issuesId}")
+    @PatchMapping("/{issuesId}") //이의제기 수정
     public IssuesResponseDto updateIssue(@PathVariable Long issuesId,
                                          @RequestPart IssuesRequestDto issuesRequestDto,
                                          @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -85,11 +83,33 @@ public class IssuesController {
         return issuesService.updateIssue(issuesId, issuesRequestDto, userDetails.getMember());
     }
 
-    //게시글 삭제
-    @DeleteMapping("/{issuesId}")
+    @DeleteMapping("/{issuesId}") //이의제기 삭제
     public String deleteIssue(@PathVariable Long issuesId,
                               @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) {
         System.out.println("==========컨트롤러 지나는중==========");
         return issuesService.deleteIssue(issuesId, userDetails.getMember());
+    }
+
+    /*이의제기 댓글*/
+    private final IssuesService issuesCommentService;
+
+    @PostMapping("/comment/{issuesId}") //댓글 작성
+    public IssuesCommentResponseDto createIssuesComment(@PathVariable Long issuesId,
+                                                        @RequestBody IssuesCommentRequestDto issuesCommentRequestDto,
+                                                        @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return issuesService.createIssuesComment(issuesId, issuesCommentRequestDto, userDetails);
+    }
+
+    @PutMapping("/comment/{issuesCommentId}") //댓글 수정
+    public IssuesCommentResponseDto updateIssuesComment(@PathVariable Long issuesCommentId,
+                                                        @RequestBody IssuesCommentRequestDto issuesCommentRequestDto,
+                                                        @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return issuesService.updateIssuesComment(issuesCommentId, issuesCommentRequestDto, userDetails.getMember());
+    }
+
+    @DeleteMapping("/comment/{issuesCommentId}") //댓글 삭제
+    public String deleteIssuesComment(@PathVariable Long issuesCommentId,
+                                      @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return issuesService.deleteIssuesComment(issuesCommentId, userDetails.getMember());
     }
 }
