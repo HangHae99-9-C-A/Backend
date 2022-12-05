@@ -1,15 +1,23 @@
-# 🍍 파인애플(FindApple) Backend
+# 🍎 파인드애플(FindApple) Backend
 
 <br>
 
 ## ✏ 프로젝트 소개
 - [서비스 목적]  중고거래 사이트 가격 책정 한계 개선(불합리한 가격 제안 방지)
-- 
+- 애플 제품 군에 특화된 옵션들에 맞춰 고도화된 카테고리를 제공합니다.
+- 애플 중고 얼마에 팔아야 할지 고민 되시나요?
+- 파인드애플은 애플 중고 물품 가격을 산정해드립니다.
+- 시세에 맞는 물품들을 안심하고 구매하세요!
+- 책정된 가격이 마음에 들지 않는다면 이의제기를 통해 유저들과 의견을 나눠볼 수 있습니다.
 
 <br>
 
 ## ⭐ 주요 기능
--
+- 🍫카카오톡 소셜 로그인
+- ♾무한 스크롤 
+- 🔎검색 및 조회 기능
+- 🙋‍마이 페이지에서는 내가 올린 게시글도 모아 보고 내가 좋아한 게시글도 모아서 확인
+- 💬(예정) WebSocket을 이용한 실시간 채팅 및 알림
 
 <br>
 
@@ -31,31 +39,37 @@
 <br>
 
 ## 📜 아키텍쳐 
+<details><summary>아키텍쳐 보기
+</summary>
 
+![image](https://user-images.githubusercontent.com/113869496/203765586-d0e682c5-5c58-409c-9dd9-757be83c7c67.png)
+
+</details>
 
 <br>
 
 
 
 ## 🛠 Backend Tech Stack
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/a0f9c9f1295e65f8c081e5e6073840e309726163c310542f8c0acb5aa60ba5ad/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4a4156412d3030373339363f7374796c653d666f722d7468652d6261646765266c6f676f3d6a617661266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/a0f9c9f1295e65f8c081e5e6073840e309726163c310542f8c0acb5aa60ba5ad/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4a4156412d3030373339363f7374796c653d666f722d7468652d6261646765266c6f676f3d6a617661266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&amp;logo=java&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/1854be13b1b643c7331b810eb9ebf7360111ec54609e98c80403ffa99ccd5652/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f537072696e672d3644423333463f7374796c653d666f722d7468652d6261646765266c6f676f3d537072696e67266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/1854be13b1b643c7331b810eb9ebf7360111ec54609e98c80403ffa99ccd5652/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f537072696e672d3644423333463f7374796c653d666f722d7468652d6261646765266c6f676f3d537072696e67266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&amp;logo=Spring&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/1b7865263340606e4260e415628dc3e3bc9862eb18857a7e3f2d1e9ce90a16fc/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f537072696e67626f6f742d3644423333463f7374796c653d666f722d7468652d6261646765266c6f676f3d537072696e67626f6f74266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/1b7865263340606e4260e415628dc3e3bc9862eb18857a7e3f2d1e9ce90a16fc/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f537072696e67626f6f742d3644423333463f7374796c653d666f722d7468652d6261646765266c6f676f3d537072696e67626f6f74266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/Springboot-6DB33F?style=for-the-badge&amp;logo=Springboot&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/c0f71772804c86d0f144ce923027aff25e8d761c6b791d2de6698607e21c5465/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f677261646c652d3032333033413f7374796c653d666f722d7468652d6261646765266c6f676f3d677261646c65266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/c0f71772804c86d0f144ce923027aff25e8d761c6b791d2de6698607e21c5465/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f677261646c652d3032333033413f7374796c653d666f722d7468652d6261646765266c6f676f3d677261646c65266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&amp;logo=gradle&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/c1fc168684171582321954905e8b9dc4f59810243ed85e645f3b7938ee3145cb/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6d7973716c2d3434373941313f7374796c653d666f722d7468652d6261646765266c6f676f3d6d7973716c266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/c1fc168684171582321954905e8b9dc4f59810243ed85e645f3b7938ee3145cb/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6d7973716c2d3434373941313f7374796c653d666f722d7468652d6261646765266c6f676f3d6d7973716c266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&amp;logo=mysql&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/d7ade26e4f293e0cb858d1201598c2d5796337157046744f785c292de15fc774/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6177732d3233324633453f7374796c653d666f722d7468652d6261646765266c6f676f3d416d617a6f6e415753266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/d7ade26e4f293e0cb858d1201598c2d5796337157046744f785c292de15fc774/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6177732d3233324633453f7374796c653d666f722d7468652d6261646765266c6f676f3d416d617a6f6e415753266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/aws-232F3E?style=for-the-badge&amp;logo=AmazonAWS&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/f5e36b504a7091d22de49844ec28d7b50723774c367b6133fb25dd73e4876b92/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f416d617a6f6e2053332d3536394133313f7374796c653d666f722d7468652d6261646765266c6f676f3d416d617a6f6e205333266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/f5e36b504a7091d22de49844ec28d7b50723774c367b6133fb25dd73e4876b92/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f416d617a6f6e2053332d3536394133313f7374796c653d666f722d7468652d6261646765266c6f676f3d416d617a6f6e205333266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&amp;logo=Amazon S3&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/848a56128bd7fb616d4513033e90bdd63c7af1cf66a0e4e96c817cc514638499/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f47697448756220416374696f6e732d3230383846463f7374796c653d666f722d7468652d6261646765266c6f676f3d47697448756220416374696f6e73266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/848a56128bd7fb616d4513033e90bdd63c7af1cf66a0e4e96c817cc514638499/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f47697448756220416374696f6e732d3230383846463f7374796c653d666f722d7468652d6261646765266c6f676f3d47697448756220416374696f6e73266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/GitHub Actions-2088FF?style=for-the-badge&amp;logo=GitHub Actions&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/f0cede42e8391ba6bb70096f58bc63c8f5c846ea5cde8f27327e571a99e9a3e0/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f636f64656465706c6f792d3644423333463f7374796c653d666f722d7468652d6261646765266c6f676f3d636f64656465706c6f79266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/f0cede42e8391ba6bb70096f58bc63c8f5c846ea5cde8f27327e571a99e9a3e0/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f636f64656465706c6f792d3644423333463f7374796c653d666f722d7468652d6261646765266c6f676f3d636f64656465706c6f79266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/codedeploy-6DB33F?style=for-the-badge&amp;logo=codedeploy&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/caebf4cb8bbcd4e799ad2fd441e542d04b93d0e60ef260ecee42dc5836b6b539/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f72656469732d4443333832443f7374796c653d666f722d7468652d6261646765266c6f676f3d7265646973266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/caebf4cb8bbcd4e799ad2fd441e542d04b93d0e60ef260ecee42dc5836b6b539/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f72656469732d4443333832443f7374796c653d666f722d7468652d6261646765266c6f676f3d7265646973266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&amp;logo=redis&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/553dbe4fe2d5d12bb859180ad6f4a1310b95195d1d174ae47ee61b264d0217ca/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4a556e6974352d3235413136323f7374796c653d666f722d7468652d6261646765266c6f676f3d4a556e697435266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/553dbe4fe2d5d12bb859180ad6f4a1310b95195d1d174ae47ee61b264d0217ca/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4a556e6974352d3235413136323f7374796c653d666f722d7468652d6261646765266c6f676f3d4a556e697435266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&amp;logo=JUnit5&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/542020159f0557d364ce8e53417ddc14bec95d67ba261e603b48dc00a4ecf9dd/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4e47494e582d3030393633393f7374796c653d666f722d7468652d6261646765266c6f676f3d4e47494e58266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/542020159f0557d364ce8e53417ddc14bec95d67ba261e603b48dc00a4ecf9dd/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4e47494e582d3030393633393f7374796c653d666f722d7468652d6261646765266c6f676f3d4e47494e58266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&amp;logo=NGINX&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/12e622b9695e9c19ec5a936b1c35a62e9fc11f47fee3883af53dfe0e762068c8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f706f73746d616e2d4646364333373f7374796c653d666f722d7468652d6261646765266c6f676f3d706f73746d616e266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/12e622b9695e9c19ec5a936b1c35a62e9fc11f47fee3883af53dfe0e762068c8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f706f73746d616e2d4646364333373f7374796c653d666f722d7468652d6261646765266c6f676f3d706f73746d616e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/postman-FF6C37?style=for-the-badge&amp;logo=postman&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/4b4d78b57a72645f5e22ec02756c6c411f1fb22e3c5f34faa6674ac4ddaba7ed/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f7562756e74752d4643433632343f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e7578266c6f676f436f6c6f723d626c61636b"><img src="https://camo.githubusercontent.com/4b4d78b57a72645f5e22ec02756c6c411f1fb22e3c5f34faa6674ac4ddaba7ed/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f7562756e74752d4643433632343f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e7578266c6f676f436f6c6f723d626c61636b" data-canonical-src="https://img.shields.io/badge/ubuntu-FCC624?style=for-the-badge&amp;logo=linux&amp;logoColor=black" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/c3f385351ad91920d93ecb24c3d76b970489ac08a68ae5cb3bef764ca3142923/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c696e75782d4643433632343f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e7578266c6f676f436f6c6f723d626c61636b"><img src="https://camo.githubusercontent.com/c3f385351ad91920d93ecb24c3d76b970489ac08a68ae5cb3bef764ca3142923/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c696e75782d4643433632343f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e7578266c6f676f436f6c6f723d626c61636b" data-canonical-src="https://img.shields.io/badge/linux-FCC624?style=for-the-badge&amp;logo=linux&amp;logoColor=black" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/ea1f40563a2828a9ad530b20146a731faeef4a37cc89799e0c5789518c2ce3a1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f53656e7472792d3336324435393f7374796c653d666f722d7468652d6261646765266c6f676f3d53656e747279266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/ea1f40563a2828a9ad530b20146a731faeef4a37cc89799e0c5789518c2ce3a1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f53656e7472792d3336324435393f7374796c653d666f722d7468652d6261646765266c6f676f3d53656e747279266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/Sentry-362D59?style=for-the-badge&amp;logo=Sentry&amp;logoColor=white" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/92407fc26e09271d8137b8aaf1585b266f04046b96f1564dfe5a69f146e21301/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4a57542d3030303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d4a534f4e253230776562253230746f6b656e73266c6f676f436f6c6f723d7768697465"><img src="https://camo.githubusercontent.com/92407fc26e09271d8137b8aaf1585b266f04046b96f1564dfe5a69f146e21301/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4a57542d3030303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d4a534f4e253230776562253230746f6b656e73266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&amp;logo=JSON%20web%20tokens&amp;logoColor=white" style="max-width: 100%;"></a></p>
 
+<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white">
+<br>
+<img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=Java&logoColor=white"> <img src="https://img.shields.io/badge/JSON Web Tokens-000000?style=for-the-badge&logo=JSON Web Tokens&logoColor=white">
+<img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white">
+<br>
+<img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=for-the-badge&logo=IntelliJ IDEA&logoColor=white">
+<img src="https://img.shields.io/badge/Sourcetree-0052CC?style=for-the-badge&logo=Sourcetree&logoColor=white">
+<img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white">
+<img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">
+<br>
+<img src="https://img.shields.io/badge/AmazonEC2-FF9900?style=for-the-badge&logo=AmazonEC2&logoColor=white">
+<img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white">
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
+<img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=Ubuntu&logoColor=white">
+<br>
+<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white">
+<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+<img src="https://img.shields.io/badge/kakao login-FFCD00?style=for-the-badge&logo=kakao&logoColor=black">
 <br>
 
 ## 📔 LINK
@@ -66,14 +80,40 @@
 <br>
 
 ## 🚀 Troubleshooting
--
+- ### 1. S3로 올린 image가 일시적으로 엑스박스로 뜨는 현상
+![image](https://user-images.githubusercontent.com/113455892/203907087-6d605b3a-e6ce-4637-b272-1f153f90fce1.png)
+![image](https://user-images.githubusercontent.com/113455892/203907069-cdfb515e-223d-4555-b6d6-001d994c379c.png)
+![image](https://user-images.githubusercontent.com/113455892/203907097-80924175-64c0-49fc-8be6-d5a0cf65c67f.png)
+![image](https://user-images.githubusercontent.com/113455892/203907108-9f4676dc-bf48-4acf-91ad-48610a5ad224.png)
+
+aws s3로 올린 이미지가 저렇게 엑스박스로 뜨는 경우가 있습니다.
+액스박스에 우클릭-새탭에서 이미지 열기를 하면 이미지와 같이 연결이 비공개로 설정되어 있지 않다는 메시지가 뜹니다.
+ - 안전하지않음 으로 이동을 딱 '1'번만 해주면 그 브라우저에서는 정상적으로 계속 사진이 나옵니다.
+pc를 껏다 켜도 계속 정상적으로 나옵니다.
+이 문제에 대해서 저는 2가지가 문제일 것이라고 생각을 했습니다.
 
 
+ 1.https 인증서 문제
+ 
+ 
+ 
+ 2. aws s3 설정 문제
+ 
+ 
+1의 경우에는 인증서를 새로 만들어서 도메인을 팠는데도(백엔드 서버)  문제가 해결 되지 않았습니다.
+2의 경우에는 왠만한 모든옵션을 public와 access가 전부 가능하게 임시적으로 변경했음에도 고쳐지지가 않습니다..
 <br>
+
+>>>>>문제해결 방법
+
+
+aws s3의 bucket 네이밍 규칙에 .와 -를 사용 할 수 있다고 되어 있지만, 실질적으로 .과 -를 사용하지 않고 다시 버킷을 만들었더니 해결이 되었씁니다..
+
+
 
 ## 🎈 ERD
 <details><summary>ERD 보기
 </summary>
 
-![title](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Feb8d8b74-cf8f-4f52-a11a-9cb711af2300%2FUntitled.png?table=block&id=443f89b3-b0a3-4c6e-ada5-5fc3a91cd67f&spaceId=3b4a5adc-a388-4621-bc6a-66450e04f74a&width=2000&userId=2a71b2ef-970e-478b-b976-ba7ea29e0371&cache=v2)   
+![image](https://user-images.githubusercontent.com/113869496/203765374-5b193f5c-4016-4758-8306-7d0b76ea9b6c.png)
 </details>
