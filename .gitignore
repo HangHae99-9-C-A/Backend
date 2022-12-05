@@ -24,7 +24,7 @@
 *.rar
 # 우리 프로젝트에서 추가
 #application-mail.yml
-#application-jwtToken.properties
+application-cicd.properties
 
 SJ-HTTP-REQUEST.http
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
