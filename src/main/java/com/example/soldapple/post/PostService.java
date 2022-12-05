@@ -56,8 +56,7 @@ public class PostService {
         //게시글 저장
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
-        Boolean myPost;
-        myPost = post.getMember().getId().equals(member.getId());
+        Boolean myPost = post.getMember().getId().equals(member.getId());
 
         //이미지 저장
         imgSave(multipartFiles, post);
@@ -75,11 +74,9 @@ public class PostService {
             optionRepository.save(options);
             post.setOpt(options);
         }
-        //작성자가 프로필사진이 있는지 확인
-        String avatarUrl = checkAvatar(post);
         //사용자가 해당 글에 좋아요 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post,member.getId()), myPost);
+        return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
     }
 
 
@@ -88,32 +85,33 @@ public class PostService {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
-        Boolean myPost;
-        myPost = post.getMember().getId().equals(member.getId());
+        Boolean myPost = post.getMember().getId().equals(member.getId());
         //내용 업데이트
         post.update(postReqDto);
         //기존 이미지 삭제
-        deleteImg(post);
+        List<Image> imageList = post.getImages();
+        for (Image image : imageList) {
+            s3UploadUtil.delete(image.getImgKey());
+            imageRepository.delete(image);
+        }
         //이미지 저장
         imgSave(multipartFiles, post);
 
         //이 게시글을 현재 사용자가 좋아요를 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        String avatarUrl = checkAvatar(post);
-        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post,member.getId()), myPost);
+        return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
     }
 
-    public PostResponseDto updateStatus(Long postId,Member member) {
+    //판매완료
+    public PostResponseDto updateStatus(Long postId, Member member) {
         Post post = postRepository.findByPostId(postId).orElseThrow(
-                ()->new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
-        Boolean myPost;
-        myPost = post.getMember().getId().equals(member.getId());
+        Boolean myPost = post.getMember().getId().equals(member.getId());
         post.soldOut();
         //이 게시글을 현재 사용자가 좋아요를 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        String avatarUrl = checkAvatar(post);
-        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post,member.getId()), myPost);
+        return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
     }
 
     //게시글 삭제
@@ -121,7 +119,6 @@ public class PostService {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
-        deleteImg(post);
         postRepository.deleteById(postId);
         return "게시글 삭제 완료";
     }
@@ -153,18 +150,14 @@ public class PostService {
     }
 
 
-    //게시글 하나 조회 에러
+    //게시글 하나 조회
     public PostResponseDto onePost(Long postId, Member member) {
         Post post = postRepository.findByPostId(postId).orElseThrow(
                 () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
         );
-        Boolean myPost;
-        myPost = post.getMember().getId().equals(member.getId());
-
+        Boolean myPost = post.getMember().getId().equals(member.getId());
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        String avatarUrl = checkAvatar(post);
-
-        return new PostResponseDto(post, isLike, avatarUrl, commentDtos(post,member.getId()), myPost);
+        return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
     }
 
     //이미지 저장
@@ -176,8 +169,8 @@ public class PostService {
             for (MultipartFile imgFile : multipartFiles) {
                 Map<String, String> img = s3UploadUtil.upload(imgFile, "post-img");
                 Image image = new Image(img, post);
-                imageRepository.save(image);
                 imageList.add(image);
+                imageRepository.save(image);
             }
         }
         post.setImages(imageList);
@@ -204,25 +197,7 @@ public class PostService {
         return commentResponseDtos;
     }
 
-    //기존 사진 삭제
-    public void deleteImg(Post post) {
-        List<Image> imageList = post.getImages();
-        for (Image image : imageList) {
-            s3UploadUtil.delete(image.getImgKey());
-            imageRepository.delete(image);
-        }
-    }
-
-    //프로필사진 있는지 확인
-    public String checkAvatar(Post post) {
-        if (post.getMember().getAvatarUrl() == null) {
-            return "https://querybuckets.s3.ap-northeast-2.amazonaws.com/default/photoimg.png";
-        } else {
-            return post.getMember().getAvatarUrl();
-        }
-    }
-
-/*게시글 댓글*/
+    /*게시글 댓글*/
     //게시글 댓글 작성
     @Transactional
     public CommentResponseDto commentCreate(Long postId, CommentReqDto commentReqDto, UserDetailsImpl userDetails) {
@@ -237,39 +212,37 @@ public class PostService {
         commentRepository.save(comment);
 
         String avatarUrl;
-        if(comment.getMember().getAvatarUrl()==null) {
+        if (comment.getMember().getAvatarUrl() == null) {
             avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
-        } else{
+        } else {
             avatarUrl = comment.getMember().getAvatarUrl();
         }
 
         return new CommentResponseDto(comment, avatarUrl);
     }
 
-    //게시글 댓글 삭제
-    @Transactional
-    public String commentDelete(Long commentId, Member member) {
-        commentRepository.deleteByIdAndMember(commentId, member);
-        return "Success";
-    }
-
     //게시글 댓글 수정
     @Transactional
-    public CommentResponseDto commentEdit(Long commentId, CommentReqDto commentReqDto, Member member){
+    public CommentResponseDto commentEdit(Long commentId, CommentReqDto commentReqDto, Member member) {
         Comment comment = commentRepository.findByIdAndMember(commentId, member).orElseThrow(
                 () -> new IllegalArgumentException("comment not exist")
-
         );
         Boolean myComment;
         myComment = comment.getMember().getId().equals(member.getId());
         comment.CommentEdit(commentReqDto);
         String avatarUrl;
-        if(comment.getMember().getAvatarUrl()==null) {
+        if (comment.getMember().getAvatarUrl() == null) {
             avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
-        } else{
+        } else {
             avatarUrl = comment.getMember().getAvatarUrl();
         }
         return new CommentResponseDto(comment, avatarUrl, myComment);
     }
 
+    //게시글 댓글 삭제
+    @Transactional
+    public String commentDelete(Long commentId, Member member) {
+        commentRepository.deleteByIdAndMember(commentId, member);
+        return "댓글 삭제 완료";
+    }
 }

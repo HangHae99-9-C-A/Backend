@@ -69,7 +69,7 @@ public class Post extends TimeStamped {
         this.postLikeCnt = likeCnt;
     }
 
-    public void soldOut() {
+    public void soldOut() { //판매상태 변경
         this.salesStatus = SalesStatus.판매완료;
     }
 }
