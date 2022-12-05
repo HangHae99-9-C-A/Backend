@@ -117,7 +117,7 @@ public class PostController {
 
     @PostMapping("/comment/{postId}") //댓글 작성
     public CommentResponseDto commentCreate(@PathVariable Long postId, @RequestBody @Valid CommentReqDto commentReqDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return postService.commentCreate(postId, commentReqDto,  userDetails);
+        return postService.commentCreate(postId, commentReqDto,  userDetails.getMember());
     }
 
     @DeleteMapping("/comment/{commentId}") //댓글 삭제

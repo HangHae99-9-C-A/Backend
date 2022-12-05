@@ -18,7 +18,6 @@ import com.example.soldapple.issues.repository.IssuesOptRepository;
 import com.example.soldapple.issues.repository.IssuesRepository;
 import com.example.soldapple.like.repository.IssuesLikeRepository;
 import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -129,12 +128,7 @@ public class IssuesService {
         if (!(issuesComments == null)) {
             for (IssuesComment issuesComment : issuesComments) {
                 myComment = issuesComment.getMember().getId().equals(memberId);
-                if (issuesComment.getMember().getAvatarUrl() == null) {
-                    avatarUrl = "https://querybuckets.s3.ap-northeast-2.amazonaws.com/default/photoimg.png";
-                } else {
-                    avatarUrl = issuesComment.getMember().getAvatarUrl();
-                }
-                issuesCommentResponseDtos.add(new IssuesCommentResponseDto(issuesComment, avatarUrl, myComment));
+                issuesCommentResponseDtos.add(new IssuesCommentResponseDto(issuesComment, myComment));
             }
         }
         return issuesCommentResponseDtos;
@@ -164,32 +158,23 @@ public class IssuesService {
 
 
     //이의제기 댓글 작성
-    public IssuesCommentResponseDto createIssuesComment(Long issuesId, IssuesCommentRequestDto issuesCommentRequestDto, UserDetailsImpl userDetails) {
+    public IssuesCommentResponseDto createIssuesComment(Long issuesId, IssuesCommentRequestDto issuesCommentRequestDto, Member member) {
         Issues issues = issuesRepository.findByIssuesId(issuesId).orElseThrow(
                 () -> new IllegalArgumentException("해당 이의제기 글이 존재하지 않습니다.")
         );
-        IssuesComment issuesComment = new IssuesComment(issues, userDetails.getMember(), issuesCommentRequestDto.getIssuesComment());
-        Boolean myComment;
-        myComment = issuesComment.getMember().getId().equals(userDetails.getMember().getId());
+        IssuesComment issuesComment = new IssuesComment(issues, member, issuesCommentRequestDto.getIssuesComment());
+        Boolean myComment = issuesComment.getMember().getId().equals(member.getId());
         issuesCommentRepository.save(issuesComment);
-        String avatarUrl;
-        if (issuesComment.getMember().getAvatarUrl() == null) {
-            avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
-        } else {
-            avatarUrl = issuesComment.getMember().getAvatarUrl();
-        }
-        return new IssuesCommentResponseDto(issuesComment, avatarUrl, myComment);
+        return new IssuesCommentResponseDto(issuesComment, myComment);
     }
 
     //이의제기 댓글 삭제
     public String deleteIssuesComment(Long issuesCommentId, Member member) {
-
         IssuesComment issuesComment = issuesCommentRepository.findByIssuesCommentIdAndMember(issuesCommentId, member).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 없거나 삭제 권한이 없습니다.")
         );
         issuesCommentRepository.delete(issuesComment);
         return "댓글 삭제 성공";
-
     }
 
     //이의제기 댓글 수정
@@ -197,17 +182,10 @@ public class IssuesService {
         IssuesComment issuesComment = issuesCommentRepository.findByIssuesCommentIdAndMember(issuesCommentId, member).orElseThrow(
                 () -> new RuntimeException("해당 댓글이 없거나 수정 권한이 없습니다.")
         );
-        Boolean myComment;
-        myComment = issuesComment.getMember().getId().equals(member.getId());
+        Boolean myComment = issuesComment.getMember().getId().equals(member.getId());
         issuesComment.setIssuesComment(issuesCommentRequestDto.getIssuesComment());
         issuesCommentRepository.save(issuesComment);
-        String avatarUrl;
-        if (issuesComment.getMember().getAvatarUrl() == null) {
-            avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
-        } else {
-            avatarUrl = issuesComment.getMember().getAvatarUrl();
-        }
-        return new IssuesCommentResponseDto(issuesComment, avatarUrl, myComment);
+        return new IssuesCommentResponseDto(issuesComment, myComment);
     }
 
 }

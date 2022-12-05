@@ -19,7 +19,6 @@ import com.example.soldapple.post.repository.CommentRepository;
 import com.example.soldapple.post.repository.ImageRepository;
 import com.example.soldapple.post.repository.OptionRepository;
 import com.example.soldapple.post.repository.PostRepository;
-import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,9 +44,7 @@ public class PostService {
     private final OptionRepository optionRepository;
     private final CommentRepository commentRepository;
 
-
     //게시글 작성
-
     public PostResponseDto postCreate(List<MultipartFile> multipartFiles,
                                       PostReqDto postReqDto,
                                       GetIPhonePriceResDto iphoneOption,
@@ -78,7 +75,6 @@ public class PostService {
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
     }
-
 
     //게시글 수정
     public PostResponseDto updatePost(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member) throws IOException {
@@ -185,13 +181,7 @@ public class PostService {
         if (!(comments == null)) {
             for (Comment comment : comments) {
                 myComment = comment.getMember().getId().equals(memberId);
-
-                if (comment.getMember().getAvatarUrl() == null) {
-                    avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
-                } else {
-                    avatarUrl = comment.getMember().getAvatarUrl();
-                }
-                commentResponseDtos.add(new CommentResponseDto(comment, avatarUrl, myComment));
+                commentResponseDtos.add(new CommentResponseDto(comment, myComment));
             }
         }
         return commentResponseDtos;
@@ -200,25 +190,14 @@ public class PostService {
     /*게시글 댓글*/
     //게시글 댓글 작성
     @Transactional
-    public CommentResponseDto commentCreate(Long postId, CommentReqDto commentReqDto, UserDetailsImpl userDetails) {
-
-
+    public CommentResponseDto commentCreate(Long postId, CommentReqDto commentReqDto, Member member) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("post not exist")
-
         );
-        Comment comment = new Comment(commentReqDto, post, userDetails.getMember());
-
+        Comment comment = new Comment(commentReqDto, post, member);
         commentRepository.save(comment);
-
-        String avatarUrl;
-        if (comment.getMember().getAvatarUrl() == null) {
-            avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
-        } else {
-            avatarUrl = comment.getMember().getAvatarUrl();
-        }
-
-        return new CommentResponseDto(comment, avatarUrl);
+        Boolean myComment = comment.getMember().getId().equals(member.getId());
+        return new CommentResponseDto(comment, myComment);
     }
 
     //게시글 댓글 수정
@@ -227,16 +206,9 @@ public class PostService {
         Comment comment = commentRepository.findByIdAndMember(commentId, member).orElseThrow(
                 () -> new IllegalArgumentException("comment not exist")
         );
-        Boolean myComment;
-        myComment = comment.getMember().getId().equals(member.getId());
+        Boolean myComment = comment.getMember().getId().equals(member.getId());
         comment.CommentEdit(commentReqDto);
-        String avatarUrl;
-        if (comment.getMember().getAvatarUrl() == null) {
-            avatarUrl = "https://s3.ap-northeast-2.amazonaws.com/myawsbucket.refined-stone/default/photoimg.png";
-        } else {
-            avatarUrl = comment.getMember().getAvatarUrl();
-        }
-        return new CommentResponseDto(comment, avatarUrl, myComment);
+        return new CommentResponseDto(comment, myComment);
     }
 
     //게시글 댓글 삭제

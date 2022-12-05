@@ -97,7 +97,7 @@ public class IssuesController {
     public IssuesCommentResponseDto createIssuesComment(@PathVariable Long issuesId,
                                                         @RequestBody IssuesCommentRequestDto issuesCommentRequestDto,
                                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return issuesService.createIssuesComment(issuesId, issuesCommentRequestDto, userDetails);
+        return issuesService.createIssuesComment(issuesId, issuesCommentRequestDto, userDetails.getMember());
     }
 
     @PutMapping("/comment/{issuesCommentId}") //댓글 수정
