@@ -26,20 +26,22 @@ import java.util.List;
             return new Docket(DocumentationType.OAS_30)
                     .securityContexts(Arrays.asList(securityContext()))
                     .securitySchemes(Arrays.asList(apiKey()))
-                    .select()
-                    .apis(RequestHandlerSelectors.basePackage("com.example.soldapple"))
+                    .select()  //ApiSelectorBuilder를 생성하여 apis()와 paths()를 사용할 수 있게 해준다.
+                    .apis(RequestHandlerSelectors.basePackage("com.example.soldapple"))//api 스펙이 작성되어 있는 패키지를 지정한다.
+                                        //즉, 컨트롤러가 존재하는 패키지를 basepackage로 지정하여 해당 패키지에 존재하는 API를 문서화 한다.
                     .paths(PathSelectors.any())
                     .build()
                     .apiInfo(apiInfo());
         }
 
-        private ApiInfo apiInfo(){
+        private ApiInfo apiInfo(){ //스웨거 페이지에서 보일 정보 입력
             return new ApiInfoBuilder()
                     .title("Find Apple")
                     .description("1조 Swagger")
                     .version("1.0")
                     .build();
         }
+
         //밑으로는 스웨거에서 access_token사용하기위한 설정
         private ApiKey apiKey() {
             return new ApiKey("Access_Token", "Access_Token", "header");
