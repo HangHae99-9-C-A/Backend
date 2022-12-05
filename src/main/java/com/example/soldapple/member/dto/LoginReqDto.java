@@ -14,10 +14,5 @@ public class LoginReqDto {
     @NotBlank
     private String password;
 
-    public LoginReqDto(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
 }
 

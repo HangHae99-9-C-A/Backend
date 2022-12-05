@@ -1,7 +1,7 @@
 package com.example.soldapple.security;
 
-import com.example.soldapple.jwt.filter.JwtAuthFilter;
-import com.example.soldapple.jwt.util.JwtUtil;
+import com.example.soldapple.jwt.JwtAuthFilter;
+import com.example.soldapple.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,8 +47,8 @@ public class WebSecurityConfig {
 
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("*","POST","GET","DELETE","PUT","PATCH"));
-        configuration.setAllowedHeaders(Arrays.asList("*","Accept","Access_Token","Cache-Control","Referer","Refresh_Token","User-Agent"));
+        configuration.setAllowedMethods(Arrays.asList("*", "POST", "GET", "DELETE", "PUT", "PATCH"));
+        configuration.setAllowedHeaders(Arrays.asList("*", "Accept", "Access_Token", "Cache-Control", "Referer", "Refresh_Token", "User-Agent"));
         configuration.setAllowCredentials(true);
         configuration.addExposedHeader("*");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -85,7 +85,7 @@ public class WebSecurityConfig {
                 .antMatchers("/create/**").permitAll()
                 .antMatchers("/price/**").permitAll()
                 .antMatchers("/**").permitAll()
-                .antMatchers ( PERMIT_URL_ARRAY ).permitAll ()
+                .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
