@@ -1,0 +1,41 @@
+spring:
+  mail:
+    # Google smtp server
+    host: smtp.gmail.com
+    port: 587
+    username: dnajwm1995@gmail.com
+    password: ENC(6WhfY5AZXmNbxyNQhxcUxtC3j3u6bx68z5tJ5U2xRcM=)
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+#slack log
+logging:
+  slack:
+    webhook-uri: https://hooks.slack.com/services/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
+  config: classpath:logback-spring.xml
+
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties: # Request parts
+          id:
+            type: string
+            format: uuid
+          address:
+            type: object
+            properties:
+              street:
+                type: string
+              city:
+                type: string
+          profileImage:
+            type: string
+            format: base64
+      encoding: # The same level as schema
+        profileImage: # Property name (see above)
+          contentType: image/png, image/jpeg

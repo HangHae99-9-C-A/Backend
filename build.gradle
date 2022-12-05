@@ -66,6 +66,8 @@ dependencies {
 //    }
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
     runtimeOnly 'mysql:mysql-connector-java'
+    implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.4'
+
 }
 
 tasks.named('test') {
