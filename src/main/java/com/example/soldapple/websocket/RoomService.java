@@ -24,7 +24,13 @@ public class RoomService {
                 .orElseGet( () ->roomRepository.findRoomByIdAndJoinUserId(chatSelectReqDto.getRoomId(), userDetails.getMember().getId()).orElseThrow(
                                 () -> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST) // 고쳐야함
                         ));
-        RoomResDto roomResponseDto = new RoomResDto(room, userDetails.getMember().getNickname());
+        String otherNickname;
+        if(userDetails.getMember().getId().equals(room.getJoinUserId())){
+            otherNickname = room.getPost().getMember().getNickname();
+        }else{
+            otherNickname = room.getJoinUserNickname();
+        }
+        RoomResDto roomResponseDto = new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname);
         return roomResponseDto;
 
     }
@@ -41,8 +47,15 @@ public class RoomService {
                 //만들어진 방이 없다면 새로 만들어서 리턴
                 .orElseGet(() ->new Room(userDetails, post));
 
+        String otherNickname;
+        if(userDetails.getMember().getId().equals(room.getJoinUserId())){
+            otherNickname = room.getPost().getMember().getNickname();
+        }else{
+            otherNickname = room.getJoinUserNickname();
+        }
+
         roomRepository.save(room);
-        RoomResDto roomResDto = new RoomResDto(room, userDetails.getMember().getNickname());
+        RoomResDto roomResDto = new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname);
         return roomResDto;
     }
 
@@ -52,7 +65,13 @@ public class RoomService {
         List<RoomResDto> roomResDtos = new ArrayList<>();
 
         for (Room room : roomList) {
-            roomResDtos.add(new RoomResDto(room, userDetails.getMember().getNickname()));
+            String otherNickname;
+            if(userDetails.getMember().getId().equals(room.getJoinUserId())){
+                otherNickname = room.getPost().getMember().getNickname();
+            }else{
+                otherNickname = room.getJoinUserNickname();
+            }
+            roomResDtos.add(new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname));
         }
 
         if (roomList.isEmpty()) {

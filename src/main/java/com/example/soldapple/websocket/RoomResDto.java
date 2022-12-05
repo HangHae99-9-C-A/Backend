@@ -36,7 +36,9 @@ public class RoomResDto {
 
     private String nickname;
 
-    public RoomResDto(Room room, String nickname){
+    private String otherNickname;
+
+    public RoomResDto(Room room, String nickname, String otherNickname){
 
         this.postId = room.getPost().getPostId();
         this.roomId = room.getId();
@@ -54,5 +56,6 @@ public class RoomResDto {
         this.joinUserNickname = room.getJoinUserNickname();
         this.joinUserAvatarUrl = room.getJoinUserAvatarUrl();
         this.nickname = nickname;
+        this.otherNickname = otherNickname;
     }
 }

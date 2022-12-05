@@ -44,7 +44,7 @@ public class Member {
         this.email = memberReqDto.getEmail();
         this.nickname = memberReqDto.getNickname();
         this.password = memberReqDto.getPassword();
-        this.domain = "Sold Apple";
+        this.domain = "Find Apple";
         this.avatarUrl = null;
     }
 
