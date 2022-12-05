@@ -87,7 +87,7 @@ jobs:
       run: |
           aws deploy create-deployment \
           --application-name springboot-cicd \
-          --deployment-group-name cicdgroup \
+          --deployment-group-name 99-cicd \
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=springbootcicdtest,bundleType=zip,key=springbootcicdtest.zip \
           --region ap-northeast-2
