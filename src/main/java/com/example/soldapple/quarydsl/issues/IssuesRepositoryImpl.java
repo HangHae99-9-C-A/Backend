@@ -1,8 +1,8 @@
 package com.example.soldapple.quarydsl.issues;
 
-import com.example.soldapple.issues.dto.ResponseDto.QIssuesResponseDto;
 import com.example.soldapple.issues.entity.QIssues;
 import com.example.soldapple.issues.responsedto.IssuesResponseDto;
+import com.example.soldapple.issues.responsedto.QIssuesResponseDto;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.PathBuilder;

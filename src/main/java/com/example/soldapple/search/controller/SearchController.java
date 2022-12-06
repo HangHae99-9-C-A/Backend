@@ -1,6 +1,6 @@
 package com.example.soldapple.search.controller;
 
-import com.example.soldapple.post.dto.PostResponseDto;
+import com.example.soldapple.post.responsedto.PostResponseDto;
 import com.example.soldapple.search.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,6 @@
 package com.example.soldapple.search.service;
 
-import com.example.soldapple.post.dto.PostResponseDto;
+import com.example.soldapple.post.responsedto.PostResponseDto;
 import com.example.soldapple.search.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

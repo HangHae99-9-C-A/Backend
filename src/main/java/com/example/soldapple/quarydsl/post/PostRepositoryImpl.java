@@ -2,10 +2,10 @@ package com.example.soldapple.quarydsl.post;
 
 import com.example.soldapple.like.entity.QLike;
 import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.post.dto.QPostResponseDto;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.entity.QPost;
 import com.example.soldapple.post.responsedto.PostResponseDto;
+import com.example.soldapple.post.responsedto.QPostResponseDto;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.PathBuilder;
