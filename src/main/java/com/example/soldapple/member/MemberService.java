@@ -147,9 +147,6 @@ public class MemberService {
                 .get("nickname").asText();
         String avatarUrl = jsonNode.get("kakao_account")
                         .get("profile").get("profile_image_url").asText();
-
-        System.out.println("카카오 사용자 정보: " + email + ", " + nickname + ", " + avatarUrl);
-
         if(!memberRepository.findByEmail(email).isPresent()){
             Member member = new Member(email, nickname, "Kakao", avatarUrl);
             memberRepository.save(member);
