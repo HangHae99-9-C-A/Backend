@@ -1,9 +1,8 @@
 package com.example.soldapple.quarydsl.post;
 
 import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.entity.Post;
-import com.querydsl.core.Tuple;
+import com.example.soldapple.post.responsedto.PostResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

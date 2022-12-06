@@ -3,10 +3,10 @@ package com.example.soldapple.post;
 
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
-import com.example.soldapple.post.dto.CommentReqDto;
-import com.example.soldapple.post.dto.CommentResponseDto;
-import com.example.soldapple.post.dto.PostReqDto;
-import com.example.soldapple.post.dto.PostResponseDto;
+import com.example.soldapple.post.requestdto.CommentReqDto;
+import com.example.soldapple.post.responsedto.CommentResponseDto;
+import com.example.soldapple.post.requestdto.PostReqDto;
+import com.example.soldapple.post.responsedto.PostResponseDto;
 import com.example.soldapple.post.repository.CommentRepository;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.soldapple.post.dto;
+package com.example.soldapple.post.responsedto;
 
 import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.post.entity.Comment;

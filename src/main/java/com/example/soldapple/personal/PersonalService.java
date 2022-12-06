@@ -2,14 +2,14 @@ package com.example.soldapple.personal;
 
 import com.example.soldapple.aws_s3.S3UploadUtil;
 import com.example.soldapple.error.CustomException;
-import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
+import com.example.soldapple.issues.responsedto.IssuesResponseDto;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.repository.IssuesRepository;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.member.repository.MemberRepository;
 import com.example.soldapple.post.PostService;
-import com.example.soldapple.post.dto.CommentResponseDto;
-import com.example.soldapple.post.dto.PostResponseDto;
+import com.example.soldapple.post.responsedto.CommentResponseDto;
+import com.example.soldapple.post.responsedto.PostResponseDto;
 import com.example.soldapple.post.entity.Comment;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.repository.CommentRepository;

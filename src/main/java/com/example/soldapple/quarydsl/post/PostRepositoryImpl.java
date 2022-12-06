@@ -2,14 +2,12 @@ package com.example.soldapple.quarydsl.post;
 
 import com.example.soldapple.like.entity.QLike;
 import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.dto.QPostResponseDto;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.entity.QPost;
-import com.querydsl.core.Tuple;
+import com.example.soldapple.post.responsedto.PostResponseDto;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.PathMetadata;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.soldapple.like.entity.QLike.like;
 import static com.example.soldapple.post.entity.QPost.post;

@@ -1,10 +1,8 @@
 package com.example.soldapple.quarydsl.issues;
 
-import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
 import com.example.soldapple.issues.dto.ResponseDto.QIssuesResponseDto;
 import com.example.soldapple.issues.entity.QIssues;
-import com.example.soldapple.post.dto.PostResponseDto;
-import com.example.soldapple.post.dto.QPostResponseDto;
+import com.example.soldapple.issues.responsedto.IssuesResponseDto;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.PathBuilder;
@@ -20,7 +18,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.example.soldapple.issues.entity.QIssues.issues;
-import static com.example.soldapple.post.entity.QPost.post;
 
 @Component
 //@Primary

@@ -1,6 +1,6 @@
 package com.example.soldapple.quarydsl.issues;
 
-import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
+import com.example.soldapple.issues.responsedto.IssuesResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

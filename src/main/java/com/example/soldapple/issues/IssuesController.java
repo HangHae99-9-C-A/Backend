@@ -2,10 +2,10 @@ package com.example.soldapple.issues;
 
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
-import com.example.soldapple.issues.dto.RequestDto.IssuesCommentRequestDto;
-import com.example.soldapple.issues.dto.RequestDto.IssuesRequestDto;
-import com.example.soldapple.issues.dto.ResponseDto.IssuesCommentResponseDto;
-import com.example.soldapple.issues.dto.ResponseDto.IssuesResponseDto;
+import com.example.soldapple.issues.requestdto.IssuesCommentRequestDto;
+import com.example.soldapple.issues.requestdto.IssuesRequestDto;
+import com.example.soldapple.issues.responsedto.IssuesCommentResponseDto;
+import com.example.soldapple.issues.responsedto.IssuesResponseDto;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

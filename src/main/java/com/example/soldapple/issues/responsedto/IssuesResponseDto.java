@@ -1,4 +1,4 @@
-package com.example.soldapple.issues.dto.ResponseDto;
+package com.example.soldapple.issues.responsedto;
 
 import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.issues.entity.Issues;

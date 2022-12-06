@@ -3,7 +3,7 @@ package com.example.soldapple.post.entity;
 import com.example.soldapple.global.TimeStamped;
 import com.example.soldapple.like.entity.Like;
 import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.post.dto.PostReqDto;
+import com.example.soldapple.post.requestdto.PostReqDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,6 @@ public class Post extends TimeStamped {
     @JoinColumn
     private Member member;
     private String title;
-
     private String category;
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
