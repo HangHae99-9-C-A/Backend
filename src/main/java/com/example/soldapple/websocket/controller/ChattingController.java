@@ -29,7 +29,7 @@ public class ChattingController {
     @MessageMapping(value = "{roomId}")
     @SendTo("/sub/{roomId}")
     public void message(@DestinationVariable Long roomId, @Valid ChatReqDto message) throws MessagingException {
-        String sendDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")); //채팅 작성된 시간의 형식을 변경
+        String sendDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")); //채팅 작성된 시간의 형식을 변경
         Chat chat = chattingService.createChat(roomId,message,sendDate);    //채팅 저장
 
         ChatResDto chatResDto = new ChatResDto(message,chat.getSendDate()); //채팅 보낸이, 메세지, 작성시간을 저장
