@@ -30,7 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (accessToken != null) {
             if (!jwtUtil.tokenValidation(accessToken)) {
-                response.sendRedirect("https://frontend-inky-delta.vercel.app/signin"); //토큰 만료시 Redirect 주소를 보냄
+                response.sendRedirect("https://www.findapple.co.kr/signin"); //토큰 만료시 Redirect 주소를 보냄
                 return;
             }
             setAuthentication(jwtUtil.getEmailFromToken(accessToken));  //accessToken이 유효하다면 Authentication에 인증정보와 유저 정보를 저장함
