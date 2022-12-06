@@ -18,12 +18,6 @@ public class MemberReqDto {
     @NotBlank
     private String password;
 
-    public MemberReqDto(String email, String nickname, String password) {
-        this.email = email;
-        this.nickname = nickname;
-        this.password = password;
-    }
-
     public void setEncodePwd(String encodePwd) {
         this.password = encodePwd;
     }

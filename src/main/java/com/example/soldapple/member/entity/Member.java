@@ -45,14 +45,6 @@ public class Member {
         this.nickname = memberReqDto.getNickname();
         this.password = memberReqDto.getPassword();
         this.domain = "Find Apple";
-        this.avatarUrl = null;
-    }
-
-    public Member(String email, String nickname, String domain) {
-        this.email = email;
-        this.nickname = nickname;
-        this.password = null;
-        this.domain = domain;
         this.avatarUrl = "https://querybuckets.s3.ap-northeast-2.amazonaws.com/default/photoimg.png";
     }
 

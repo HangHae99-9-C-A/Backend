@@ -14,7 +14,7 @@ public class MacbookResDto {
     private List<String> ram;
     private List<String> storage;
 
-    public MacbookResDto(List<String> keyboard, List<String> ram, List<String> storage){
+    public MacbookResDto(List<String> keyboard, List<String> ram, List<String> storage) {
         this.keyboard = keyboard;
         this.ram = ram;
         this.storage = storage;

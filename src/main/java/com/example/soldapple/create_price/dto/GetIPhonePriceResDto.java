@@ -18,7 +18,7 @@ public class GetIPhonePriceResDto {
     private String careDate;
     private Integer getPrice;
 
-    public GetIPhonePriceResDto(GetIPhonePriceReqDto getIPhonePriceReqDto, Integer price){
+    public GetIPhonePriceResDto(GetIPhonePriceReqDto getIPhonePriceReqDto, Integer price) {
         this.category = getIPhonePriceReqDto.getCategory();
         this.years = getIPhonePriceReqDto.getYears();
         this.model = getIPhonePriceReqDto.getModel();

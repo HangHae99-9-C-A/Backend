@@ -1,6 +1,6 @@
 package com.example.soldapple.member.dto;
 
-import com.example.soldapple.jwt.dto.TokenDto;
+import com.example.soldapple.jwt.TokenDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

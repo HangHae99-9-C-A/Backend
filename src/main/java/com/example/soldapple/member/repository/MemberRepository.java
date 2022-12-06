@@ -10,12 +10,5 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByEmail(String email);
-
-
-
-
-    //MyPage를 위해 추가.
     Optional<Member> findById(Long id);
-    //seller페이지 를 위해 추가
-    Optional<Member> findByNickname(String nickname);
 }
