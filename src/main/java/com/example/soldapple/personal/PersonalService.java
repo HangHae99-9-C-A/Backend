@@ -67,7 +67,7 @@ public class PersonalService {
     //내 페이지 수정하기
     @Transactional(readOnly = false)
     public void editMyPage(MyInfoRequestDto myInfoRequestDto, Member member, MultipartFile imgFile) throws IOException {
-        Member editMyMember = memberRepository.findById(member.getId()).orElseThrow(()->new CustomException(NOT_FOUND_USER));
+        Member editMyMember = memberRepository.findById(member.getId()).orElseThrow(() -> new CustomException(NOT_FOUND_USER));
         if (!(imgFile == null)) {
             var r = s3UploadUtil.upload(imgFile, "profile-img");
             editMyMember.update(myInfoRequestDto, r);
@@ -76,6 +76,7 @@ public class PersonalService {
         }
     }
 
+    //내가 작성한 포스트 가져오기
     public PersonalResponseDto getMyPost(Member member) {
         //회원 여부 체크
         memberCheck(member);
@@ -86,6 +87,7 @@ public class PersonalService {
         return personalResponseDto;
     }
 
+    //내가 작성한 커멘트 가져오기
     public PersonalResponseDto getMyComment(Member member) {
         //회원 여부 체크
         memberCheck(member);
@@ -97,6 +99,7 @@ public class PersonalService {
 
     }
 
+    // 내가 작성한 이슈글 작성하기
     public PersonalResponseDto getMyIssue(Member member) {
         //회원 여부 체크
         memberCheck(member);
@@ -109,7 +112,7 @@ public class PersonalService {
 
     //내 likes한 post 가져오기
     public PersonalResponseDto getMyLikes(Member member) {
-        Member myMember = memberRepository.findById(member.getId()).orElseThrow(()-> new CustomException(NOT_FOUND_USER));
+        Member myMember = memberRepository.findById(member.getId()).orElseThrow(() -> new CustomException(NOT_FOUND_USER));
         List<Post> myLikesList = postRepository.findAllMyLikes(member);
         PersonalResponseDto personalResponseDto = PersonalResponseDto.builder()
                 .myLikesList(myLikesList.stream().map(PostResponseDto::new).collect(Collectors.toList()))
@@ -137,9 +140,6 @@ public class PersonalService {
     }
 
 
-
-
-
     //Response
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Builder
@@ -155,10 +155,7 @@ public class PersonalService {
 
     //Methods
     public void memberCheck(Member member) {
-        memberRepository.findById(member.getId()).orElseThrow(()->new CustomException(NOT_FOUND_USER));
+        memberRepository.findById(member.getId()).orElseThrow(() -> new CustomException(NOT_FOUND_USER));
     }
 
-    public void memberNicknameCheck(String nickname) {
-
-    }
 }
