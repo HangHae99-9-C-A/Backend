@@ -32,12 +32,15 @@ public class ChattingService {
                                 () -> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST) // 예외처리 멘트 고쳐야함
                         ));
         String otherNickname;
+        String otherUserAvatarUrl
         if(userDetails.getMember().getId().equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
             otherNickname = room.getPost().getMember().getNickname();
+            otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
         }else{
             otherNickname = room.getJoinUserNickname();
+            otherUserAvatarUrl = room.getJoinUserAvatarUrl();
         }
-        RoomResDto roomResponseDto = new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname);
+        RoomResDto roomResponseDto = new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl);
         return roomResponseDto;
 
     }
@@ -53,14 +56,17 @@ public class ChattingService {
                 .orElseGet(() ->new Room(userDetails, post));   //만들어진 방이 없다면 방 객체 새로 생성
 
         String otherNickname;
-        if(userDetails.getMember().getId().equals(room.getJoinUserId())){   //상대방 닉네임 가져옴
+        String otherUserAvatarUrl
+        if(userDetails.getMember().getId().equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
             otherNickname = room.getPost().getMember().getNickname();
+            otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
         }else{
             otherNickname = room.getJoinUserNickname();
+            otherUserAvatarUrl = room.getJoinUserAvatarUrl();
         }
 
         roomRepository.save(room);
-        RoomResDto roomResDto = new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname);
+        RoomResDto roomResDto = new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl);
         return roomResDto;
     }
 
@@ -71,12 +77,15 @@ public class ChattingService {
 
         for (Room room : roomList) {    //전체 체팅방 리스트 생성
             String otherNickname;
-            if(userDetails.getMember().getId().equals(room.getJoinUserId())){
+            String otherUserAvatarUrl
+            if(userDetails.getMember().getId().equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
                 otherNickname = room.getPost().getMember().getNickname();
+                otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
             }else{
                 otherNickname = room.getJoinUserNickname();
+                otherUserAvatarUrl = room.getJoinUserAvatarUrl();
             }
-            roomResDtos.add(new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname));
+            roomResDtos.add(new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl));
         }
 
         return roomResDtos;
