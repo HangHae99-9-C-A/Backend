@@ -1,4 +1,4 @@
-package com.example.soldapple.post.dto;
+package com.example.soldapple.post.requestdto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

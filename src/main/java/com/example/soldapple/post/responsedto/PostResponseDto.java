@@ -1,4 +1,4 @@
-package com.example.soldapple.post.dto;
+package com.example.soldapple.post.responsedto;
 
 import com.example.soldapple.post.entity.SalesStatus;
 import com.example.soldapple.global.TimeConverter;
@@ -36,18 +36,16 @@ public class PostResponseDto {
     private List<CommentResponseDto> comments;
     private Boolean isLike;
     private Long likeCnt;
-
-    //프론트 요청으로...... 어쩔수없이 id 추가
     private Long memberId;
 
 
-    public PostResponseDto(Post post, Boolean isLike, String avatarUrl, List<CommentResponseDto> commentResponseDtos, Boolean myPost){
+    public PostResponseDto(Post post, Boolean isLike,  List<CommentResponseDto> commentResponseDtos, Boolean myPost){
         this.postId = post.getPostId();
         this.salesStatus = post.getSalesStatus();
         this.title = post.getTitle();
         this.nickname = post.getMember().getNickname();
         this.memberId = post.getMember().getId();
-        this.avatarUrl = avatarUrl;
+        this.avatarUrl = post.getMember().getAvatarUrl();
         this.createdAt = TimeConverter.convertTime(post.getCreatedAt());
         this.modifiedAt = TimeConverter.convertTime(post.getModifiedAt());
         this.category = post.getCategory();

@@ -1,14 +1,15 @@
-package com.example.soldapple.issues.dto.RequestDto;
+package com.example.soldapple.post.requestdto;
+
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class IssuesRequestDto {
+public class PostReqDto {
     private String title;
     private String category;
-    private String content;
     private Long expectPrice;
     private Long userPrice;
+    private String content;
 }

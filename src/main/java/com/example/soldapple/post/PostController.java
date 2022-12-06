@@ -1,11 +1,13 @@
-package com.example.soldapple.post.controller;
+package com.example.soldapple.post;
 
 
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
-import com.example.soldapple.post.dto.PostReqDto;
-import com.example.soldapple.post.dto.PostResponseDto;
-import com.example.soldapple.post.service.PostService;
+import com.example.soldapple.post.requestdto.CommentReqDto;
+import com.example.soldapple.post.responsedto.CommentResponseDto;
+import com.example.soldapple.post.requestdto.PostReqDto;
+import com.example.soldapple.post.responsedto.PostResponseDto;
+import com.example.soldapple.post.repository.CommentRepository;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,7 +28,6 @@ import java.util.List;
 @Slf4j
 public class PostController {
     private final PostService postService;
-
 
     //무한스크롤 적용입니다
     // 모든 포스트 읽어오기
@@ -69,20 +71,17 @@ public class PostController {
                                       @RequestPart(required = false) GetIPhonePriceResDto iphoneOption,
                                       @RequestPart(required = false) GetMacbookPriceResDto macbookOption,
                                       @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
-        System.out.println("==========컨트롤러 지나는중==========");
         String iphone = String.valueOf(iphoneOption);
         String post = String.valueOf(postReqDto);
         log.info("아이폰 옵션" + iphone);
         log.info("포스트 옵션" + post);
         return postService.postCreate(multipartFiles, postReqDto, iphoneOption, macbookOption, userDetails.getMember());
-//        postService.postTest();
     }
 
     //게시글 하나 상세조회
     @GetMapping("/detail/{postId}")
     public PostResponseDto onePost(@PathVariable Long postId,
                                    @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        System.out.println("==========컨트롤러 지나는중==========");
         return postService.onePost(postId, userDetails.getMember());
     }
 
@@ -92,7 +91,6 @@ public class PostController {
                                       @RequestPart(required = false) PostReqDto postReqDto,
                                       @PathVariable Long postId,
                                       @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
-        System.out.println("==========컨트롤러 지나는중==========");
         return postService.updatePost(multipartFiles, postId, postReqDto, userDetails.getMember());
     }
 
@@ -107,7 +105,24 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public String postDelete(@PathVariable Long postId,
                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        System.out.println("==========컨트롤러 지나는중==========");
         return postService.postDelete(postId, userDetails.getMember());
+    }
+
+    /*게시글 댓글*/
+    private final CommentRepository commentRepository;
+
+    @PostMapping("/comment/{postId}") //댓글 작성
+    public CommentResponseDto commentCreate(@PathVariable Long postId, @RequestBody @Valid CommentReqDto commentReqDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.commentCreate(postId, commentReqDto,  userDetails.getMember());
+    }
+
+    @DeleteMapping("/comment/{commentId}") //댓글 삭제
+    public String commentDelete(@PathVariable Long commentId, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.commentDelete(commentId, userDetails.getMember());
+    }
+
+    @PutMapping("/comment/{commentId}") //댓글 수정
+    public CommentResponseDto commentEdit(@PathVariable Long commentId, @RequestBody @Valid CommentReqDto commentReqDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.commentEdit(commentId, commentReqDto, userDetails.getMember());
     }
 }

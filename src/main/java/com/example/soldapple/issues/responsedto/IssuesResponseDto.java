@@ -1,4 +1,4 @@
-package com.example.soldapple.issues.dto.ResponseDto;
+package com.example.soldapple.issues.responsedto;
 
 import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.issues.entity.Issues;
@@ -36,12 +36,12 @@ public class IssuesResponseDto {
 
     private Boolean myIssue;
 
-    public IssuesResponseDto(Issues issues, Boolean isLike, String avatarUrl, List<IssuesCommentResponseDto> issuesCommentResponseDto, Boolean myIssue){
+    public IssuesResponseDto(Issues issues, Boolean isLike, List<IssuesCommentResponseDto> issuesCommentResponseDto, Boolean myIssue){
         this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
         this.memberId = issues.getMember().getId();
-        this.avatarUrl = avatarUrl;
+        this.avatarUrl = issues.getMember().getAvatarUrl();
         this.createdAt = TimeConverter.convertTime ( issues.getCreatedAt () );
         this.modifiedAt = TimeConverter.convertTime ( issues.getModifiedAt () );
         this.category = issues.getCategory();

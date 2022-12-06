@@ -1,4 +1,4 @@
-package com.example.soldapple.issues.dto.ResponseDto;
+package com.example.soldapple.issues.responsedto;
 
 import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.issues.entity.IssuesComment;
@@ -20,22 +20,14 @@ public class IssuesCommentResponseDto {
 
     private Boolean myComment;
 
-    public IssuesCommentResponseDto(IssuesComment issuesComment, String avatarUrl, Boolean myComment){
+    public IssuesCommentResponseDto(IssuesComment issuesComment, Boolean myComment){
         this.commentId = issuesComment.getIssuesCommentId();
         this.nickname = issuesComment.getMember().getNickname();
         this.memberId = issuesComment.getMember().getId();
-        this.avatarUrl = avatarUrl;
+        this.avatarUrl = issuesComment.getMember().getAvatarUrl();
         this.comment = issuesComment.getIssuesComment();
         this.createdAt = TimeConverter.convertTime ( issuesComment.getCreatedAt () );
         this.modifiedAt = TimeConverter.convertTime ( issuesComment.getModifiedAt () );
         this.myComment = myComment;
-    }
-
-    public IssuesCommentResponseDto(IssuesComment issuesComment){
-        this.commentId = issuesComment.getIssuesCommentId();
-        this.nickname = issuesComment.getMember().getNickname();
-        this.comment = issuesComment.getIssuesComment();
-        this.createdAt = TimeConverter.convertTime ( issuesComment.getCreatedAt () );
-        this.modifiedAt = TimeConverter.convertTime ( issuesComment.getModifiedAt () );
     }
 }
