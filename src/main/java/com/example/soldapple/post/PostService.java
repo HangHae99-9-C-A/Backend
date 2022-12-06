@@ -55,9 +55,6 @@ public class PostService {
         postRepository.save(post);
         Boolean myPost = post.getMember().getId().equals(member.getId());
 
-        //이미지 저장
-        imgSave(multipartFiles, post);
-
         /*옵션항목들 저장*/
         if (iphoneOption == null) {
             //맥북일 때
@@ -71,6 +68,9 @@ public class PostService {
             optionRepository.save(options);
             post.setOpt(options);
         }
+        //이미지 저장
+        imgSave(multipartFiles, post);
+
         //사용자가 해당 글에 좋아요 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
@@ -84,21 +84,24 @@ public class PostService {
         Boolean myPost = post.getMember().getId().equals(member.getId());
         //내용 업데이트
         post.update(postReqDto);
-        //기존 이미지 삭제
-        List<Image> imageList = post.getImages();
-        for (Image image : imageList) {
-            s3UploadUtil.delete(image.getImgKey());
-            imageRepository.delete(image);
+
+        if (!(multipartFiles == null)) {
+            //기존 이미지 삭제
+            List<Image> imageList = post.getImages();
+            for (Image image : imageList) {
+                s3UploadUtil.delete(image.getImgKey());
+                imageRepository.delete(image);
+            }
+            //이미지 저장
+            imgSave(multipartFiles, post);
         }
-        //이미지 저장
-        imgSave(multipartFiles, post);
 
         //이 게시글을 현재 사용자가 좋아요를 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
     }
 
-    //판매완료
+    //판매완료(판매상태 변경)
     public PostResponseDto updateStatus(Long postId, Member member) {
         Post post = postRepository.findByPostId(postId).orElseThrow(
                 () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
@@ -160,16 +163,13 @@ public class PostService {
     public void imgSave(List<MultipartFile> multipartFiles, Post post) throws IOException {
         List<Image> imageList = new ArrayList<>();
 
-        if (!(multipartFiles.size() == 0)) {
-            System.out.println(multipartFiles.get(0).getOriginalFilename());
-            for (MultipartFile imgFile : multipartFiles) {
-                Map<String, String> img = s3UploadUtil.upload(imgFile, "post-img");
-                Image image = new Image(img, post);
-                imageList.add(image);
-                imageRepository.save(image);
-            }
+        for (MultipartFile imgFile : multipartFiles) {
+            Map<String, String> img = s3UploadUtil.upload(imgFile, "post-img");
+            Image image = new Image(img, post);
+            imageRepository.save(image);
+            imageList.add(image);
         }
-        post.setImages(imageList);
+        post.updateImg(imageList);
     }
 
     //댓글목록 dto 넣기

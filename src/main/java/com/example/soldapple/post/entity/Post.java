@@ -38,13 +38,13 @@ public class Post extends TimeStamped {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Like> likes;
 
     private Boolean isLike;
-    private Long postLikeCnt=0L;
+    private Long postLikeCnt = 0L;
 
-    @OneToOne(mappedBy = "post", fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Opt opt;
 
     public Post(PostReqDto postReqDto, Member member) {
@@ -70,5 +70,9 @@ public class Post extends TimeStamped {
 
     public void soldOut() { //판매상태 변경
         this.salesStatus = SalesStatus.판매완료;
+    }
+
+    public void updateImg(List<Image> imageList) {
+        this.images = imageList;
     }
 }
