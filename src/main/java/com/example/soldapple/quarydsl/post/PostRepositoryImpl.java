@@ -6,10 +6,8 @@ import com.example.soldapple.post.dto.PostResponseDto;
 import com.example.soldapple.post.dto.QPostResponseDto;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.entity.QPost;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.PathMetadata;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.soldapple.like.entity.QLike.like;
 import static com.example.soldapple.post.entity.QPost.post;
@@ -71,11 +68,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
                     pathBuilder.get(o.getProperty())));
         }
-
-
         List<PostResponseDto> list = query.fetch();
 
-        //       return new PageImpl<>(postList, pageable, 0);
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
 
@@ -108,7 +102,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         List<PostResponseDto> list = query.fetch();
 
-        //       return new PageImpl<>(postList, pageable, 0);
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
 

@@ -35,6 +35,7 @@ public class PersonalController {
         return personalService.getMyComment(userDetails.getMember());
     }
 
+    // 내가 쓴 이슈글 리스트
     @GetMapping("/issue")
     public PersonalService.PersonalResponseDto getMyIssue(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyIssue(userDetails.getMember());
