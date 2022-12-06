@@ -71,7 +71,6 @@ public class PostController {
                                       @RequestPart(required = false) GetIPhonePriceResDto iphoneOption,
                                       @RequestPart(required = false) GetMacbookPriceResDto macbookOption,
                                       @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
-        System.out.println("==========컨트롤러 지나는중==========");
         String iphone = String.valueOf(iphoneOption);
         String post = String.valueOf(postReqDto);
         log.info("아이폰 옵션" + iphone);
@@ -83,7 +82,6 @@ public class PostController {
     @GetMapping("/detail/{postId}")
     public PostResponseDto onePost(@PathVariable Long postId,
                                    @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        System.out.println("==========컨트롤러 지나는중==========");
         return postService.onePost(postId, userDetails.getMember());
     }
 
@@ -93,7 +91,6 @@ public class PostController {
                                       @RequestPart(required = false) PostReqDto postReqDto,
                                       @PathVariable Long postId,
                                       @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
-        System.out.println("==========컨트롤러 지나는중==========");
         return postService.updatePost(multipartFiles, postId, postReqDto, userDetails.getMember());
     }
 
@@ -108,7 +105,6 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public String postDelete(@PathVariable Long postId,
                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        System.out.println("==========컨트롤러 지나는중==========");
         return postService.postDelete(postId, userDetails.getMember());
     }
 

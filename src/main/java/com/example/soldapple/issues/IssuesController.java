@@ -64,14 +64,12 @@ public class IssuesController {
                                          @RequestPart(required = false) GetIPhonePriceResDto iphoneOption,
                                          @RequestPart(required = false) GetMacbookPriceResDto macbookOption,
                                          @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) throws IOException {
-        System.out.println("==========컨트롤러 지나는중==========");
         return issuesService.createIssue(multipartFiles, issuesRequestDto, iphoneOption, macbookOption, userDetails.getMember());
     }
 
     @GetMapping("/detail/{issuesId}") //이의제기 하나 상세조회
     public IssuesResponseDto oneIssue(@PathVariable Long issuesId,
                                       @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) {
-        System.out.println("==========컨트롤러 지나는중==========");
         return issuesService.oneIssue(issuesId, userDetails.getMember());
     }
 
@@ -79,14 +77,12 @@ public class IssuesController {
     public IssuesResponseDto updateIssue(@PathVariable Long issuesId,
                                          @RequestPart IssuesRequestDto issuesRequestDto,
                                          @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        System.out.println("==========컨트롤러 지나는중==========");
         return issuesService.updateIssue(issuesId, issuesRequestDto, userDetails.getMember());
     }
 
     @DeleteMapping("/{issuesId}") //이의제기 삭제
     public String deleteIssue(@PathVariable Long issuesId,
                               @AuthenticationPrincipal @ApiIgnore UserDetailsImpl userDetails) {
-        System.out.println("==========컨트롤러 지나는중==========");
         return issuesService.deleteIssue(issuesId, userDetails.getMember());
     }
 
