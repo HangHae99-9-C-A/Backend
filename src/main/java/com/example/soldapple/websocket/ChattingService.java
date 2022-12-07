@@ -50,7 +50,7 @@ public class ChattingService {
         Post post = postRepository.findById(roomReqDto.getPostId()).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_POST_ON_CHAT)
         );
-        if(post.getMember().equals(userDetails.getMember())){   //자기 자신의 게시글에서는 방생성 불가
+        if(post.getMember().getId().equals(userDetails.getMember().getId())){   //자기 자신의 게시글에서는 방생성 불가
             throw new CustomException(ErrorCode.CANNOT_MAKE_ROOM_ALONE);
         }
         Room room = roomRepository.findRoomByJoinUserIdAndPostMemberIdAndPostPostId(userDetails.getMember().getId(), post.getMember().getId(), roomReqDto.getPostId())  //이미 만든방이 있다면 방 객체 가져옴
