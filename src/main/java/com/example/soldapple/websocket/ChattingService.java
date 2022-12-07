@@ -3,6 +3,7 @@ package com.example.soldapple.websocket;
 import com.example.soldapple.error.CustomException;
 import com.example.soldapple.error.ErrorCode;
 import com.example.soldapple.member.entity.Member;
+import com.example.soldapple.member.repository.MemberRepository;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.repository.PostRepository;
 import com.example.soldapple.security.user.UserDetailsImpl;
@@ -28,6 +29,7 @@ public class ChattingService {
     private final RoomRepository roomRepository;
     private final PostRepository postRepository;
     private final ChatRepository chatRepository;
+    private final MemberRepository memberRepository;
     String otherNickname;
     String otherUserAvatarUrl;
     Long senderId;
@@ -42,7 +44,7 @@ public class ChattingService {
             otherNickname = room.getPost().getMember().getNickname();
             otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
         }else{
-            otherNickname = room.getJoinUserNickname();
+            otherNickname = memberRepository.findOneById(room.getJoinUserId()).getNickname();
             otherUserAvatarUrl = room.getJoinUserAvatarUrl();
         }
         return new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl, senderId);
@@ -65,7 +67,7 @@ public class ChattingService {
             otherNickname = room.getPost().getMember().getNickname();
             otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
         }else{
-            otherNickname = room.getJoinUserNickname();
+            otherNickname = memberRepository.findOneById(room.getJoinUserId()).getNickname();
             otherUserAvatarUrl = room.getJoinUserAvatarUrl();
         }
 
@@ -84,7 +86,7 @@ public class ChattingService {
                 otherNickname = room.getPost().getMember().getNickname();
                 otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
             }else{
-                otherNickname = room.getJoinUserNickname();
+                otherNickname = memberRepository.findOneById(room.getJoinUserId()).getNickname();
                 otherUserAvatarUrl = room.getJoinUserAvatarUrl();
             }
             roomResDtos.add(new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl, senderId));
