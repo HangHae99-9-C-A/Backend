@@ -89,7 +89,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
-                .from(post);
+                .from(post)
+                .where(post.title.contains(searchReceived).or(post.content.contains(searchReceived)));
 
         // sorting
         Sort sort = pageable.getSort();
@@ -124,7 +125,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         List<PostResponseDto> list = query.fetch();
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
-                .from(post);
+                .from(post)
+                .where(post.category.eq(categoryReceived));
 
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
@@ -151,7 +153,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         List<PostResponseDto> list = query.fetch();
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
-                .from(post);
+                .from(post)
+                .where(post.category.eq(categoryReceived)
+                        .and(post.title.contains(searchReceived)).or(post.content.contains(searchReceived)));
 
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }

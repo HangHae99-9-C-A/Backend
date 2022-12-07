@@ -51,6 +51,7 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
             query.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
                     pathBuilder.get(o.getProperty())));
         }
+
         List<IssuesResponseDto> list = query.fetch();
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
@@ -70,7 +71,8 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
 
         JPAQuery<Long> countQuery = queryFactory
                 .select(issues.count())
-                .from(issues);
+                .from(issues)
+                .where(issues.issuesTitle.contains(searchReceived).or(issues.issuesContent.contains(searchReceived)));
 
         // sorting
         for (Sort.Order o : pageable.getSort()) {
@@ -101,7 +103,8 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
         List<IssuesResponseDto> list = query.fetch();
         JPAQuery<Long> countQuery = queryFactory
                 .select(issues.count())
-                .from(issues);
+                .from(issues)
+                .where(issues.category.eq(categoryReceived));
 
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
@@ -117,7 +120,6 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
                 .where(issues.category.eq(categoryReceived)
                         .and(issues.issuesTitle.contains(searchReceived))
                         .or(issues.issuesContent.contains(searchReceived)))
-                .orderBy()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -132,7 +134,10 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
         List<IssuesResponseDto> list = query.fetch();
         JPAQuery<Long> countQuery = queryFactory
                 .select(issues.count())
-                .from(issues);
+                .from(issues)
+                .where(issues.category.eq(categoryReceived)
+                        .and(issues.issuesTitle.contains(searchReceived))
+                        .or(issues.issuesContent.contains(searchReceived)));
 
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
 
