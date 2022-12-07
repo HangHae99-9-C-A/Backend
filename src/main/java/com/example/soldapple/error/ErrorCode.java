@@ -30,6 +30,7 @@ public enum ErrorCode {
     //CHATROOM
     NOT_FOUND_ANOTHER_USER(HttpStatus.NOT_FOUND.value(), "R001","상대방을 찾을 수 없습니다."),
     UNKNOWN_CHATROOM(HttpStatus.BAD_REQUEST.value(), "R002","알 수 없는 채팅방 입니다."),
+    NOT_FOUND_POST_ON_CHAT(HttpStatus.NOT_FOUND.value(), "R001","채팅방 생성시 매칭되는 게시글이 없습니다."),
     CANNOT_FOUND_CHATROOM(HttpStatus.NOT_FOUND.value(), "R003","존재하지 않는 채팅방입니다."),
     FORBIDDEN_CHATROOM(HttpStatus.FORBIDDEN.value(), "R004","접근 불가능한 채팅방 입니다."),
     CANNOT_MAKE_ROOM_ALONE(HttpStatus.BAD_REQUEST.value(), "R005","자기자신에게 채팅을 신청할 수 없습니다"),
