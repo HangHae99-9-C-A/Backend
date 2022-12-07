@@ -30,8 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.soldapple.error.ErrorCode.CANNOT_DELETE_NOT_EXIST_POST;
-import static com.example.soldapple.error.ErrorCode.CANNOT_FIND_POST_NOT_EXIST;
+import static com.example.soldapple.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +56,6 @@ public class IssuesService {
         //이미지 저장
         List<IssuesImage> imageList = new ArrayList<>();
         if (!(multipartFiles.size() == 0)) {
-            System.out.println(multipartFiles.get(0).getOriginalFilename());
             for (MultipartFile imgFile : multipartFiles) {
                 Map<String, String> img = s3UploadUtil.upload(imgFile, "issue-img");
                 IssuesImage issuesImage = new IssuesImage(img, issues);
@@ -87,7 +85,7 @@ public class IssuesService {
     //이의제기글 수정
     public IssuesResponseDto updateIssue(Long issuesId, IssuesRequestDto issuesRequestDto, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
-                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(ONLY_CAN_DO_ISSUE_WRITER)
         );
         Boolean myIssue = issues.getMember().getId().equals(member.getId());
         issues.update(issuesRequestDto);
@@ -99,7 +97,7 @@ public class IssuesService {
     //이의제기글 삭제
     public String deleteIssue(Long issuesId, Member member) {
         Issues issues = issuesRepository.findByIssuesIdAndMember(issuesId, member).orElseThrow(
-                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(ONLY_CAN_DO_ISSUE_WRITER)
         );
         List<IssuesImage> imageList = issues.getIssuesImages();
         for (IssuesImage issuesImage : imageList) {
@@ -112,7 +110,7 @@ public class IssuesService {
     //이의제기글 하나 조회
     public IssuesResponseDto oneIssue(Long issuesId, Member member) {
         Issues issues = issuesRepository.findByIssuesId(issuesId).orElseThrow(
-                () -> new CustomException(CANNOT_DELETE_NOT_EXIST_POST)
+                () -> new CustomException(CANNOT_FIND_ISSUE)
         );
         Boolean myIssue = issues.getMember().getId().equals(member.getId());
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
@@ -160,7 +158,7 @@ public class IssuesService {
     //이의제기 댓글 작성
     public IssuesCommentResponseDto createIssuesComment(Long issuesId, IssuesCommentRequestDto issuesCommentRequestDto, Member member) {
         Issues issues = issuesRepository.findByIssuesId(issuesId).orElseThrow(
-                () -> new IllegalArgumentException("해당 이의제기 글이 존재하지 않습니다.")
+                () -> new CustomException(DOESNT_EXIST_ISSUE_FOR_WRITE)
         );
         IssuesComment issuesComment = new IssuesComment(issues, member, issuesCommentRequestDto.getIssuesComment());
         Boolean myComment = issuesComment.getMember().getId().equals(member.getId());
@@ -171,7 +169,7 @@ public class IssuesService {
     //이의제기 댓글 삭제
     public String deleteIssuesComment(Long issuesCommentId, Member member) {
         IssuesComment issuesComment = issuesCommentRepository.findByIssuesCommentIdAndMember(issuesCommentId, member).orElseThrow(
-                () -> new IllegalArgumentException("해당 댓글이 없거나 삭제 권한이 없습니다.")
+                () -> new CustomException(ONLY_CAN_DO_ISSUE_COMMENT_WRITER)
         );
         issuesCommentRepository.delete(issuesComment);
         return "댓글 삭제 성공";
@@ -180,11 +178,10 @@ public class IssuesService {
     //이의제기 댓글 수정
     public IssuesCommentResponseDto updateIssuesComment(Long issuesCommentId, IssuesCommentRequestDto issuesCommentRequestDto, Member member) {
         IssuesComment issuesComment = issuesCommentRepository.findByIssuesCommentIdAndMember(issuesCommentId, member).orElseThrow(
-                () -> new RuntimeException("해당 댓글이 없거나 수정 권한이 없습니다.")
+                () -> new CustomException(ONLY_CAN_DO_ISSUE_COMMENT_WRITER)
         );
         Boolean myComment = issuesComment.getMember().getId().equals(member.getId());
-        issuesComment.setIssuesComment(issuesCommentRequestDto.getIssuesComment());
-        issuesCommentRepository.save(issuesComment);
+        issuesComment.updateComment(issuesCommentRequestDto);
         return new IssuesCommentResponseDto(issuesComment, myComment);
     }
 

@@ -43,8 +43,7 @@ public class Comment extends TimeStamped {
 
     }
 
-    public void CommentEdit(CommentReqDto commentReqDto){
+    public void updateComment(CommentReqDto commentReqDto){
         this.comment = commentReqDto.getComment();
-
     }
 }

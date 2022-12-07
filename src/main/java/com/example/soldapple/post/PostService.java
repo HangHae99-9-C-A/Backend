@@ -7,10 +7,6 @@ import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
 import com.example.soldapple.error.CustomException;
 import com.example.soldapple.like.repository.LikeRepository;
 import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.post.requestdto.CommentReqDto;
-import com.example.soldapple.post.responsedto.CommentResponseDto;
-import com.example.soldapple.post.requestdto.PostReqDto;
-import com.example.soldapple.post.responsedto.PostResponseDto;
 import com.example.soldapple.post.entity.Comment;
 import com.example.soldapple.post.entity.Image;
 import com.example.soldapple.post.entity.Opt;
@@ -19,6 +15,10 @@ import com.example.soldapple.post.repository.CommentRepository;
 import com.example.soldapple.post.repository.ImageRepository;
 import com.example.soldapple.post.repository.OptionRepository;
 import com.example.soldapple.post.repository.PostRepository;
+import com.example.soldapple.post.requestdto.CommentReqDto;
+import com.example.soldapple.post.requestdto.PostReqDto;
+import com.example.soldapple.post.responsedto.CommentResponseDto;
+import com.example.soldapple.post.responsedto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.soldapple.error.ErrorCode.CANNOT_FIND_POST_NOT_EXIST;
+import static com.example.soldapple.error.ErrorCode.*;
 
 @Service
 @Transactional
@@ -79,7 +79,7 @@ public class PostService {
     //게시글 수정
     public PostResponseDto updatePost(List<MultipartFile> multipartFiles, Long postId, PostReqDto postReqDto, Member member) throws IOException {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
-                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(ONLY_CAN_DO_POST_WRITER)
         );
         Boolean myPost = post.getMember().getId().equals(member.getId());
         //내용 업데이트
@@ -103,8 +103,8 @@ public class PostService {
 
     //판매완료(판매상태 변경)
     public PostResponseDto updateStatus(Long postId, Member member) {
-        Post post = postRepository.findByPostId(postId).orElseThrow(
-                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+        Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
+                () -> new CustomException(ONLY_CAN_DO_POST_WRITER)
         );
         Boolean myPost = post.getMember().getId().equals(member.getId());
         post.soldOut();
@@ -116,7 +116,7 @@ public class PostService {
     //게시글 삭제
     public String postDelete(Long postId, Member member) {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
-                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(ONLY_CAN_DO_POST_WRITER)
         );
         postRepository.deleteById(postId);
         return "게시글 삭제 완료";
@@ -152,7 +152,7 @@ public class PostService {
     //게시글 하나 조회
     public PostResponseDto onePost(Long postId, Member member) {
         Post post = postRepository.findByPostId(postId).orElseThrow(
-                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(CANNOT_FIND_POST)
         );
         Boolean myPost = post.getMember().getId().equals(member.getId());
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
@@ -176,7 +176,6 @@ public class PostService {
     public List<CommentResponseDto> commentDtos(Post post, Long memberId) {
         List<Comment> comments = post.getComments();
         List<CommentResponseDto> commentResponseDtos = new ArrayList<CommentResponseDto>();
-        String avatarUrl;
         Boolean myComment;
         if (!(comments == null)) {
             for (Comment comment : comments) {
@@ -192,7 +191,7 @@ public class PostService {
     @Transactional
     public CommentResponseDto commentCreate(Long postId, CommentReqDto commentReqDto, Member member) {
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("post not exist")
+                () -> new CustomException(DOESNT_EXIST_POST_FOR_WRITE)
         );
         Comment comment = new Comment(commentReqDto, post, member);
         commentRepository.save(comment);
@@ -204,17 +203,20 @@ public class PostService {
     @Transactional
     public CommentResponseDto commentEdit(Long commentId, CommentReqDto commentReqDto, Member member) {
         Comment comment = commentRepository.findByIdAndMember(commentId, member).orElseThrow(
-                () -> new IllegalArgumentException("comment not exist")
+                () -> new CustomException(ONLY_CAN_DO_COMMENT_WRITER)
         );
         Boolean myComment = comment.getMember().getId().equals(member.getId());
-        comment.CommentEdit(commentReqDto);
+        comment.updateComment(commentReqDto);
         return new CommentResponseDto(comment, myComment);
     }
 
     //게시글 댓글 삭제
     @Transactional
     public String commentDelete(Long commentId, Member member) {
-        commentRepository.deleteByIdAndMember(commentId, member);
+        Comment comment = commentRepository.findByIdAndMember(commentId, member).orElseThrow(
+                () -> new CustomException(ONLY_CAN_DO_COMMENT_WRITER)
+        );
+        commentRepository.deleteById(commentId);
         return "댓글 삭제 완료";
     }
 }

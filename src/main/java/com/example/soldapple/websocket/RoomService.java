@@ -2,7 +2,6 @@ package com.example.soldapple.websocket;
 
 import com.example.soldapple.error.CustomException;
 import com.example.soldapple.error.ErrorCode;
-import com.example.soldapple.global.dto.GlobalResDto;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.repository.PostRepository;
 import com.example.soldapple.security.user.UserDetailsImpl;
@@ -31,7 +30,7 @@ public class RoomService {
 
     public RoomResDto createRoom(RoomReqDto roomReqDto, UserDetailsImpl userDetails) {
         Post post = postRepository.findById(roomReqDto.getPostId()).orElseThrow(
-                () -> new CustomException(ErrorCode.CANNOT_DELETE_NOT_EXIST_POST)
+                () -> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST)
         );
         if(post.getMember().equals(userDetails.getMember())){
             throw new CustomException(ErrorCode.CANNOT_MAKE_ROOM_ALONE);

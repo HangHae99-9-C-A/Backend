@@ -16,8 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.soldapple.error.ErrorCode.CANNOT_FIND_POST_NOT_EXIST;
-import static com.example.soldapple.error.ErrorCode.NOT_FOUND_USER;
+import static com.example.soldapple.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class LikeService {
                 () -> new CustomException(NOT_FOUND_USER)
         );
         Post post = postRepository.findByPostIdAndMemberNot(postId, member).orElseThrow(
-                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(CANNOT_LIKE_BY_POST_WRITER)
         );
 
         Long likeCnt = post.getPostLikeCnt();
@@ -49,7 +48,7 @@ public class LikeService {
                 () -> new CustomException(NOT_FOUND_USER)
         );
         Post post = postRepository.findByPostIdAndMemberNot(postId, member).orElseThrow(
-                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(CANNOT_DISLIKE_BY_POST_WRITER)
         );
         likeRepository.deleteByPostAndMember(post, member);
         Long likeCnt = post.getPostLikeCnt();
@@ -67,7 +66,7 @@ public class LikeService {
                 () -> new CustomException(NOT_FOUND_USER)
         );
         Issues issues = issuesRepository.findByIssuesIdAndMemberNot(issuesId,member).orElseThrow(
-                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(CANNOT_LIKE_BY_POST_WRITER)
         );
         Long likeCnt = issues.getIssuesLikeCnt();
         IssuesLike issueslike = new IssuesLike(issues, member);
@@ -82,7 +81,7 @@ public class LikeService {
                 () -> new CustomException(NOT_FOUND_USER)
         );
         Issues issues = issuesRepository.findByIssuesIdAndMemberNot(issuesId,member).orElseThrow(
-                () -> new CustomException(CANNOT_FIND_POST_NOT_EXIST)
+                () -> new CustomException(CANNOT_DISLIKE_BY_POST_WRITER)
         );
         issueslikeRepository.deleteByIssuesAndMember(issues, member);
         Long likeCnt = issues.getIssuesLikeCnt();
