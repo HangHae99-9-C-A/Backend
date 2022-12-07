@@ -37,12 +37,13 @@ public class RoomResDto {
     private String joinUserAvatarUrl;
 
     private String nickname;
+    private Long senderId;  //memberId
 
     private String otherNickname;
 
     private String otherUserAvatarUrl;
 
-    public RoomResDto(Room room, String nickname, String otherNickname, String otherUserAvatarUrl){
+    public RoomResDto(Room room, String nickname, String otherNickname, String otherUserAvatarUrl, Long senderId){
         this.postId = room.getPost().getPostId();
         this.roomId = room.getId();
         this.title = room.getPost().getTitle();
@@ -59,5 +60,6 @@ public class RoomResDto {
         this.nickname = nickname;
         this.otherNickname = otherNickname;
         this.otherUserAvatarUrl = otherUserAvatarUrl;
+        this.senderId = senderId;
     }
 }

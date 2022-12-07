@@ -2,6 +2,7 @@ package com.example.soldapple.websocket;
 
 import com.example.soldapple.error.CustomException;
 import com.example.soldapple.error.ErrorCode;
+import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.entity.Post;
 import com.example.soldapple.post.repository.PostRepository;
 import com.example.soldapple.security.user.UserDetailsImpl;
@@ -29,20 +30,22 @@ public class ChattingService {
     private final ChatRepository chatRepository;
     String otherNickname;
     String otherUserAvatarUrl;
+    Long senderId;
 
     public RoomResDto joinRoom(ChatSelectReqDto chatSelectReqDto, UserDetailsImpl userDetails) {    //방 입장
         Room room = roomRepository.findRoomByIdAndPostMemberId(chatSelectReqDto.getRoomId(), userDetails.getMember().getId())   //게시글 작성자와 member가 일치하면 방 객체 가져옴
                 .orElseGet( () ->roomRepository.findRoomByIdAndJoinUserId(chatSelectReqDto.getRoomId(), userDetails.getMember().getId()).orElseThrow(   //게시글 작성자와 member가 일치하지 않을 경우 참가자와 일치하면 방 객체 가져옴
                                 () -> new CustomException(ErrorCode.CANNOT_FOUND_CHATROOM)
                         ));
-        if(userDetails.getMember().getId().equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
+        senderId = userDetails.getMember().getId();
+        if(senderId.equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
             otherNickname = room.getPost().getMember().getNickname();
             otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
         }else{
             otherNickname = room.getJoinUserNickname();
             otherUserAvatarUrl = room.getJoinUserAvatarUrl();
         }
-        return new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl);
+        return new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl, senderId);
 
     }
 
@@ -56,7 +59,9 @@ public class ChattingService {
         Room room = roomRepository.findRoomByJoinUserIdAndPostMemberIdAndPostPostId(userDetails.getMember().getId(), post.getMember().getId(), roomReqDto.getPostId())  //이미 만든방이 있다면 방 객체 가져옴
                 .orElseGet(() ->new Room(userDetails, post));   //만들어진 방이 없다면 방 객체 새로 생성
 
-        if(userDetails.getMember().getId().equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
+        senderId = userDetails.getMember().getId();
+
+        if(senderId.equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
             otherNickname = room.getPost().getMember().getNickname();
             otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
         }else{
@@ -65,23 +70,24 @@ public class ChattingService {
         }
 
         roomRepository.save(room);
-        return new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl);
+        return new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl, senderId);
     }
 
     public List<RoomResDto> roomList(UserDetailsImpl userDetails) { //채팅방 리스트 가져옴
         List<Room> roomList = roomRepository.findAllByJoinUserIdOrPostMemberIdOrderByIdDesc(userDetails.getMember().getId(), userDetails.getMember().getId());
 
         List<RoomResDto> roomResDtos = new ArrayList<>();
+        senderId = userDetails.getMember().getId();
 
         for (Room room : roomList) {    //전체 체팅방 리스트 생성
-            if(userDetails.getMember().getId().equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
+            if(senderId.equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
                 otherNickname = room.getPost().getMember().getNickname();
                 otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
             }else{
                 otherNickname = room.getJoinUserNickname();
                 otherUserAvatarUrl = room.getJoinUserAvatarUrl();
             }
-            roomResDtos.add(new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl));
+            roomResDtos.add(new RoomResDto(room, userDetails.getMember().getNickname(),otherNickname, otherUserAvatarUrl, senderId));
         }
 
         return roomResDtos;

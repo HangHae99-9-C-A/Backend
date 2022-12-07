@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChatResDto {
-    private String sender;
+    private Long sender;    //memberId
     private String message;
     private String sendDate;
 

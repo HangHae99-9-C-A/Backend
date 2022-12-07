@@ -23,23 +23,22 @@ public class Chat {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    private String sender;
+    private Long sender;
 
     @Column(columnDefinition = "TEXT")
     private String message;
 
-    @Column(columnDefinition = "TEXT")
     private String sendDate;
 
     @Builder
-    public Chat(Room room, String sender, String message, String sendDate){
+    public Chat(Room room, Long sender, String message, String sendDate){
         this.room = room;
         this.sender = sender;
         this.message = message;
         this.sendDate = sendDate;
     }
 
-    public static Chat createChat(Room room, String sender, String message,String sendDate){
+    public static Chat createChat(Room room, Long sender, String message,String sendDate){
         return Chat.builder()
                 .room(room)
                 .sender(sender)
