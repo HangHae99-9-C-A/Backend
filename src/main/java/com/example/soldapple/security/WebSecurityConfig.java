@@ -45,10 +45,10 @@ public class WebSecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("*", "POST", "GET", "DELETE", "PUT", "PATCH"));
-        configuration.setAllowedHeaders(Arrays.asList("*", "Accept", "Access_Token", "Cache-Control", "Referer", "Refresh_Token", "User-Agent"));
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedOrigins(List.of("https://www.findapple.co.kr"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
         configuration.addExposedHeader("*");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -62,11 +62,6 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public WebSecurityCustomizer ignoringCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2-console/**");
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.cors();
@@ -75,21 +70,10 @@ public class WebSecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/api/**").permitAll()
-                .antMatchers("/test/**").permitAll()
                 .antMatchers("/member/**").permitAll()
-                .antMatchers("/post/**").permitAll()
-                .antMatchers("/posts/**").permitAll()
-                .antMatchers("/issue/**").permitAll()
-                .antMatchers("/comment/**").permitAll()
-                .antMatchers("/create/**").permitAll()
-                .antMatchers("/price/**").permitAll()
-                .antMatchers("/**").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
-
     }
 }
