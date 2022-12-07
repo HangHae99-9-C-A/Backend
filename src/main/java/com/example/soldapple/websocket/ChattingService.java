@@ -29,7 +29,7 @@ public class ChattingService {
     public RoomResDto joinRoom(ChatSelectReqDto chatSelectReqDto, UserDetailsImpl userDetails) {    //방 입장
         Room room = roomRepository.findRoomByIdAndPostMemberId(chatSelectReqDto.getRoomId(), userDetails.getMember().getId())   //게시글 작성자와 member가 일치하면 방 객체 가져옴
                 .orElseGet( () ->roomRepository.findRoomByIdAndJoinUserId(chatSelectReqDto.getRoomId(), userDetails.getMember().getId()).orElseThrow(   //게시글 작성자와 member가 일치하지 않을 경우 참가자와 일치하면 방 객체 가져옴
-                                () -> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST) // 예외처리 멘트 고쳐야함
+                                () -> new CustomException(ErrorCode.CANNOT_FOUND_CHATROOM) // 예외처리 멘트 고쳐야함
                         ));
         String otherNickname;
         String otherUserAvatarUrl;
@@ -93,7 +93,7 @@ public class ChattingService {
 
     public Chat createChat(Long roomId, ChatReqDto chatReqDto, String sendDate){ //채팅 저장
         Room room = roomRepository.findById(roomId).orElseThrow(
-                () -> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST) //예외처리해야함
+                () -> new CustomException(ErrorCode.CANNOT_FOUND_CHATROOM) //예외처리해야함
         );
         Chat chat = Chat.builder()
                 .room(room)
