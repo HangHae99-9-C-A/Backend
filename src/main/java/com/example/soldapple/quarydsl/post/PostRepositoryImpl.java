@@ -69,7 +69,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                     pathBuilder.get(o.getProperty())));
         }
         List<PostResponseDto> list = query.fetch();
-
+        System.out.println("================================================");
+        System.out.println(countQuery);
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
 
@@ -102,7 +103,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
 
         List<PostResponseDto> list = query.fetch();
-
+        System.out.println("================================================");
+        System.out.println(countQuery);
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
 
@@ -127,7 +129,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .select(post.count())
                 .from(post)
                 .where(post.category.eq(categoryReceived));
-
+        System.out.println("================================================");
+        System.out.println(countQuery);
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
 
@@ -154,9 +157,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post)
-                .where(post.category.eq(categoryReceived)
-                        .and(post.title.contains(searchReceived)).or(post.content.contains(searchReceived)));
-
+                .where(post.category.eq(categoryReceived).and(post.title.contains(searchReceived)).or(post.content.contains(searchReceived)));
+        System.out.println("================================================");
+        System.out.println(countQuery);
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
     }
 

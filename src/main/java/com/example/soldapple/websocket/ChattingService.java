@@ -32,7 +32,7 @@ public class ChattingService {
                                 () -> new CustomException(ErrorCode.CANNOT_FIND_POST_NOT_EXIST) // 예외처리 멘트 고쳐야함
                         ));
         String otherNickname;
-        String otherUserAvatarUrl
+        String otherUserAvatarUrl;
         if(userDetails.getMember().getId().equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
             otherNickname = room.getPost().getMember().getNickname();
             otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
@@ -56,7 +56,7 @@ public class ChattingService {
                 .orElseGet(() ->new Room(userDetails, post));   //만들어진 방이 없다면 방 객체 새로 생성
 
         String otherNickname;
-        String otherUserAvatarUrl
+        String otherUserAvatarUrl;
         if(userDetails.getMember().getId().equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
             otherNickname = room.getPost().getMember().getNickname();
             otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
@@ -77,7 +77,7 @@ public class ChattingService {
 
         for (Room room : roomList) {    //전체 체팅방 리스트 생성
             String otherNickname;
-            String otherUserAvatarUrl
+            String otherUserAvatarUrl;
             if(userDetails.getMember().getId().equals(room.getJoinUserId())){   //상대방 닉네임을 저장함
                 otherNickname = room.getPost().getMember().getNickname();
                 otherUserAvatarUrl = room.getPost().getMember().getAvatarUrl();
