@@ -22,6 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ChattingService {
     private final RoomRepository roomRepository;
     private final PostRepository postRepository;
@@ -45,7 +46,6 @@ public class ChattingService {
 
     }
 
-    @Transactional
     public RoomResDto createRoom(RoomReqDto roomReqDto, UserDetailsImpl userDetails) {  //방 생성
         Post post = postRepository.findById(roomReqDto.getPostId()).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_POST_ON_CHAT)
