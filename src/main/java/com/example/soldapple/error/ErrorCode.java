@@ -15,8 +15,8 @@ public enum ErrorCode {
     TOKEN_IS_EXPIRED(HttpStatus.BAD_REQUEST.value(), "U004","만료된 액세스 토큰 입니다."),
     REFRESH_TOKEN_IS_EXPIRED(HttpStatus.BAD_REQUEST.value(), "U005","만료된 리프레시 토큰 입니다."),
     DONT_USE_THIS_TOKEN(HttpStatus.BAD_REQUEST.value(), "U006","유효하지 않은 토큰 입니다."),
-    NOT_MATCHED_PASSWORD(HttpStatus.BAD_REQUEST.value(), "U006","비밀번호가 틀렸습니다."),
-
+    NOT_MATCHED_PASSWORD(HttpStatus.BAD_REQUEST.value(), "U007","비밀번호가 틀렸습니다."),
+    USER_IS_EXIST(HttpStatus.NOT_FOUND.value(), "U008", "이미 존재하는 이메일 입니다."),
     //CHAT-USER
     NOT_FOUND_USER_IN_CHAT(HttpStatus.NOT_FOUND.value(), "CU001","해당 유저를 찾을 수 없습니다."),
 

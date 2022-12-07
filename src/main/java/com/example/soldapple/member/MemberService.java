@@ -1,6 +1,7 @@
 package com.example.soldapple.member;
 
 import com.example.soldapple.error.CustomException;
+import com.example.soldapple.error.ErrorCode;
 import com.example.soldapple.jwt.TokenDto;
 import com.example.soldapple.jwt.JwtUtil;
 import com.example.soldapple.member.dto.KakaoUserInfoDto;
@@ -51,7 +52,7 @@ public class MemberService {
     public String signup(MemberReqDto memberReqDto) {
         // email 중복 검사
         if(memberRepository.findByEmail(memberReqDto.getEmail()).isPresent()){
-            throw new RuntimeException("Overlap Check");
+            throw new CustomException(ErrorCode.USER_IS_EXIST);
         }
 
         memberReqDto.setEncodePwd(passwordEncoder.encode(memberReqDto.getPassword()));
@@ -89,8 +90,7 @@ public class MemberService {
     public KakaoUserInfoDto kakaoLogin(String code) throws JsonProcessingException {
         String accessToken = getAccessToken(code);
 
-        KakaoUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
-        return kakaoUserInfo;
+        return getKakaoUserInfo(accessToken);
     }
 
     private String getAccessToken(String code) throws JsonProcessingException {
@@ -147,7 +147,7 @@ public class MemberService {
                 .get("nickname").asText();
         String avatarUrl = jsonNode.get("kakao_account")
                         .get("profile").get("profile_image_url").asText();
-        if(!memberRepository.findByEmail(email).isPresent()){
+        if(memberRepository.findByEmail(email).isEmpty()){
             Member member = new Member(email, nickname, "Kakao", avatarUrl);
             memberRepository.save(member);
         }

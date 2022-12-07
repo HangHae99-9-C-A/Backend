@@ -15,6 +15,7 @@ import com.example.soldapple.websocket.repository.ChatRepository;
 import com.example.soldapple.websocket.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class ChattingService {
 
     }
 
+    @Transactional
     public RoomResDto createRoom(RoomReqDto roomReqDto, UserDetailsImpl userDetails) {  //방 생성
         Post post = postRepository.findById(roomReqDto.getPostId()).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_POST_ON_CHAT)
