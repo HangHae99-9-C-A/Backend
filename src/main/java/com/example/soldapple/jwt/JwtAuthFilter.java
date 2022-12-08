@@ -1,9 +1,12 @@
 package com.example.soldapple.jwt;
 
 import com.example.soldapple.error.CustomException;
+import com.example.soldapple.global.dto.GlobalResDto;
 import com.example.soldapple.jwt.JwtUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -30,8 +33,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (accessToken != null) {
             if (!jwtUtil.tokenValidation(accessToken)) {
-                response.sendRedirect("https://www.findapple.co.kr/signin"); //토큰 만료시 Redirect 주소를 보냄
-                return;
+                //fe요청에 따라 테스트를 위해
+                jwtExceptionHandler(response, "AccessToken Expired", HttpStatus.BAD_REQUEST);
             }
             setAuthentication(jwtUtil.getEmailFromToken(accessToken));  //accessToken이 유효하다면 Authentication에 인증정보와 유저 정보를 저장함
         } else if (refreshToken != null) {
@@ -49,16 +52,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);   //ContextHoler안에 있는 Authentication에 인증정보에 유저정보와 인증여부를 저장
     }
 
-    //나중에 사용 할 수 있어 주석처리함
-//    public void jwtExceptionHandler(HttpServletResponse response, String msg, HttpStatus status) {
-//        response.setStatus(status.value());
-//        response.setContentType("application/json");
-//        try {
-//            String json = new ObjectMapper().writeValueAsString(new GlobalResDto(msg, status.value()));
-//            response.getWriter().write(json);
-//        } catch (Exception e) {
-//            log.error(e.getMessage());
-//        }
-//    }
+    //    나중에 사용 할 수 있어 주석처리함
+    // fe 요청대로 하기 위해 어쩔 수 없이 주석 풀었습니다
+    public void jwtExceptionHandler(HttpServletResponse response, String msg, HttpStatus status) {
+        response.setStatus(status.value());
+        response.setContentType("application/json");
+        try {
+            String json = new ObjectMapper().writeValueAsString(new GlobalResDto(msg, status.value()));
+            response.getWriter().write(json);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
 
 }
