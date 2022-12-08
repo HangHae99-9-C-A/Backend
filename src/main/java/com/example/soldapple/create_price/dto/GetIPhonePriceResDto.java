@@ -18,13 +18,13 @@ public class GetIPhonePriceResDto {
     private String careDate;
     private Integer getPrice;
 
-    public GetIPhonePriceResDto(GetIPhonePriceReqDto getIPhonePriceReqDto, Integer price) {
+    public GetIPhonePriceResDto(GetIPhonePriceReqDto getIPhonePriceReqDto, String iphoneState, Integer price) {
         this.category = getIPhonePriceReqDto.getCategory();
         this.years = getIPhonePriceReqDto.getYears();
         this.model = getIPhonePriceReqDto.getModel();
         this.options = getIPhonePriceReqDto.getOptions();
         this.batteryState = getIPhonePriceReqDto.getBatteryState();
-        this.iphoneState = getIPhonePriceReqDto.getIphoneState();
+        this.iphoneState = iphoneState;
         this.careOX = getIPhonePriceReqDto.getCareOX();
         this.careDate = getIPhonePriceReqDto.getCareDate();
         this.getPrice = price;

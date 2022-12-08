@@ -62,9 +62,9 @@ public class CreatePriceService {
         int battery = getIPhonePriceReqDto.getBatteryState() / 2; //배터리 최대치가 100이므로 /2하여 최대치를 50으로 맞춤
         int state;
         String option;
-        if (getIPhonePriceReqDto.getIphoneState().equals("A급")) { //상태에 따라 급을 나눠 점수를 매김
+        if (getIPhonePriceReqDto.getIphoneState().equals("Class A")) { //상태에 따라 급을 나눠 점수를 매김
             state = 50;
-        } else if (getIPhonePriceReqDto.getIphoneState().equals("B급")) {
+        } else if (getIPhonePriceReqDto.getIphoneState().equals("Class B")) {
             state = 35;
         } else {
             state = 20;
@@ -78,7 +78,8 @@ public class CreatePriceService {
             option = "c";
         }
         int price = iPhoneRepository.findByProductYearAndModelAndStorageAndOpt(getIPhonePriceReqDto.getYears(), getIPhonePriceReqDto.getModel(), getIPhonePriceReqDto.getOptions(), option).getPrice(); //급에 맞는 가격을 가져옴
-        return new GetIPhonePriceResDto(getIPhonePriceReqDto, price);
+        String iphoneState = "Class " + option.toUpperCase();
+        return new GetIPhonePriceResDto(getIPhonePriceReqDto, iphoneState, price);
     }
 
     public GetMacbookPriceResDto getMacbookPrice(GetMacbookPriceReqDto getMacbookPriceReqDto) { //맥북 가격 책정
@@ -94,9 +95,9 @@ public class CreatePriceService {
         }
         int state;
         String option;
-        if (getMacbookPriceReqDto.getMacbookState().equals("A급")) {   //상태에 따라 급을 나눠 점수를 매김
+        if (getMacbookPriceReqDto.getMacbookState().equals("Class A")) {   //상태에 따라 급을 나눠 점수를 매김
             state = 50;
-        } else if (getMacbookPriceReqDto.getMacbookState().equals("B급")) {
+        } else if (getMacbookPriceReqDto.getMacbookState().equals("Class B")) {
             state = 35;
         } else {
             state = 25;
@@ -111,7 +112,8 @@ public class CreatePriceService {
         }
         int inch = Integer.parseInt(getMacbookPriceReqDto.getOptions());
         int price = macbookRepository.findByProductYearAndModelAndCpuAndInchAndKeyboardAndRamAndStorageAndOpt(getMacbookPriceReqDto.getYears(), model, cpu, inch, getMacbookPriceReqDto.getKeyboard(), getMacbookPriceReqDto.getRam(), getMacbookPriceReqDto.getStorage(), option).getPrice();  //급에 맞는 가격을 가져옴
+        String macbookState = "Class " + option.toUpperCase();
 
-        return new GetMacbookPriceResDto(getMacbookPriceReqDto, price);
+        return new GetMacbookPriceResDto(getMacbookPriceReqDto, macbookState, price);
     }
 }

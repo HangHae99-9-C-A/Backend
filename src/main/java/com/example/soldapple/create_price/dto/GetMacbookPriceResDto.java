@@ -19,7 +19,7 @@ public class GetMacbookPriceResDto {
     private String careDate;
     private Integer getPrice;
 
-    public GetMacbookPriceResDto(GetMacbookPriceReqDto getMacbookPriceReqDto, Integer price) {
+    public GetMacbookPriceResDto(GetMacbookPriceReqDto getMacbookPriceReqDto, String macbookState, Integer price) {
         this.category = getMacbookPriceReqDto.getCategory();
         this.years = getMacbookPriceReqDto.getYears();
         this.model = getMacbookPriceReqDto.getModel();
@@ -31,6 +31,6 @@ public class GetMacbookPriceResDto {
         this.careOX = getMacbookPriceReqDto.getCareOX();
         this.careDate = getMacbookPriceReqDto.getCareDate();
         this.getPrice = price;
-        this.macbookState = getMacbookPriceReqDto.getMacbookState();
+        this.macbookState = macbookState;
     }
 }
