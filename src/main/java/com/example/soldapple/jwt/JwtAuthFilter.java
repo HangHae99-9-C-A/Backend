@@ -33,6 +33,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (accessToken != null) {
             if (!jwtUtil.tokenValidation(accessToken)) {
+//                response.sendRedirect("https://www.findapple.co.kr/signin");
                 //fe요청에 따라 테스트를 위해
                 jwtExceptionHandler(response, "AccessToken Expired", HttpStatus.BAD_REQUEST);
             }
