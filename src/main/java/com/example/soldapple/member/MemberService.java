@@ -51,7 +51,7 @@ public class MemberService {
     @Transactional
     public String signup(MemberReqDto memberReqDto) {
         // email 중복 검사
-        if(memberRepository.findByEmail(memberReqDto.getEmail()).isPresent()){
+        if(memberRepository.findByEmailAndDomain(memberReqDto.getEmail(), "Find Apple").isPresent()){
             throw new CustomException(ErrorCode.USER_IS_EXIST);
         }
 
@@ -65,7 +65,7 @@ public class MemberService {
     @Transactional
     public TokenDto login(LoginReqDto loginReqDto) {
 
-        Member member = memberRepository.findByEmail(loginReqDto.getEmail()).orElseThrow(
+        Member member = memberRepository.findByEmailAndDomain(loginReqDto.getEmail(), "Find Apple").orElseThrow(
                 () -> new CustomException(NOT_FOUND_USER)
         );
 
@@ -73,7 +73,7 @@ public class MemberService {
             throw new CustomException(NOT_MATCHED_PASSWORD);
         }
 
-        TokenDto tokenDto = jwtUtil.createAllToken(loginReqDto.getEmail());
+        TokenDto tokenDto = jwtUtil.createAllToken(loginReqDto.getEmail()+",Find Apple");
 
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail(loginReqDto.getEmail());
 
@@ -147,12 +147,12 @@ public class MemberService {
                 .get("nickname").asText();
         String avatarUrl = jsonNode.get("kakao_account")
                         .get("profile").get("profile_image_url").asText();
-        if(memberRepository.findByEmail(email).isEmpty()){
+        if(memberRepository.findByEmailAndDomain(email, "kakao").isEmpty()){
             Member member = new Member(email, nickname, "Kakao", avatarUrl);
             memberRepository.save(member);
         }
 
-        TokenDto tokenDto = jwtUtil.createAllToken(email);
+        TokenDto tokenDto = jwtUtil.createAllToken(email+",kakao");
 
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail(email);
 

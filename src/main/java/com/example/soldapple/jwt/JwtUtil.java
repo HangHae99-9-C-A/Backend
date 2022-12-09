@@ -53,18 +53,18 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public TokenDto createAllToken(String email) {
-        return new TokenDto(createToken(email, "Access"), createToken(email, "Refresh"));
+    public TokenDto createAllToken(String emailAndDomain) {
+        return new TokenDto(createToken(emailAndDomain, "Access"), createToken(emailAndDomain, "Refresh"));
     }
 
-    public String createToken(String email, String type) {
+    public String createToken(String emailAndDomain, String type) {
 
         Date date = new Date();
 
         long time = type.equals("Access") ? ACCESS_TIME : REFRESH_TIME;
 
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(emailAndDomain)
                 .setExpiration(new Date(date.getTime() + time))
                 .setIssuedAt(date)
                 .signWith(key, signatureAlgorithm)
@@ -96,14 +96,22 @@ public class JwtUtil {
     }
 
     // 인증 객체 생성
-    public Authentication createAuthentication(String email) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+    public Authentication createAuthentication(String emailAndDomain) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(emailAndDomain);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     // 토큰에서 email 가져오는 기능
     public String getEmailFromToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject().split(",")[0];
+    }
+
+    public String getEmailAndDomainFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public String getDomainFromToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject().split(",")[1];
     }
 
 }

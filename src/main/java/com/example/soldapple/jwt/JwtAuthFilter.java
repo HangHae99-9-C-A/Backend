@@ -37,19 +37,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 //fe요청에 따라 테스트를 위해
                 jwtExceptionHandler(response, "AccessToken Expired", HttpStatus.BAD_REQUEST);
             }
-            setAuthentication(jwtUtil.getEmailFromToken(accessToken));  //accessToken이 유효하다면 Authentication에 인증정보와 유저 정보를 저장함
+            setAuthentication(jwtUtil.getEmailAndDomainFromToken(accessToken));  //accessToken이 유효하다면 Authentication에 인증정보와 유저 정보를 저장함
         } else if (refreshToken != null) {
             if (!jwtUtil.refreshTokenValidation(refreshToken)) {
                 throw new CustomException(REFRESH_TOKEN_IS_EXPIRED);
             }
-            setAuthentication(jwtUtil.getEmailFromToken(refreshToken));
+            setAuthentication(jwtUtil.getEmailAndDomainFromToken(accessToken));
         }
 
         filterChain.doFilter(request, response);    //다음 필터로 넘어감(@AuthenticationPrincipal을 사용가능하게할 UsernamePasswordAuthenticationFilter)
     }
 
-    public void setAuthentication(String email) {
-        Authentication authentication = jwtUtil.createAuthentication(email);    //인증정보에 유저정보와 인증여부를 저장
+    public void setAuthentication(String emailAndDomain) {
+        Authentication authentication = jwtUtil.createAuthentication(emailAndDomain);    //인증정보에 유저정보와 인증여부를 저장
         SecurityContextHolder.getContext().setAuthentication(authentication);   //ContextHoler안에 있는 Authentication에 인증정보에 유저정보와 인증여부를 저장
     }
 
