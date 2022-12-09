@@ -29,6 +29,7 @@ jobs:
           ls -a .
           echo "copy properties"
           echo $jasypt_encryptor_password  >> ./application-cicd.properties
+          echo -e "\n" >> ./application-cicd.properties
           echo $slack_webhook_uri >> ./application-cicd.properties
           cat application-cicd.properties
           
