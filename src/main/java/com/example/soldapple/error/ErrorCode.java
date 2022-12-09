@@ -21,11 +21,13 @@ public enum ErrorCode {
     NOT_FOUND_USER_IN_CHAT(HttpStatus.NOT_FOUND.value(), "CU001","해당 유저를 찾을 수 없습니다."),
 
     //POST
-    CANNOT_DELETE_NOT_EXIST_POST(HttpStatus.NOT_FOUND.value(), "P001","해당 게시물을 찾을 수 없습니다."),
-    CANNOT_FIND_POST_NOT_EXIST(HttpStatus.NOT_FOUND.value(), "P002","해당 게시물을 찾을 수 없거나, 권한이 없습니다"),
-    ONLY_CAN_DELETE_POST_WRITER(HttpStatus.FORBIDDEN.value(), "P003","게시글 작성자 만이 게시글을 삭제할 수 있습니다."),
-//    DOESNT_EXIST_MAIN_POST_FOR_ANONYMOUS(HttpStatus.NOT_FOUND.value(), "P004","남이 쓴 게시글이 존재하지 않습니다."),
-//    DOESNT_EXIST_POST_FOR_ANONYMOUS(HttpStatus.NOT_FOUND.value(), "P005","해당하는 게시글이 존재하지 않습니다."),
+    CANNOT_FIND_POST_NOT_EXIST(HttpStatus.NOT_FOUND.value(), "P001","해당 게시물을 찾을 수 없습니다."),
+    CANNOT_FIND_POST(HttpStatus.NOT_FOUND.value(), "P002","해당 게시물을 찾을 수 없습니다."),
+    ONLY_CAN_DO_POST_WRITER(HttpStatus.FORBIDDEN.value(), "P003","작성자만 권한이 있습니다."),
+
+    //ISSUE
+    CANNOT_FIND_ISSUE(HttpStatus.NOT_FOUND.value(), "I001","해당 이의제기 글을 찾을 수 없습니다."),
+    ONLY_CAN_DO_ISSUE_WRITER(HttpStatus.FORBIDDEN.value(), "I002","작성자만 권한이 있습니다."),
 
     //CHATROOM
     NOT_FOUND_ANOTHER_USER(HttpStatus.NOT_FOUND.value(), "R001","상대방을 찾을 수 없습니다."),
@@ -39,22 +41,15 @@ public enum ErrorCode {
 
     //COMMENT
     DOESNT_EXIST_POST_FOR_WRITE(HttpStatus.NOT_FOUND.value(), "C001","해당하는 게시글이 존재하지 않습니다."),
-    DOESNT_EXIST_POST_FOR_DELETE(HttpStatus.NOT_FOUND.value(), "C002","해당하는 게시글이 존재하지 않습니다."),
-    ONLY_CAN_DELETE_COMMENT_WRITER(HttpStatus.FORBIDDEN.value(), "C003","글을 작성한 유저만 삭제할 수 있습니다."),
-    PLEASE_ENTER_TEXT_OR_VOICE(HttpStatus.BAD_REQUEST.value(), "C004","댓글을 입력해 주시기 바랍니다."),
+    ONLY_CAN_DO_COMMENT_WRITER(HttpStatus.FORBIDDEN.value(), "C002","글을 작성한 유저만 권한이 있습니다."),
 
-    //VOICE
-    VOICE_FILE_INVALID(HttpStatus.BAD_REQUEST.value(), "V001","잘못된 파일 형식입니다."),
+    //ISSUE COMMENT
+    DOESNT_EXIST_ISSUE_FOR_WRITE(HttpStatus.NOT_FOUND.value(), "IC001","해당하는 이의제기 글이 존재하지 않습니다."),
+    ONLY_CAN_DO_ISSUE_COMMENT_WRITER(HttpStatus.FORBIDDEN.value(), "IC002","글을 작성한 유저만 권한이 있습니다."),
 
-    //LOTTO
-
-    LACK_OF_LOTTO_COUNT(HttpStatus.BAD_REQUEST.value(), "L001","오늘 참여가능 횟수 부족"),
-    LACK_OF_POINT(HttpStatus.BAD_REQUEST.value(), "L002","포인트 부족"),
-    CANNOT_LOT(HttpStatus.BAD_REQUEST.value(), "L003","추첨할 수 없습니다."),
-    PERSONAL_INFO_DISAGREE(HttpStatus.BAD_REQUEST.value(), "L004","개인정보 수집 동의 필요"),
-    NO_WINNER(HttpStatus.FORBIDDEN.value(), "L005","당첨자가 아닙니다."),
-    WRONG_FORMAT(HttpStatus.BAD_REQUEST.value(), "L006","잘못된 전화번호 형식 입니다."),
-
+    //LIKE
+    CANNOT_LIKE_BY_POST_WRITER(HttpStatus.NOT_FOUND.value(), "L001","글 작성자는 찜 할 수 없습니다."),
+    CANNOT_DISLIKE_BY_POST_WRITER(HttpStatus.NOT_FOUND.value(), "L002","글 작성자는 찜 취소 할 수 없습니다."),
 
     ;
 

@@ -1,6 +1,7 @@
 package com.example.soldapple.issues.entity;
 
 import com.example.soldapple.global.TimeStamped;
+import com.example.soldapple.issues.requestdto.IssuesCommentRequestDto;
 import com.example.soldapple.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -38,5 +39,9 @@ public class IssuesComment extends TimeStamped {
     this.member = member;
     this.nickname = member.getNickname();
     this.issuesComment = issuesComment;
+    }
+
+    public void updateComment(IssuesCommentRequestDto issuesCommentRequestDto) {
+        this.issuesComment = issuesCommentRequestDto.getIssuesComment();
     }
 }

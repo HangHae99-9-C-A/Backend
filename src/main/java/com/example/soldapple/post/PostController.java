@@ -34,7 +34,6 @@ public class PostController {
     @GetMapping("/all")
     public Page<PostResponseDto> getAllPost(Pageable pageable) {
         return postService.getAllPost(pageable);
-
     }
 
     // 모든 포스트 + 검색 읽어오기
@@ -42,7 +41,6 @@ public class PostController {
     public Page<PostResponseDto> getAllPostWithSearch(Pageable pageable,
                                                       @PathVariable(name = "search", required = false) String search) {
         return postService.getAllPostWithSearch(pageable, search);
-
     }
 
     // 카테고리별 + 내 좋아요 한 포스트 읽어오기
