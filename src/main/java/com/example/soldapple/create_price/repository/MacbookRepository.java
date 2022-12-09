@@ -12,6 +12,6 @@ public interface MacbookRepository extends JpaRepository<Macbook,Long> {
     List<Macbook> findAllByProductYearOrderByModel(Integer productYear);
     List<Macbook> findAllByProductYearAndModelAndCpuOrderByInch(Integer productYear, String model, String cpu);
     List<Macbook> findAllByProductYearAndModelAndCpuAndInchOrderByRam(Integer productYear, String model, String cpu, Integer inch);
-    List<Macbook> findAllByProductYearAndModelAndCpuAndInchOrderByStorage(Integer productYear, String model, String cpu, Integer inch);
+    List<Macbook> findAllByProductYearAndModelAndCpuAndInch(Integer productYear, String model, String cpu, Integer inch);
     Macbook findByProductYearAndModelAndCpuAndInchAndKeyboardAndRamAndStorageAndOpt(Integer productYear, String model, String cpu, Integer inch, String keyboard, String ram, String storage, String option);
 }

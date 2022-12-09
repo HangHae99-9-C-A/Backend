@@ -20,39 +20,33 @@ public class CreatePriceService {
     private final MacbookRepository macbookRepository;
 
     public List<Integer> iphoneFirst() {    //아이폰 출시년도 가져오기
-        List<Integer> yearList = iPhoneRepository.findAllByOrderByProductYear().stream().map(IPhone::getProductYear).distinct().collect(Collectors.toList()); //중복 제거
-        return yearList;
+        return iPhoneRepository.findAllByOrderByProductYear().stream().map(IPhone::getProductYear).distinct().collect(Collectors.toList());
     }
 
     public List<String> iphoneSecond(Integer year) {    //아이폰 모델명 가져오기
-        List<String> modelList = iPhoneRepository.findAllByProductYearOrderByModel(year).stream().map(IPhone::getModel).distinct().collect(Collectors.toList());    //중복 제거
-        return modelList;
+        return iPhoneRepository.findAllByProductYearOrderByModel(year).stream().map(IPhone::getModel).distinct().collect(Collectors.toList());
     }
 
     public List<String> iphoneThird(Integer year, String model) {   //아이폰 저장공간 가져오기
-        List<String> storageList = iPhoneRepository.findAllByProductYearAndModelOrderByStorage(year, model).stream().map(IPhone::getStorage).distinct().collect(Collectors.toList());    //중복 제거
-        return storageList;
+        return iPhoneRepository.findAllByProductYearAndModel(year, model).stream().map(IPhone::getStorage).distinct().collect(Collectors.toList());
     }
 
     public List<Integer> macbookFirst() {   //맥북 출시년도 가져오기
-        List<Integer> yearList = macbookRepository.findAllByOrderByProductYear().stream().map(Macbook::getProductYear).distinct().collect(Collectors.toList()); //중복 제거
-        return yearList;
+        return macbookRepository.findAllByOrderByProductYear().stream().map(Macbook::getProductYear).distinct().collect(Collectors.toList());
     }
 
     public List<String> macbookSecond(Integer year) {   //맥북 모델명 - CPU 가져오기
-        List<String> modelCpuList = macbookRepository.findAllByProductYearOrderByModel(year).stream().map(macbook -> macbook.getModel() + "-" + macbook.getCpu()).distinct().collect(Collectors.toList());  //중복 제거
-        return modelCpuList;
+        return macbookRepository.findAllByProductYearOrderByModel(year).stream().map(macbook -> macbook.getModel() + "-" + macbook.getCpu()).distinct().collect(Collectors.toList());
     }
 
     public List<Integer> macbookThird(Integer year, String model, String cpu) { //맥북 인치 가져오기
-        List<Integer> inchList = macbookRepository.findAllByProductYearAndModelAndCpuOrderByInch(year, model, cpu).stream().map(Macbook::getInch).distinct().collect(Collectors.toList());  //중복 제거
-        return inchList;
+        return macbookRepository.findAllByProductYearAndModelAndCpuOrderByInch(year, model, cpu).stream().map(Macbook::getInch).distinct().collect(Collectors.toList());
     }
 
     public MacbookResDto macbookFourth(Integer year, String model, String cpu, Integer inch) {  //맥북 키보드, 램, 저장공간 가져오기
         List<String> keyboardList = macbookRepository.findAllByProductYearAndModelAndCpuAndInchOrderByRam(year, model, cpu, inch).stream().map(Macbook::getKeyboard).distinct().collect(Collectors.toList());  //중복 제거
         List<String> ramList = macbookRepository.findAllByProductYearAndModelAndCpuAndInchOrderByRam(year, model, cpu, inch).stream().map(Macbook::getRam).distinct().collect(Collectors.toList());    //중복 제거
-        List<String> storageList = macbookRepository.findAllByProductYearAndModelAndCpuAndInchOrderByStorage(year, model, cpu, inch).stream().map(Macbook::getStorage).distinct().collect(Collectors.toList());    //중복 제거
+        List<String> storageList = macbookRepository.findAllByProductYearAndModelAndCpuAndInch(year, model, cpu, inch).stream().map(Macbook::getStorage).distinct().collect(Collectors.toList());    //중복 제거
 
         return new MacbookResDto(keyboardList, ramList, storageList);
     }
