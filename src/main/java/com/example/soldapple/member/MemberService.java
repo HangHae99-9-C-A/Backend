@@ -4,7 +4,7 @@ import com.example.soldapple.error.CustomException;
 import com.example.soldapple.error.ErrorCode;
 import com.example.soldapple.jwt.TokenDto;
 import com.example.soldapple.jwt.JwtUtil;
-import com.example.soldapple.member.dto.KakaoUserInfoDto;
+import com.example.soldapple.member.dto.LoginKakaoResDto;
 import com.example.soldapple.member.dto.LoginReqDto;
 import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.member.entity.Member;
@@ -87,7 +87,7 @@ public class MemberService {
         return tokenDto;
     }
 
-    public KakaoUserInfoDto kakaoLogin(String code) throws JsonProcessingException {
+    public LoginKakaoResDto kakaoLogin(String code) throws JsonProcessingException {
         String accessToken = getAccessToken(code);
 
         return getKakaoUserInfo(accessToken);
@@ -122,7 +122,7 @@ public class MemberService {
         return jsonNode.get("access_token").asText();
     }
 
-    private KakaoUserInfoDto getKakaoUserInfo(String accessToken) throws JsonProcessingException {
+    private LoginKakaoResDto getKakaoUserInfo(String accessToken) throws JsonProcessingException {
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
@@ -163,7 +163,7 @@ public class MemberService {
             refreshTokenRepository.save(newToken);
         }
 
-        return new KakaoUserInfoDto(email, nickname, avatarUrl, tokenDto);
+        return new LoginKakaoResDto(email, nickname, avatarUrl, tokenDto);
     }
 
     public void createCode() {  //랜덤 인증 코드 생성
