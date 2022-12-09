@@ -117,9 +117,8 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
         JPAQuery<IssuesResponseDto> query = queryFactory
                 .select(new QIssuesResponseDto(issues))
                 .from(issues)
-                .where(issues.category.eq(categoryReceived)
-                        .and(issues.issuesTitle.contains(searchReceived))
-                        .or(issues.issuesContent.contains(searchReceived)))
+                .where((issues.category.eq(categoryReceived).and(issues.issuesTitle.contains(searchReceived)))
+                        .or(issues.category.eq(categoryReceived).and(issues.issuesContent.contains(searchReceived))))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -135,9 +134,8 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(issues.count())
                 .from(issues)
-                .where(issues.category.eq(categoryReceived)
-                        .and(issues.issuesTitle.contains(searchReceived))
-                        .or(issues.issuesContent.contains(searchReceived)));
+                .where((issues.category.eq(categoryReceived).and(issues.issuesTitle.contains(searchReceived)))
+                        .or(issues.category.eq(categoryReceived).and(issues.issuesContent.contains(searchReceived))));
 
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
 
