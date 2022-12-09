@@ -2,7 +2,7 @@ package com.example.soldapple.member;
 
 import com.example.soldapple.jwt.TokenDto;
 import com.example.soldapple.member.dto.EmailReqDto;
-import com.example.soldapple.member.dto.KakaoUserInfoDto;
+import com.example.soldapple.member.dto.LoginKakaoResDto;
 import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.member.dto.LoginReqDto;
 import com.example.soldapple.global.dto.GlobalResDto;
@@ -43,9 +43,9 @@ public class MemberController {
     }
 
     @GetMapping("/kakao")   //카카오 로그인
-    public KakaoUserInfoDto kakaoLogin(@RequestParam(name = "code") String code) throws JsonProcessingException {
-        KakaoUserInfoDto kakaoUserInfoDto = memberService.kakaoLogin(code);
-        return kakaoUserInfoDto;
+    public LoginKakaoResDto kakaoLogin(@RequestParam(name = "code") String code) throws JsonProcessingException {
+        LoginKakaoResDto loginKakaoResDto = memberService.kakaoLogin(code);
+        return loginKakaoResDto;
     }
 
     @GetMapping("/issue/token") //토큰 재발급
@@ -53,6 +53,4 @@ public class MemberController {
         response.addHeader(JwtUtil.ACCESS_TOKEN, jwtUtil.createToken(userDetails.getMember().getEmail(), "Access"));
         return new GlobalResDto("Success IssuedToken", HttpStatus.OK.value());
     }
-
-
 }

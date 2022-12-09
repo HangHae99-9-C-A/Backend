@@ -3,6 +3,7 @@ package com.example.soldapple.post;
 
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
+import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.requestdto.CommentReqDto;
 import com.example.soldapple.post.responsedto.CommentResponseDto;
 import com.example.soldapple.post.requestdto.PostReqDto;

@@ -10,6 +10,6 @@ import java.util.List;
 public interface IPhoneRepository extends JpaRepository<IPhone,Long> {
     List<IPhone> findAllByOrderByProductYear();
     List<IPhone> findAllByProductYearOrderByModel(Integer productYear);
-    List<IPhone> findAllByProductYearAndModelOrderByStorage(Integer productYear, String model);
+    List<IPhone> findAllByProductYearAndModel(Integer productYear, String model);
     IPhone findByProductYearAndModelAndStorageAndOpt(Integer productYear, String model, String storage, String option);
 }

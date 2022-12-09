@@ -6,14 +6,14 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class KakaoUserInfoDto {
+public class LoginKakaoResDto {
     private String email;
     private String nickname;
     private String avatarUrl;
     private String accessToken;
     private String refreshToken;
 
-    public KakaoUserInfoDto(String email, String nickname, String avatarUrl, TokenDto tokenDto){
+    public LoginKakaoResDto(String email, String nickname, String avatarUrl, TokenDto tokenDto){
         this.email = email;
         this.nickname = nickname;
         this.avatarUrl = avatarUrl;
