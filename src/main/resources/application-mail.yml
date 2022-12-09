@@ -1,21 +1,21 @@
-spring:
-  mail:
-    # Google smtp server
-    host: smtp.gmail.com
-    port: 587
-    username: dnajwm1995@gmail.com
-    password: ENC(6WhfY5AZXmNbxyNQhxcUxtC3j3u6bx68z5tJ5U2xRcM=)
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-          auth: true
-#slack log
-logging:
-  slack:
-    webhook-uri: https://hooks.slack.com/services/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
-  config: classpath:logback-spring.xml
+#spring:
+#  mail:
+#    # Google smtp server
+#    host: smtp.gmail.com
+#    port: 587
+#    username: dnajwm1995@gmail.com
+#    password: ENC(6WhfY5AZXmNbxyNQhxcUxtC3j3u6bx68z5tJ5U2xRcM=)
+#    properties:
+#      mail:
+#        smtp:
+#          starttls:
+#            enable: true
+#          auth: true
+##slack log
+#logging:
+#  slack:
+#    webhook-uri: https://hooks.slack.com/services/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
+#  config: classpath:logback-spring.xml
 
 requestBody:
   content:
