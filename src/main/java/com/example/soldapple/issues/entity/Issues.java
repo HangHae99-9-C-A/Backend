@@ -15,7 +15,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Issues extends TimeStamped {
@@ -51,7 +50,6 @@ public class Issues extends TimeStamped {
 
     @OneToMany(mappedBy = "issues", cascade = CascadeType.REMOVE)
     private List<IssuesLike> issuesLikes;
-    private Boolean isLike;
     private Long issuesLikeCnt = 0L;
 
     @OneToOne(mappedBy = "issues",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
@@ -72,5 +70,13 @@ public class Issues extends TimeStamped {
 
     public void likeUpdate(Long likeCnt) {
         this.issuesLikeCnt = likeCnt;
+    }
+
+    public void addOpt(IssuesOpt options) {
+        this.issuesOpt = options;
+    }
+
+    public void updateImg(List<IssuesImage> imageList) {
+        this.issuesImages=imageList;
     }
 }

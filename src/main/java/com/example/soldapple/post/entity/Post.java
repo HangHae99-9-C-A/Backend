@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 public class Post extends TimeStamped {
@@ -41,7 +40,6 @@ public class Post extends TimeStamped {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Like> likes;
 
-    private Boolean isLike;
     private Long postLikeCnt = 0L;
 
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -74,5 +72,9 @@ public class Post extends TimeStamped {
 
     public void updateImg(List<Image> imageList) {
         this.images = imageList;
+    }
+
+    public void addOpt(Opt options) {
+        this.opt = options;
     }
 }

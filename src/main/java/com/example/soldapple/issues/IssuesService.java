@@ -60,22 +60,22 @@ public class IssuesService {
                 Map<String, String> img = s3UploadUtil.upload(imgFile, "issue-img");
                 IssuesImage issuesImage = new IssuesImage(img, issues);
                 imageList.add(issuesImage);
-                issuesimageRepository.save(issuesImage);
             }
+            issuesimageRepository.saveAll(imageList);
         }
-        issues.setIssuesImages(imageList);
+        issues.updateImg(imageList);
 
         /*옵션항목들 저장*/
         if (iphoneOption == null) {
             //맥북일 때
             IssuesOpt options = new IssuesOpt(macbookOption, issues);
             issuesOptRepository.save(options);
-            issues.setIssuesOpt(options);
+            issues.addOpt(options);
         } else {
             //아이폰일 때
             IssuesOpt options = new IssuesOpt(iphoneOption, issues);
             issuesOptRepository.save(options);
-            issues.setIssuesOpt(options);
+            issues.addOpt(options);
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
         return new IssuesResponseDto(issues, isLike, commentDtos(issues, member.getId()), myIssue);
@@ -121,7 +121,6 @@ public class IssuesService {
     private List<IssuesCommentResponseDto> commentDtos(Issues issues, Long memberId) {
         List<IssuesComment> issuesComments = issues.getIssuesComments();
         List<IssuesCommentResponseDto> issuesCommentResponseDtos = new ArrayList<>();
-        String avatarUrl;
         Boolean myComment;
         if (!(issuesComments == null)) {
             for (IssuesComment issuesComment : issuesComments) {

@@ -60,13 +60,13 @@ public class PostService {
             //맥북일 때
             Opt options = new Opt(macbookOption, post);
             optionRepository.save(options);
-            post.setOpt(options);
+            post.addOpt(options);
 
         } else {
             //아이폰일 때
             Opt options = new Opt(iphoneOption, post);
             optionRepository.save(options);
-            post.setOpt(options);
+            post.addOpt(options);
         }
         //이미지 저장
         imgSave(multipartFiles, post);
@@ -90,8 +90,8 @@ public class PostService {
             List<Image> imageList = post.getImages();
             for (Image image : imageList) {
                 s3UploadUtil.delete(image.getImgKey());
-                imageRepository.delete(image);
             }
+            imageRepository.deleteAllInBatch(imageList);
             //이미지 저장
             imgSave(multipartFiles, post);
         }
@@ -166,9 +166,9 @@ public class PostService {
         for (MultipartFile imgFile : multipartFiles) {
             Map<String, String> img = s3UploadUtil.upload(imgFile, "post-img");
             Image image = new Image(img, post);
-            imageRepository.save(image);
             imageList.add(image);
         }
+        imageRepository.saveAll(imageList);
         post.updateImg(imageList);
     }
 
