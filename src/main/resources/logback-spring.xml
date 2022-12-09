@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
+    <springProperty name="SLACK_WEBHOOK_URI2" source="logging.slack.webhook-uri2"/>
     <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-        <webhookUri>https://hooks.slack.com/services/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</webhookUri>
+        <webhookUri>${SLACK_WEBHOOK_URI}${SLACK_WEBHOOK_URI2}</webhookUri>
+
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
         </layout>
