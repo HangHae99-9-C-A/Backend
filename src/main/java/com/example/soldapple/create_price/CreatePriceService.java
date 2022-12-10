@@ -105,9 +105,14 @@ public class CreatePriceService {
             option = "c";
         }
         int inch = Integer.parseInt(getMacbookPriceReqDto.getOptions());
-        int price = macbookRepository.findByProductYearAndModelAndCpuAndInchAndKeyboardAndRamAndStorageAndOpt(getMacbookPriceReqDto.getYears(), model, cpu, inch, getMacbookPriceReqDto.getKeyboard(), getMacbookPriceReqDto.getRam(), getMacbookPriceReqDto.getStorage(), option).getPrice();  //급에 맞는 가격을 가져옴
+        //가격 보완 로직을 위해
+        Macbook opt = macbookRepository.findByProductYearAndModelAndCpuAndInchAndKeyboardAndRamAndStorageAndOpt(getMacbookPriceReqDto.getYears(), model, cpu, inch, getMacbookPriceReqDto.getKeyboard(), getMacbookPriceReqDto.getRam(), getMacbookPriceReqDto.getStorage(), option);//급에 맞는 가격을 가져옴
+        Long optionNum= opt.getMacbookId();
+
+        int price = opt.getPrice();
+
         String macbookState = "Class " + option.toUpperCase();
 
-        return new GetMacbookPriceResDto(getMacbookPriceReqDto, macbookState, price);
+        return new GetMacbookPriceResDto(getMacbookPriceReqDto, macbookState, price, optionNum);
     }
 }

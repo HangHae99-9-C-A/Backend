@@ -1,5 +1,7 @@
 package com.example.soldapple.post.entity;
 
+import com.example.soldapple.create_price.entity.IPhone;
+import com.example.soldapple.create_price.entity.Macbook;
 import com.example.soldapple.global.TimeStamped;
 import com.example.soldapple.like.entity.Like;
 import com.example.soldapple.member.entity.Member;
@@ -7,7 +9,6 @@ import com.example.soldapple.post.requestdto.PostReqDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -45,6 +46,18 @@ public class Post extends TimeStamped {
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Opt opt;
 
+//    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+//    private MacbookSold macbookSold;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "macbook_id")
+    private Macbook macbook;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "iphone_id")
+    private IPhone iPhone;
+
+
     public Post(PostReqDto postReqDto, Member member) {
         this.member = member;
         this.title = postReqDto.getTitle();
@@ -74,7 +87,13 @@ public class Post extends TimeStamped {
         this.images = imageList;
     }
 
-    public void addOpt(Opt options) {
+    public void addOpt(Opt options, Macbook macbook) {
         this.opt = options;
+        this.macbook = macbook;
+    }
+
+    public void addOpt(Opt options, IPhone iPhone) {
+        this.opt = options;
+        this.iPhone = iPhone;
     }
 }

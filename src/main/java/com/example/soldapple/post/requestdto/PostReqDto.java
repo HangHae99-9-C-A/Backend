@@ -12,4 +12,6 @@ public class PostReqDto {
     private Long expectPrice;
     private Long userPrice;
     private String content;
+    // 가격 보완 로직을 위해
+    private Long optNum;
 }

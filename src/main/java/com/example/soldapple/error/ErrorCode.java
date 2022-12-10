@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
-
+    //TEMP ERR
+    TEMP_ERR_FOUNDED(HttpStatus.NOT_FOUND.value(), "T001", "에러발생, 개발중인 코드 에러 입니다"),
     //USER
     NOT_FOUND_USER(HttpStatus.NOT_FOUND.value(), "U001", "해당 유저를 찾을 수 없습니다."),
     NOT_FOUND_RECOMMENDER(HttpStatus.NOT_FOUND.value(), "U002", "해당 추천인을 찾을 수 없습니다."),

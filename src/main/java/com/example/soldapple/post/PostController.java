@@ -3,12 +3,11 @@ package com.example.soldapple.post;
 
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
-import com.example.soldapple.member.entity.Member;
-import com.example.soldapple.post.requestdto.CommentReqDto;
-import com.example.soldapple.post.responsedto.CommentResponseDto;
-import com.example.soldapple.post.requestdto.PostReqDto;
-import com.example.soldapple.post.responsedto.PostResponseDto;
 import com.example.soldapple.post.repository.CommentRepository;
+import com.example.soldapple.post.requestdto.CommentReqDto;
+import com.example.soldapple.post.requestdto.PostReqDto;
+import com.example.soldapple.post.responsedto.CommentResponseDto;
+import com.example.soldapple.post.responsedto.PostResponseDto;
 import com.example.soldapple.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -93,6 +92,7 @@ public class PostController {
         return postService.updatePost(multipartFiles, postId, postReqDto, userDetails.getMember());
     }
 
+    //거래 완료
     @PatchMapping("/status/{postId}")
     public PostResponseDto updateStatus(@PathVariable Long postId,
                                         @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -111,17 +111,17 @@ public class PostController {
     private final CommentRepository commentRepository;
 
     @PostMapping("/comment/{postId}") //댓글 작성
-    public CommentResponseDto commentCreate(@PathVariable Long postId, @RequestBody @Valid CommentReqDto commentReqDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return postService.commentCreate(postId, commentReqDto,  userDetails.getMember());
+    public CommentResponseDto commentCreate(@PathVariable Long postId, @RequestBody @Valid CommentReqDto commentReqDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.commentCreate(postId, commentReqDto, userDetails.getMember());
     }
 
     @DeleteMapping("/comment/{commentId}") //댓글 삭제
-    public String commentDelete(@PathVariable Long commentId, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public String commentDelete(@PathVariable Long commentId, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.commentDelete(commentId, userDetails.getMember());
     }
 
     @PutMapping("/comment/{commentId}") //댓글 수정
-    public CommentResponseDto commentEdit(@PathVariable Long commentId, @RequestBody @Valid CommentReqDto commentReqDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public CommentResponseDto commentEdit(@PathVariable Long commentId, @RequestBody @Valid CommentReqDto commentReqDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.commentEdit(commentId, commentReqDto, userDetails.getMember());
     }
 }

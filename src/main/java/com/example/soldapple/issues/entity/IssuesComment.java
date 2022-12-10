@@ -34,6 +34,7 @@ public class IssuesComment extends TimeStamped {
     @JoinColumn
     private Member member;
     private String nickname;
+
     public IssuesComment(Issues issues, Member member, String issuesComment){
     this.issues = issues;
     this.member = member;

@@ -62,4 +62,5 @@ public class CreatePriceController {
                                        @PathVariable Integer inch) {
         return createPriceService.macbookFourth(year, model, cpu, inch);
     }
+
 }

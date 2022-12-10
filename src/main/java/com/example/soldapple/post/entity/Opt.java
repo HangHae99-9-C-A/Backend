@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Opt {
 
     @Id
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long optionId;
 
     private String category;
@@ -55,10 +55,10 @@ public class Opt {
     }
 
     public Opt(GetIPhonePriceResDto iphoneOption, Post post) {
-        this.category=iphoneOption.getCategory();
-        this.years=iphoneOption.getYears();
-        this.model=iphoneOption.getModel();
-        this.options=iphoneOption.getOptions();
+        this.category = iphoneOption.getCategory();
+        this.years = iphoneOption.getYears();
+        this.model = iphoneOption.getModel();
+        this.options = iphoneOption.getOptions();
         this.batteryState = iphoneOption.getBatteryState();
         this.state = iphoneOption.getIphoneState();
         this.careOX = iphoneOption.getCareOX();

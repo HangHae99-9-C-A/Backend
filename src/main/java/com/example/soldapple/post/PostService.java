@@ -4,6 +4,10 @@ package com.example.soldapple.post;
 import com.example.soldapple.aws_s3.S3UploadUtil;
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
+import com.example.soldapple.create_price.entity.IPhone;
+import com.example.soldapple.create_price.entity.Macbook;
+import com.example.soldapple.create_price.repository.IPhoneRepository;
+import com.example.soldapple.create_price.repository.MacbookRepository;
 import com.example.soldapple.error.CustomException;
 import com.example.soldapple.like.repository.LikeRepository;
 import com.example.soldapple.member.entity.Member;
@@ -44,12 +48,20 @@ public class PostService {
     private final OptionRepository optionRepository;
     private final CommentRepository commentRepository;
 
+    //가격 보완 로직
+    private final MacbookRepository macbookRepository;
+    private final IPhoneRepository iPhoneRepository;
+
+
     //게시글 작성
     public PostResponseDto postCreate(List<MultipartFile> multipartFiles,
                                       PostReqDto postReqDto,
                                       GetIPhonePriceResDto iphoneOption,
                                       GetMacbookPriceResDto macbookOption,
                                       Member member) throws IOException {
+        //옵션 id
+        Long optNum = postReqDto.getOptNum();
+
         //게시글 저장
         Post post = new Post(postReqDto, member);
         postRepository.save(post);
@@ -60,13 +72,20 @@ public class PostService {
             //맥북일 때
             Opt options = new Opt(macbookOption, post);
             optionRepository.save(options);
-            post.addOpt(options);
 
+            //real opt
+            Macbook byId = macbookRepository.findById(optNum).orElseThrow(() -> new CustomException(TEMP_ERR_FOUNDED));
+
+            post.addOpt(options, byId);
         } else {
             //아이폰일 때
             Opt options = new Opt(iphoneOption, post);
             optionRepository.save(options);
-            post.addOpt(options);
+
+            //real opt
+            IPhone byId = iPhoneRepository.findById(optNum).orElseThrow(() -> new CustomException(TEMP_ERR_FOUNDED));
+
+            post.addOpt(options, byId);
         }
         //이미지 저장
         imgSave(multipartFiles, post);
@@ -101,16 +120,37 @@ public class PostService {
         return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
     }
 
+    //판매 가격 + 갯수 업로드
+    public void soldItems(Post post) {
+        if (post.getCategory().equals("macbook")) {
+            Long soldNum = post.getMacbook().getSoldNum();
+            post.getMacbook().setSoldNum(soldNum);
+            Long aa = 6L;
+            Long bb = 12L;
+
+            aa % 10
+        } else {
+            Long soldNum = post.getIPhone().getSoldNum();
+            post.getIPhone().setSoldNum(soldNum);
+        }
+    }
+
     //판매완료(판매상태 변경)
     public PostResponseDto updateStatus(Long postId, Member member) {
         Post post = postRepository.findByPostIdAndMember(postId, member).orElseThrow(
                 () -> new CustomException(ONLY_CAN_DO_POST_WRITER)
         );
         Boolean myPost = post.getMember().getId().equals(member.getId());
+
+        //판매 갯수 + 가격 업로드
+        soldItems(post);
+
+
         post.soldOut();
         //이 게시글을 현재 사용자가 좋아요를 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
         return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
+
     }
 
     //게시글 삭제

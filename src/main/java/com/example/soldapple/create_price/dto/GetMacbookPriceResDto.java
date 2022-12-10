@@ -19,7 +19,11 @@ public class GetMacbookPriceResDto {
     private String careDate;
     private Integer getPrice;
 
-    public GetMacbookPriceResDto(GetMacbookPriceReqDto getMacbookPriceReqDto, String macbookState, Integer price) {
+    //가격 보완 로직
+    private Long optionNum;
+
+
+    public GetMacbookPriceResDto(GetMacbookPriceReqDto getMacbookPriceReqDto, String macbookState, Integer price, Long optionNum) {
         this.category = getMacbookPriceReqDto.getCategory();
         this.years = getMacbookPriceReqDto.getYears();
         this.model = getMacbookPriceReqDto.getModel();
@@ -32,5 +36,7 @@ public class GetMacbookPriceResDto {
         this.careDate = getMacbookPriceReqDto.getCareDate();
         this.getPrice = price;
         this.macbookState = macbookState;
+        this.optionNum = optionNum;
     }
+
 }
