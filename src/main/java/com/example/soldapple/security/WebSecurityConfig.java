@@ -70,6 +70,7 @@ public class WebSecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers("/member/**").permitAll()
+                .antMatchers("/ws/chat/**").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
