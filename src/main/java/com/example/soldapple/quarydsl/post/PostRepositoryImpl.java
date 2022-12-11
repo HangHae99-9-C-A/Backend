@@ -141,8 +141,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<PostResponseDto> query = queryFactory
                 .select(new QPostResponseDto(post))
                 .from(post)
-                .where(post.category.eq(categoryReceived)
-                        .and(post.title.contains(searchReceived)).or(post.content.contains(searchReceived)))
+                .where((post.category.eq(categoryReceived).and(post.title.contains(searchReceived)))
+                        .or(post.category.eq(categoryReceived).and(post.content.contains(searchReceived)))
+                )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -157,7 +158,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post)
-                .where(post.category.eq(categoryReceived).and(post.title.contains(searchReceived)).or(post.content.contains(searchReceived)));
+                .where((post.category.eq(categoryReceived).and(post.title.contains(searchReceived)))
+                        .or(post.category.eq(categoryReceived).and(post.content.contains(searchReceived)))
+                );
         System.out.println("================================================");
         System.out.println(countQuery);
         return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
