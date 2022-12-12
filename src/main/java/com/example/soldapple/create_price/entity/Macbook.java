@@ -40,5 +40,7 @@ public class Macbook {
     private List<Post> post = new ArrayList<>();
 
 
-//    public
+    public void update(Integer price) {
+        this.price = price;
+    }
 }

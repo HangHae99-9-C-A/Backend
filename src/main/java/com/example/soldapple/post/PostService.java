@@ -120,18 +120,52 @@ public class PostService {
         return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
     }
 
+    //method
+    public long returnPrice(Long soldNum, Long dbPrice, Long userPrice) {
+        // db가격과 합산 변수 계산
+        Long multipleNumCheck = soldNum;
+        if (soldNum > 10L) {
+            multipleNumCheck = 10L;
+        }
+        // 반영 가격 책정
+        return
+                ((dbPrice * multipleNumCheck) + userPrice) /
+                        (multipleNumCheck + 1L);
+    }
+
     //판매 가격 + 갯수 업로드
     public void soldItems(Post post) {
         if (post.getCategory().equals("macbook")) {
             Long soldNum = post.getMacbook().getSoldNum();
             post.getMacbook().setSoldNum(soldNum);
-            Long aa = 6L;
-            Long bb = 12L;
+            Long dbPrice = Long.valueOf(post.getMacbook().getPrice());
+            Long userPrice = post.getUserPrice();
 
-            aa % 10
+            // db가격과 30%이상 이격률을 가질경우 처리 안됨.
+            if ((dbPrice * 0.3) < Math.abs(dbPrice - userPrice)) {
+                return;
+            }
+
+            long returnPrice = returnPrice(soldNum, dbPrice, userPrice);
+
+            //db 반영
+            Macbook macbook = macbookRepository.findById(post.getMacbook().getMacbookId()).orElseThrow(() -> new CustomException(TEMP_ERR_FOUNDED));
+            macbook.update(Math.toIntExact(returnPrice));
+
         } else {
             Long soldNum = post.getIPhone().getSoldNum();
             post.getIPhone().setSoldNum(soldNum);
+            Long dbPrice = Long.valueOf(post.getIPhone().getPrice());
+            Long userPrice = post.getUserPrice();
+            // db가격과 30%이상 이격률을 가질경우 처리 안됨.
+            if ((dbPrice * 0.3) < Math.abs(dbPrice - userPrice)) {
+                return;
+            }
+            long returnPrice = returnPrice(soldNum, dbPrice, userPrice);
+
+            //db 반영
+            IPhone iPhone = iPhoneRepository.findById(post.getIPhone().getIPhoneId()).orElseThrow(() -> new CustomException(TEMP_ERR_FOUNDED));
+            iPhone.update(Math.toIntExact(returnPrice));
         }
     }
 

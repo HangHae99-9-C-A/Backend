@@ -33,5 +33,7 @@ public class IPhone {
     @OneToMany(mappedBy = "post")
     private List<Post> post = new ArrayList<>();
 
-
+    public void update(Integer price) {
+        this.price = price;
+    }
 }
