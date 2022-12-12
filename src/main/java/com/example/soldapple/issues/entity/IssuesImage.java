@@ -1,16 +1,12 @@
 package com.example.soldapple.issues.entity;
 
-import com.example.soldapple.post.entity.Post;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Map;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 public class IssuesImage {
@@ -22,7 +18,6 @@ public class IssuesImage {
     private String imgUrl;
     private String imgKey;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "issuesId")
     private Issues issues;

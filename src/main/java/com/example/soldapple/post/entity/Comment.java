@@ -25,20 +25,15 @@ public class Comment extends TimeStamped {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post")
-    @JsonIgnore
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn
     private Member member;
-
-    private String nickname;
 
     public Comment(CommentReqDto commentReqDto, Post post, Member member){
         this.comment = commentReqDto.getComment();
         this.post = post;
-        this.nickname = member.getNickname();
         this.member = member;
 
     }
