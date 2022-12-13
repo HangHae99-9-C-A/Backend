@@ -10,8 +10,8 @@ public class ChatResDto {
     private String message;
     private String sendDate;
 
-    public ChatResDto(ChatReqDto chatReqDto, String sendDate){
-        this.sender = chatReqDto.getSender();
+    public ChatResDto(Long memberId, ChatReqDto chatReqDto, String sendDate){
+        this.sender = memberId;
         this.message = chatReqDto.getMessage();
         this.sendDate = sendDate;
     }
