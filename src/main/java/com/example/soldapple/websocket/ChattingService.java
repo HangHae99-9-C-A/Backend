@@ -59,7 +59,7 @@ public class ChattingService {
             throw new CustomException(ErrorCode.CANNOT_MAKE_ROOM_ALONE);
         }
         Room room = roomRepository.findRoomByJoinUserIdAndPostMemberIdAndPostPostId(userDetails.getMember().getId(), post.getMember().getId(), roomReqDto.getPostId())  //이미 만든방이 있다면 방 객체 가져옴
-                .orElseGet(() ->new Room(userDetails, post));   //만들어진 방이 없다면 방 객체 새로 생성
+                .orElseGet(() ->new Room(userDetails));   //만들어진 방이 없다면 방 객체 새로 생성
 
         senderId = userDetails.getMember().getId();
 

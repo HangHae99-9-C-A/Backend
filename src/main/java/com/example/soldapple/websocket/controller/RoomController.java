@@ -19,12 +19,12 @@ import java.util.List;
 public class RoomController {
     private final ChattingService chattingService;
 
-    @PostMapping("/roomInfo")   //방에 입장 //api주소 바꿔야할듯
+    @PostMapping("/joinRoom")   //방에 입장
     public RoomResDto joinRoom(@RequestBody ChatSelectReqDto chatSelectReqDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return chattingService.joinRoom(chatSelectReqDto,userDetails);
     }
 
-    @PostMapping("/room")   //방 생성
+    @PostMapping("/createRoom")   //방 생성
     public RoomResDto createRoom(@RequestBody RoomReqDto roomReqDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return chattingService.createRoom(roomReqDto, userDetails);
     }
