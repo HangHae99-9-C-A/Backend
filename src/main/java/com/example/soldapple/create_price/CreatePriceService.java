@@ -127,7 +127,7 @@ public class CreatePriceService {
         } else if (restCareMonths < 24) {
             restCarePoint = 25;
         } else {
-            restCarePoint = 36;
+            restCarePoint = 30;
         }
 
         int state;
