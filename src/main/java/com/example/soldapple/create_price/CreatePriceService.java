@@ -53,15 +53,25 @@ public class CreatePriceService {
 
     public GetIPhonePriceResDto getIPhonePrice(GetIPhonePriceReqDto getIPhonePriceReqDto) { //아이폰 가격 책정
         //상태의 총량을 100으로 보고 배터리(50) + 상태(50) 으로 급을 나눔
-        int battery = getIPhonePriceReqDto.getBatteryState() / 2; //배터리 최대치가 100이므로 /2하여 최대치를 50으로 맞춤
+        int battery;
         int state;
         String option;
+        if (getIPhonePriceReqDto.getBatteryState()>91) { //상태에 따라 급을 나눠 점수를 매김
+            battery = 50;
+        } else if (getIPhonePriceReqDto.getBatteryState()>85) {
+            battery = 35;
+        } else if (getIPhonePriceReqDto.getBatteryState()>80) {
+            battery = 20;
+        }else {
+            battery = 0;
+        }
+
         if (getIPhonePriceReqDto.getIphoneState().equals("Class A")) { //상태에 따라 급을 나눠 점수를 매김
             state = 50;
         } else if (getIPhonePriceReqDto.getIphoneState().equals("Class B")) {
             state = 35;
         } else {
-            state = 20;
+            state = 10;
         }
 
         if (battery + state >= 80) {  //배터리 + 상태의 값으로 급을 나눔
