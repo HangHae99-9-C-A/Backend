@@ -44,7 +44,7 @@ public class Post extends TimeStamped {
 
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    private Room rooms;
+    private List<Room> rooms;
 
     private Long postLikeCnt = 0L;
 
