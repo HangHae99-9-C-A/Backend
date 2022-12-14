@@ -3,12 +3,12 @@ package com.example.soldapple.issues.responsedto;
 import com.example.soldapple.global.TimeConverter;
 import com.example.soldapple.issues.entity.Issues;
 import com.example.soldapple.issues.entity.IssuesImage;
-import com.example.soldapple.issues.entity.IssuesOpt;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -23,8 +23,8 @@ public class IssuesResponseDto {
     private String modifiedAt;
     private String avatarUrl;
     private String category;
-    private IssuesOpt options;
-    private List<IssuesImage> images;
+    private IssuesOptResponseDto options;
+    private List<IssuesImageResponseDto> images;
     private Long expectPrice;
     private Long userPrice;
     private String content;
@@ -36,7 +36,7 @@ public class IssuesResponseDto {
 
     private Boolean myIssue;
 
-    public IssuesResponseDto(Issues issues, Boolean isLike, List<IssuesCommentResponseDto> issuesCommentResponseDto, Boolean myIssue){
+    public IssuesResponseDto(Issues issues, List<IssuesCommentResponseDto> issuesCommentResponseDto, Boolean isLike, Boolean myIssue){
         this.issuesId = issues.getIssuesId();
         this.title = issues.getIssuesTitle();
         this.nickname = issues.getMember().getNickname();
@@ -45,8 +45,8 @@ public class IssuesResponseDto {
         this.createdAt = TimeConverter.convertTime ( issues.getCreatedAt () );
         this.modifiedAt = TimeConverter.convertTime ( issues.getModifiedAt () );
         this.category = issues.getCategory();
-        this.options = issues.getIssuesOpt();
-        this.images = issues.getIssuesImages();
+        this.options = new IssuesOptResponseDto(issues.getIssuesOpt());
+        this.images = putImgDtos(issues);
         this.expectPrice = issues.getExpectPrice();
         this.userPrice = issues.getIssuesUserPrice();
         this.content = issues.getIssuesContent();
@@ -54,6 +54,15 @@ public class IssuesResponseDto {
         this.isLike = isLike;
         this.likeCnt = issues.getIssuesLikeCnt();
         this.myIssue = myIssue;
+    }
+
+    private List<IssuesImageResponseDto> putImgDtos(Issues issues) {
+        List<IssuesImageResponseDto> imgDtos = new ArrayList<>();
+        List<IssuesImage> imageList = issues.getIssuesImages();
+        for (IssuesImage issuesImage : imageList) {
+            imgDtos.add(new IssuesImageResponseDto(issuesImage));
+        }
+        return imgDtos;
     }
 
     @QueryProjection
@@ -66,7 +75,7 @@ public class IssuesResponseDto {
         this.userPrice = issues.getIssuesUserPrice();
         this.content = issues.getIssuesContent();
         //   this.comments = issues.getIssuesComments();
-        this.images = issues.getIssuesImages();
+        this.images = putImgDtos(issues);
         this.createdAt = TimeConverter.convertTime(issues.getCreatedAt());
         this.modifiedAt = TimeConverter.convertTime(issues.getModifiedAt());
         this.memberId = issues.getMember().getId();

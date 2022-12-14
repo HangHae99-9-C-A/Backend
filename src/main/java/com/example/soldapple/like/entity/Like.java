@@ -2,7 +2,6 @@ package com.example.soldapple.like.entity;
 
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.entity.Post;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,12 +17,10 @@ public class Like {
     private Long likeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "post")
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "memberId")
     private Member member;
 

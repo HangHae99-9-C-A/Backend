@@ -78,7 +78,7 @@ public class IssuesService {
             issues.addOpt(options);
         }
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, isLike, commentDtos(issues, member.getId()), myIssue);
+        return new IssuesResponseDto(issues, commentDtos(issues, member.getId()), isLike, myIssue);
     }
 
 
@@ -91,7 +91,7 @@ public class IssuesService {
         issues.update(issuesRequestDto);
         issuesRepository.save(issues);
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, isLike, commentDtos(issues, member.getId()), myIssue);
+        return new IssuesResponseDto(issues, commentDtos(issues, member.getId()), isLike, myIssue);
     }
 
     //이의제기글 삭제
@@ -114,7 +114,7 @@ public class IssuesService {
         );
         Boolean myIssue = issues.getMember().getId().equals(member.getId());
         Boolean isLike = issuesLikeRepository.existsByIssuesAndMember(issues, member);
-        return new IssuesResponseDto(issues, isLike, commentDtos(issues, member.getId()), myIssue);
+        return new IssuesResponseDto(issues, commentDtos(issues, member.getId()), isLike, myIssue);
     }
 
     //댓글목록 dto 넣기

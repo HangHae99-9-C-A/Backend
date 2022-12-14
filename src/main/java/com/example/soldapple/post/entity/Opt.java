@@ -2,7 +2,6 @@ package com.example.soldapple.post.entity;
 
 import com.example.soldapple.create_price.dto.GetIPhonePriceResDto;
 import com.example.soldapple.create_price.dto.GetMacbookPriceResDto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +17,6 @@ public class Opt {
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Long optionId;
-
     private String category;
     private Integer years;
     private String model;
@@ -32,7 +30,6 @@ public class Opt {
     private String keyboard;
     private String storage;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "postId")
     private Post post;
@@ -66,6 +63,4 @@ public class Opt {
         this.getPrice = iphoneOption.getGetPrice();
         this.post = post;
     }
-
-
 }

@@ -73,7 +73,8 @@ public class PostService {
 
         //사용자가 해당 글에 좋아요 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
+
+        return new PostResponseDto(post, putCommentDtos(post, member.getId()), isLike, myPost);
     }
 
     //게시글 수정
@@ -98,7 +99,7 @@ public class PostService {
 
         //이 게시글을 현재 사용자가 좋아요를 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
+        return new PostResponseDto(post, putCommentDtos(post, member.getId()), isLike, myPost);
     }
 
     //판매완료(판매상태 변경)
@@ -110,7 +111,7 @@ public class PostService {
         post.soldOut();
         //이 게시글을 현재 사용자가 좋아요를 눌렀는지
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
+        return new PostResponseDto(post, putCommentDtos(post, member.getId()), isLike, myPost);
     }
 
     //게시글 삭제
@@ -156,7 +157,7 @@ public class PostService {
         );
         Boolean myPost = post.getMember().getId().equals(member.getId());
         Boolean isLike = likeRepository.existsByMemberAndPost(member, post);
-        return new PostResponseDto(post, isLike, commentDtos(post, member.getId()), myPost);
+        return new PostResponseDto(post, putCommentDtos(post, member.getId()), isLike, myPost);
     }
 
     //이미지 저장
@@ -173,7 +174,7 @@ public class PostService {
     }
 
     //댓글목록 dto 넣기
-    public List<CommentResponseDto> commentDtos(Post post, Long memberId) {
+    public List<CommentResponseDto> putCommentDtos(Post post, Long memberId) {
         List<Comment> comments = post.getComments();
         List<CommentResponseDto> commentResponseDtos = new ArrayList<CommentResponseDto>();
         Boolean myComment;
