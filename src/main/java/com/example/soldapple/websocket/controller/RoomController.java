@@ -24,7 +24,7 @@ public class RoomController {
         return chattingService.joinRoom(chatSelectReqDto,userDetails);
     }
 
-    @PostMapping("/room")   //방 생성
+    @PostMapping("/createRoom")   //방 생성
     public RoomResDto createRoom(@RequestBody RoomReqDto roomReqDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return chattingService.createRoom(roomReqDto, userDetails);
     }
