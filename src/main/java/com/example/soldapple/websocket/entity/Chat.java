@@ -18,7 +18,6 @@ public class Chat {
     @Column(name = "chat_id")
     private Long id;
 
-    @JsonBackReference  //순환참조를 막기위해 사용
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     private Room room;
