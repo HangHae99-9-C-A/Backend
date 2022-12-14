@@ -20,11 +20,9 @@ public class Room {
     @Column(name = "room_id")
     private Long id;
 
-    @JsonManagedReference   //순환참조를 막기위해 사용
     @OneToMany(mappedBy = "room", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Chat> chats;
 
-    @JsonBackReference  //순환참조를 막기위해 사용
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     private Post post;

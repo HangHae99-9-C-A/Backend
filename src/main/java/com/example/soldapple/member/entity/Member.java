@@ -35,11 +35,9 @@ public class Member {
 
     private String avatarUrlKey;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "member")
     List<Like> like = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "member")
     List<Post> post = new ArrayList<>();
 

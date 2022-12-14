@@ -43,16 +43,13 @@ public class Issues extends TimeStamped {
     @Column
     private String issuesContent;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "issues", cascade = CascadeType.REMOVE)
     List<IssuesComment> issuesComments;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "issues", cascade = CascadeType.REMOVE)
     private List<IssuesLike> issuesLikes;
     private Long issuesLikeCnt = 0L;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "issues",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private IssuesOpt issuesOpt;
 
