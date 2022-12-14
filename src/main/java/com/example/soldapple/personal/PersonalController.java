@@ -11,7 +11,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/myinfo")
+@RequestMapping("/mypage")
 @RequiredArgsConstructor
 public class PersonalController {
 
@@ -24,19 +24,19 @@ public class PersonalController {
     }
 
     //내가 쓴 포스트 리스트
-    @GetMapping("/post")
+    @GetMapping("/posts")
     public PersonalService.PersonalResponseDto getMyPost(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyPost(userDetails.getMember());
     }
 
     // 내가 쓴 커멘트 리스트
-    @GetMapping("/comment")
+    @GetMapping("/comments")
     public PersonalService.PersonalResponseDto getMyComment(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyComment(userDetails.getMember());
     }
 
     // 내가 쓴 이슈글 리스트
-    @GetMapping("/issue")
+    @GetMapping("/issues")
     public PersonalService.PersonalResponseDto getMyIssue(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return personalService.getMyIssue(userDetails.getMember());
     }
@@ -48,7 +48,7 @@ public class PersonalController {
     }
 
     // 내 페이지 변경
-    @PatchMapping("/edit")
+    @PatchMapping
     public void editMyPage(@RequestPart(name = "myInfoRequestDto", required = false) MyInfoRequestDto myInfoRequestDto,
                            @RequestPart(name = "image", required = false) MultipartFile image,
                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
