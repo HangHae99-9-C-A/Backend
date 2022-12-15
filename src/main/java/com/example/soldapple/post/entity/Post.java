@@ -27,6 +27,7 @@ public class Post extends TimeStamped {
     private String title;
     private String category;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Image> images = new ArrayList<>();
 
@@ -34,9 +35,11 @@ public class Post extends TimeStamped {
     private Long userPrice;
     private String content;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Like> likes;
 
@@ -46,6 +49,7 @@ public class Post extends TimeStamped {
 
     private Long postLikeCnt = 0L;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Opt opt;
 
