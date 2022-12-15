@@ -4,6 +4,7 @@ import com.example.soldapple.global.TimeStamped;
 import com.example.soldapple.issues.requestdto.IssuesRequestDto;
 import com.example.soldapple.like.entity.IssuesLike;
 import com.example.soldapple.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

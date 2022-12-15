@@ -4,6 +4,7 @@ import com.example.soldapple.like.entity.Like;
 import com.example.soldapple.member.dto.MemberReqDto;
 import com.example.soldapple.personal.MyInfoRequestDto;
 import com.example.soldapple.post.entity.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

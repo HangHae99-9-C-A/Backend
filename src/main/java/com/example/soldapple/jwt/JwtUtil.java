@@ -90,7 +90,7 @@ public class JwtUtil {
         if(!tokenValidation(token)) return false;
 
         // DB에 저장한 토큰 비교
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail(getEmailFromToken(token));
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail(getEmailAndDomainFromToken(token));
 
         return refreshToken.isPresent() && token.equals(refreshToken.get().getRefreshToken());
     }
@@ -101,17 +101,8 @@ public class JwtUtil {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    // 토큰에서 email 가져오는 기능
-    public String getEmailFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject().split(",")[0];
-    }
-
-    public String getEmailAndDomainFromToken(String token) {
+    public String getEmailAndDomainFromToken(String token) {    //토큰에서 이메일,도메인 가져오기
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
-    }
-
-    public String getDomainFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject().split(",")[1];
     }
 
 }

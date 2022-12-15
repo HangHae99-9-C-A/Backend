@@ -4,6 +4,8 @@ import com.example.soldapple.global.TimeStamped;
 import com.example.soldapple.like.entity.Like;
 import com.example.soldapple.member.entity.Member;
 import com.example.soldapple.post.requestdto.PostReqDto;
+import com.example.soldapple.websocket.entity.Room;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +26,7 @@ public class Post extends TimeStamped {
     private Member member;
     private String title;
     private String category;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Image> images = new ArrayList<>();
 
@@ -36,6 +39,10 @@ public class Post extends TimeStamped {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Like> likes;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Room> rooms;
 
     private Long postLikeCnt = 0L;
 
