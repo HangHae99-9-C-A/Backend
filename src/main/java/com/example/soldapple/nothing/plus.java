@@ -159,18 +159,6 @@ public class plus {
     int a156 = 156;
     int a157 = 157;
     int a158 = 158;
-    int a159 = 159;
-    int a160 = 160;
-    int a161 = 161;
-    int a162 = 162;
-    int a163 = 163;
-    int a164 = 164;
-    int a165 = 165;
-    int a166 = 166;
-    int a167 = 167;
-    int a168 = 168;
-    int a169 = 169;
-    int a170 = 170;
 
 
 
