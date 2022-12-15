@@ -125,19 +125,22 @@ public class CreatePriceService {
             battery = 30 - getMacbookPriceReqDto.getBatteryState()/(700/30);
         }
 
-        Period restCareDate = Period.between(LocalDate.now(), LocalDate.parse(getMacbookPriceReqDto.getCareDate()));
-        int restCareMonths = restCareDate.getYears()*12 + restCareDate.getMonths();
-        int restCarePoint;
-        if(restCareMonths < 6){
-            restCarePoint = 0;
-        } else if (restCareMonths < 12) {
-            restCarePoint = 10;
-        } else if (restCareMonths < 18) {
-            restCarePoint = 20;
-        } else if (restCareMonths < 24) {
-            restCarePoint = 25;
-        } else {
-            restCarePoint = 30;
+        int restCarePoint = 0;
+
+        if(getMacbookPriceReqDto.getCareOX().equals("O")) {
+            Period restCareDate = Period.between(LocalDate.now(), LocalDate.parse(getMacbookPriceReqDto.getCareDate()));
+            int restCareMonths = restCareDate.getYears() * 12 + restCareDate.getMonths();
+            if (restCareMonths < 6) {
+                restCarePoint = 0;
+            } else if (restCareMonths < 12) {
+                restCarePoint = 10;
+            } else if (restCareMonths < 18) {
+                restCarePoint = 20;
+            } else if (restCareMonths < 24) {
+                restCarePoint = 25;
+            } else {
+                restCarePoint = 30;
+            }
         }
 
         int state;
