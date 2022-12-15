@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,29 +93,73 @@ public class CreatePriceService {
         String model = getMacbookPriceReqDto.getModel().split("-")[0];
         String cpu = getMacbookPriceReqDto.getModel().split("-")[1];
         //상태의 총량을 100으로 보고 배터리(50) + 상태(50) 으로 급을 나눔
+//        int battery;
+//        if (getMacbookPriceReqDto.getBatteryState() > 1000) {   //배터리 사용량에 따라 점수를 매김
+//            battery = 0;
+//        } else {
+//            battery = 50 - getMacbookPriceReqDto.getBatteryState() / 20;
+//        }
+//        int state;
+//        String option;
+//        if (getMacbookPriceReqDto.getMacbookState().equals("Class A")) {   //상태에 따라 급을 나눠 점수를 매김
+//            state = 50;
+//        } else if (getMacbookPriceReqDto.getMacbookState().equals("Class B")) {
+//            state = 35;
+//        } else {
+//            state = 25;
+//        }
+
+//        if (battery + state >= 80) {  //배터리 + 상태의 값으로 급을 나눔
+//            option = "a";
+//        } else if (battery + state >= 50) {
+//            option = "b";
+//        } else {
+//            option = "c";
+//        }
+
+
         int battery;
-        if (getMacbookPriceReqDto.getBatteryState() > 1000) {   //배터리 사용량에 따라 점수를 매김
+        if(getMacbookPriceReqDto.getBatteryState() > 700){
             battery = 0;
-        } else {
-            battery = 50 - getMacbookPriceReqDto.getBatteryState() / 20;
-        }
-        int state;
-        String option;
-        if (getMacbookPriceReqDto.getMacbookState().equals("Class A")) {   //상태에 따라 급을 나눠 점수를 매김
-            state = 50;
-        } else if (getMacbookPriceReqDto.getMacbookState().equals("Class B")) {
-            state = 35;
-        } else {
-            state = 25;
+        }else {
+            battery = 30 - getMacbookPriceReqDto.getBatteryState()/(700/30);
         }
 
-        if (battery + state >= 80) {  //배터리 + 상태의 값으로 급을 나눔
+        Period restCareDate = Period.between(LocalDate.now(), LocalDate.parse(getMacbookPriceReqDto.getCareDate()));
+        int restCareMonths = restCareDate.getYears()*12 + restCareDate.getMonths();
+        int restCarePoint;
+        if(restCareMonths < 6){
+            restCarePoint = 0;
+        } else if (restCareMonths < 12) {
+            restCarePoint = 10;
+        } else if (restCareMonths < 18) {
+            restCarePoint = 20;
+        } else if (restCareMonths < 24) {
+            restCarePoint = 25;
+        } else {
+            restCarePoint = 30;
+        }
+
+        int state;
+        if(getMacbookPriceReqDto.getMacbookState().equals("Class A")){
+            state = 40;
+        } else if (getMacbookPriceReqDto.getMacbookState().equals("Class B")) {
+            state = 30;
+        } else {
+            state = 20;
+        }
+
+        String option;
+        if (battery + state + restCarePoint >= 80) {  //배터리 + 상태 + 잔여애플케어플러스의 값으로 급을 나눔
             option = "a";
-        } else if (battery + state >= 50) {
+        } else if (battery + state + restCarePoint >= 50) {
             option = "b";
         } else {
             option = "c";
         }
+
+
+
         int inch = Integer.parseInt(getMacbookPriceReqDto.getOptions());
         int price = macbookRepository.findByProductYearAndModelAndCpuAndInchAndKeyboardAndRamAndStorageAndOpt(getMacbookPriceReqDto.getYears(), model, cpu, inch, getMacbookPriceReqDto.getKeyboard(), getMacbookPriceReqDto.getRam(), getMacbookPriceReqDto.getStorage(), option).getPrice();  //급에 맞는 가격을 가져옴
         String macbookState = "Class " + option.toUpperCase();
