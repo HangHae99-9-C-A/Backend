@@ -188,18 +188,7 @@ public class plus {
     int a185 = 185;
     int a186 = 186;
     int a187 = 187;
-    int a188 = 188;
-    int a189 = 189;
-    int a190 = 190;
-    int a191 = 191;
-    int a192 = 192;
-    int a193 = 193;
-    int a194 = 194;
-    int a195 = 195;
-    int a196 = 196;
-    int a197 = 197;
-    int a198 = 198;
-    int a199 = 199;
+
 
 
 
