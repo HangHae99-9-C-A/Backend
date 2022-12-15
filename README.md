@@ -115,8 +115,6 @@
 
 
 ## 🎈 ERD
-<details><summary>ERD 보기
-</summary>
 
 ![image](https://user-images.githubusercontent.com/113455892/206991475-6c1b39bd-143d-4a8f-8a0b-4a3e49c06edf.png)
-</details>
+
