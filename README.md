@@ -12,7 +12,7 @@
 
 <br>
 
-##  🎯 주요 기능
+##  🔨 주요 기능
 - 중고 애플 맥북 및 아이폰 가격을 책정 받을 수 있다.
 (실제 데이터 + 판매 로직에 따른 데이터)
 - 책정된 가격을 커뮤니티에 올려 물건을 바로 판매할 수 있다.
@@ -21,12 +21,14 @@
 - 댓글 뿐 아니라 실시간 채팅을 통해 유저 간 거래가 가능하다.
 
 
-### 🔨 구현한 기능들
+### 🚀 구현한 기능들
 - 🍫카카오톡 소셜 로그인
 - ♾무한 스크롤 
 - 🔎검색 및 조회 기능
 - 🙋‍마이 페이지에서는 내가 올린 게시글도 모아 보고 내가 좋아한 게시글도 모아서 확인
 - 💬(예정) WebSocket을 이용한 실시간 채팅 및 알림
+- 🍵배포된 서버의 에러 로그를 쉽게 확인 가능 (Slack Webhook, Logback)
+- {···} Swagger 보기쉬운 API명세서, FE,디자이너 팀원도 API테스트 가능
 
 <br>
 
@@ -51,7 +53,7 @@
 <details><summary>아키텍쳐 보기
 </summary>
 
-![image](https://user-images.githubusercontent.com/113869496/203765586-d0e682c5-5c58-409c-9dd9-757be83c7c67.png)
+![image](https://user-images.githubusercontent.com/70747064/207752611-102a2d71-5c1d-4745-a0d1-ba3a5f20cbf4.png)
 
 </details>
 
@@ -88,7 +90,7 @@
 
 <br>
 
-## 🚀 Troubleshooting
+## 🎯 Troubleshooting
 
 <a href="https://github.com/HangHae99-9-C-A/Backend/wiki/AWS-EC2-%EC%84%9C%EB%B2%84-%EB%8B%A4%EC%9A%B4" rel="nofollow">AWS EC2 서버 다운</a>
 
