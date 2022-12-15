@@ -171,13 +171,6 @@ public class plus {
     int a168 = 168;
     int a169 = 169;
     int a170 = 170;
-    int a171 = 171;
-    int a172 = 172;
-    int a173 = 173;
-    int a174 = 174;
-    int a175 = 175;
-    int a176 = 176;
-    int a177 = 177;
 
 
 
