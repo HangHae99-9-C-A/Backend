@@ -178,16 +178,6 @@ public class plus {
     int a175 = 175;
     int a176 = 176;
     int a177 = 177;
-    int a178 = 178;
-    int a179 = 179;
-    int a180 = 180;
-    int a181 = 181;
-    int a182 = 182;
-    int a183 = 183;
-    int a184 = 184;
-    int a185 = 185;
-    int a186 = 186;
-    int a187 = 187;
 
 
 
