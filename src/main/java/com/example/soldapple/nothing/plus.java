@@ -153,13 +153,7 @@ public class plus {
     int a150 = 150;
     int a151 = 151;
     int a152 = 152;
-    int a153 = 153;
-    int a154 = 154;
-    int a155 = 155;
-    int a156 = 156;
-    int a157 = 157;
-    int a158 = 158;
-
+ 
 
 
 
