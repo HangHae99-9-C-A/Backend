@@ -91,9 +91,10 @@ public class IssuesRepositoryImpl implements IssuesRepositoryCustom {
                 select(new QIssuesResponseDto(issues))
                 .from(issues)
                 .where(issues.category.eq(categoryReceived))
-                .orderBy(issues.issuesId.desc())
+//                .orderBy(issues.issuesId.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
+
 // sorting
         for (Sort.Order o : pageable.getSort()) {
             PathBuilder pathBuilder = new PathBuilder(issues.getType(), issues.getMetadata());
