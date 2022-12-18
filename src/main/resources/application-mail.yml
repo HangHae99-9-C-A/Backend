@@ -1,22 +1,22 @@
-requestBody:
-  content:
-    multipart/form-data:
-      schema:
-        type: object
-        properties: # Request parts
-          id:
-            type: string
-            format: uuid
-          address:
-            type: object
-            properties:
-              street:
-                type: string
-              city:
-                type: string
-          profileImage:
-            type: string
-            format: base64
-      encoding: # The same level as schema
-        profileImage: # Property name (see above)
-          contentType: image/png, image/jpeg
+#requestBody:
+#  content:
+#    multipart/form-data:
+#      schema:
+#        type: object
+#        properties: # Request parts
+#          id:
+#            type: string
+#            format: uuid
+#          address:
+#            type: object
+#            properties:
+#              street:
+#                type: string
+#              city:
+#                type: string
+#          profileImage:
+#            type: string
+#            format: base64
+#      encoding: # The same level as schema
+#        profileImage: # Property name (see above)
+#          contentType: image/png, image/jpeg
