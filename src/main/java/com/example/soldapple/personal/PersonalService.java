@@ -150,7 +150,6 @@ public class PersonalService {
         private List<PostResponseDto> myLikesList;
         private List<IssuesResponseDto> myIssuesList;
         private MemberResponseDto sellerInfoDto;
-
     }
 
     //Methods
